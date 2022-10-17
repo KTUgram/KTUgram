@@ -1,0 +1,16 @@
+<mat-toolbar class="toolbar">
+  <img class="logo-img" src="assets/KTUgramLogo.png" width="200px">
+  <div class="menu-button-container" routerLinkActive="active-link">
+    <a mat-flat-button routerLink="newsfeed" class="menu-button"><mat-icon class="menu-icon">home</mat-icon></a>
+  </div>
+  <div class="menu-button-container" routerLinkActive="active-link">
+    <a mat-flat-button routerLink="following" class="menu-button"><mat-icon class="menu-icon">group</mat-icon></a>
+  </div>
+  <div class="menu-button-container" routerLinkActive="active-link">
+    <a mat-flat-button routerLink="chat" class="menu-button"><mat-icon class="menu-icon">chat</mat-icon></a>
+  </div>
+  <div class="menu-button-settings-container">
+    <a mat-flat-button class="menu-button" (click)="logout()"><mat-icon class="menu-icon">settings</mat-icon></a>
+  </div>
+</mat-toolbar>
+<router-outlet></router-outlet>

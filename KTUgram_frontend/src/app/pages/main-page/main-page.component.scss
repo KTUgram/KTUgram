@@ -1,0 +1,56 @@
+$toolbar-height: 80px;
+
+.main-container{
+  height: 100%;
+}
+
+.logo-img{
+  position: absolute;
+  width: 150px;
+  left: 0;
+}
+
+.settings{
+  position: absolute;
+  right: 0;
+  height: $toolbar-height;
+}
+
+.toolbar{
+  height: $toolbar-height;
+  width: 100%;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.active-link{
+  box-shadow: inset 0 -2px 0 0 teal;
+}
+
+.menu-button-settings-container{
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  right: 0;
+}
+
+.menu-button-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 100%;
+}
+
+.menu-button{
+  background-color: transparent;
+  width: 100%;
+  height: 50%;
+}
+
+button:hover{
+}

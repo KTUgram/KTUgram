@@ -1,0 +1,15 @@
+<div class="login-card mat-elevation-z6">
+  <h3 class="primary-color">Login</h3>
+  <form>
+    <mat-form-field>
+      <mat-label>Username</mat-label>
+      <input matInput #username>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Password</mat-label>
+      <input matInput type="password" #pass>
+    </mat-form-field>
+    <button mat-raised-button type="button" class="login-button primary-background" (click)="loginButtonClicked(username.value, pass.value)">Login</button>
+    <p>Not a member yet? <a routerLink="/register" class="primary-color">Register Now</a></p>
+  </form>
+</div>
