@@ -3,14 +3,15 @@ import { Injectable } from '@angular/core';
 import {User} from "../models/user";
 import {Observable} from "rxjs";
 import {Token} from "../models/token";
+import {Person} from "../models/person";
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
   constructor(private http: HttpClient) {
   }
 
-  register(user: User): Observable<void> {
-    return this.http.post<void>(  'user/register', user).pipe();
+  register(person: Person): Observable<void> {
+    return this.http.post<void>(  'user/register', person).pipe();
   }
 
   login(user: any): Observable<HttpResponse<Token>>{

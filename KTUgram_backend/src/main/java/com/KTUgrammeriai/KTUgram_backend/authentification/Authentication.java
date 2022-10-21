@@ -1,8 +1,13 @@
 package com.KTUgrammeriai.KTUgram_backend.authentification;
 
+import com.KTUgrammeriai.KTUgram_backend.admin.AdminService;
+import com.KTUgrammeriai.KTUgram_backend.person.Person;
+import com.KTUgrammeriai.KTUgram_backend.person.PersonDTO;
+import com.KTUgrammeriai.KTUgram_backend.person.PersonService;
 import com.KTUgrammeriai.KTUgram_backend.user.User;
 import com.KTUgrammeriai.KTUgram_backend.user.UserDTO;
 import com.KTUgrammeriai.KTUgram_backend.user.UserService;
+import com.KTUgrammeriai.KTUgram_backend.user.UserWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -28,47 +33,56 @@ public class Authentication {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
+    private PersonService personService;
+
+    @Autowired
+    private AdminService adminService;
+
+    @Autowired
     private UserService userService;
 
+
     @PostMapping(value = "/user/register", consumes = {"application/json"})
-    public ResponseEntity<TokenResponse> register(@RequestBody final UserDTO user){
-        User existingUser = userService.userRepository.findByUsername(user.getUsername());
-        if(existingUser != null){
+    public ResponseEntity<TokenResponse> register(@RequestBody final PersonDTO person){
+        Person existingPerson = personService.getPersonByUsername(person.getUsername());
+        if(existingPerson != null){
             System.out.println("user already exists");
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
+        Person newPerson = new Person();
         User newUser = new User();
-        newUser.setUsername(user.getUsername());
-        newUser.setEmail(user.getEmail());
-        newUser.setPassword(passwordEncoder.encode(user.getPassword()));
+        newPerson.setUsername(person.getUsername());
+        newPerson.setEmail(person.getEmail());
+        newPerson.setPassword(passwordEncoder.encode(person.getPassword()));
+        newPerson.setName(person.getName());
+        newPerson.setSurname(person.getSurname());
+        Person savedPerson = personService.personRepository.save(newPerson);
+        newUser.setPerson(savedPerson);
         userService.userRepository.save(newUser);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping(value = "/user/login", consumes = {"application/json"})
     public ResponseEntity<TokenResponse> login(@RequestBody final TokenRequest tokenRequest) {
-        User user = userService.userRepository.findByUsername(tokenRequest.getUsername());
-        if (user == null) {
+        Person person = personService.getPersonByUsername(tokenRequest.getUsername());
+        if (person == null) {
             System.out.println("User not found by " + tokenRequest.getUsername());
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
         boolean passwordsMatched = false;
-        final String oldPassword = userService.getPassword(user.getId());
+        final String oldPassword = personService.getPassword(person.getId());
         passwordsMatched = checkPassword(tokenRequest.getPassword(), oldPassword, tokenRequest.getUsername());
 
         if (passwordsMatched) {
-            final long userId = user.getId();
+            final long personId = person.getId();
+            boolean isAdmin = adminService.findByPersonId(personId) != null;
 
-            final TokenResponse response = createResponse(jwtTokenUtil.generateToken(tokenRequest), getRights(userId), user);
-            if (response == null) {
-                System.out.println("User " + tokenRequest.getUsername() + "doesn't have any rights assigned.");
-                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-            }
+            final TokenResponse response = createResponse(jwtTokenUtil.generateToken(tokenRequest), getRights(personId), person, isAdmin);
 
             // create a cookie
             final String refreshToken = UUID.randomUUID().toString();
-            sessionHandlerService.registerSession(refreshToken, userId, String.join(",", response.getRights()));
+            sessionHandlerService.registerSession(refreshToken, personId, String.join(",", response.getRights()));
 
             final ResponseCookie cookie = ResponseCookie.from("refreshtoken", refreshToken).maxAge(24 * 60 * 60 * 7).httpOnly(true)
                     .secure(false).path("/").build();
@@ -108,7 +122,7 @@ public class Authentication {
         if (sessionHandlerService.hasSession(token)) {
             final Session session = sessionHandlerService.getSession(token);
             final TokenResponse response =
-                    createResponse(jwtTokenUtil.generateToken(token), Arrays.asList(session.getPermissions().split(",")), null);
+                    createResponse(jwtTokenUtil.generateToken(token), Arrays.asList(session.getPermissions().split(",")), null, false);
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -123,17 +137,14 @@ public class Authentication {
         return false;
     }
 
-    private TokenResponse createResponse(final String token, final List<String> rights, final User user) {
-        /*
-         * if (rights.isEmpty()) { return null; }
-         */
-
+    private TokenResponse createResponse(final String token, final List<String> rights, final Person person, final boolean isAdmin) {
         final TokenResponse response = new TokenResponse();
         response.setToken(token);
         response.setRights(rights);
         response.setSettings(getSettings());
-        response.setLoggedInUserName(user.getUsername());
-        response.setLoggedInUserId(user.getId());
+        response.setLoggedInUserName(person.getUsername());
+        response.setLoggedInUserId(person.getId());
+        response.setAdmin(isAdmin);
 
         return response;
     }

@@ -1,6 +1,9 @@
+import {Person} from "./person";
+
 export interface User{
   id?: number;
-  username: string;
-  password: string;
-  email: string;
+  about?: string;
+  profice_pic: string;
+  status: boolean;
+  person: Person;
 }

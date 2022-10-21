@@ -13,5 +13,5 @@ public class TokenResponse {
     private HashMap<String, Object> settings = new HashMap<String, Object>();
     private String loggedInUserName;
     private long loggedInUserId;
-    private boolean loggedInUserIsLdap;
+    private boolean isAdmin;
 }

@@ -10,11 +10,7 @@ public class UserService {
     @Autowired
     public UserRepository userRepository;
 
-    public String getPassword(int id){
-       Optional<User> user = userRepository.findById(id);
-       if(user.isEmpty()){
-           return null;
-       }
-       return user.get().getPassword();
+    public User findByPersonId(long personId){
+        return userRepository.findByPerson_Id(personId);
     }
 }
