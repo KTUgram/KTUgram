@@ -13,12 +13,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.prepost.PreFilter;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.*;
 
 @RestController
@@ -78,7 +78,7 @@ public class Authentication {
             final long personId = person.getId();
             boolean isAdmin = adminService.findByPersonId(personId) != null;
 
-            final TokenResponse response = createResponse(jwtTokenUtil.generateToken(tokenRequest), getRights(personId), person, isAdmin);
+            final TokenResponse response = createResponse(jwtTokenUtil.generateToken(tokenRequest), getRights(personId, isAdmin), person, isAdmin);
 
             // create a cookie
             final String refreshToken = UUID.randomUUID().toString();
@@ -159,8 +159,15 @@ public class Authentication {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    private List<String> getRights(final long employeeId) {
+    @GetMapping(value = "/user/tst")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<Void> tst() {
+        System.out.println("tst");
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    private List<String> getRights(final long employeeId, final boolean isAdmin) {
         //return userService.getEmployeeRights(employeeId);
-        return new ArrayList<>();
+        return isAdmin ? List.of("ADMIN") : List.of("USER");
     }
 }

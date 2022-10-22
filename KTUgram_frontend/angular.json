@@ -110,5 +110,7 @@
       }
     }
   },
-  "defaultProject": "KTUgram_frontend"
+  "cli": {
+    "analytics": false
+  }
 }

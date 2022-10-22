@@ -1,16 +1,36 @@
 <mat-toolbar class="toolbar">
   <img class="logo-img" src="assets/KTUgramLogo.png" width="200px">
-  <div class="menu-button-container" routerLinkActive="active-link">
-    <a mat-flat-button routerLink="newsfeed" class="menu-button"><mat-icon class="menu-icon">home</mat-icon></a>
+  <div *ngxPermissionsOnly="['USER', 'GUEST']" class="toolbar-items">
+    <div class="menu-button-container" routerLinkActive="active-link">
+      <a mat-flat-button routerLink="newsfeed" class="menu-button"><mat-icon class="menu-icon">home</mat-icon></a>
+    </div>
+    <div class="menu-button-container" routerLinkActive="active-link">
+      <a mat-flat-button routerLink="following" class="menu-button"><mat-icon class="menu-icon">group</mat-icon></a>
+    </div>
+    <div class="menu-button-container" routerLinkActive="active-link">
+      <a mat-flat-button routerLink="chat" class="menu-button"><mat-icon class="menu-icon">chat</mat-icon></a>
+    </div>
+    <div class="menu-button-settings-container">
+      <a mat-flat-button class="menu-button" [matMenuTriggerFor]="menu" ><mat-icon class="menu-icon">settings</mat-icon></a>
+    </div>
+    <mat-menu #menu=matMenu>
+      <a mat-menu-item>Profile</a>
+      <button mat-menu-item (click)="logout()">Logout</button>
+    </mat-menu>
   </div>
-  <div class="menu-button-container" routerLinkActive="active-link">
-    <a mat-flat-button routerLink="following" class="menu-button"><mat-icon class="menu-icon">group</mat-icon></a>
-  </div>
-  <div class="menu-button-container" routerLinkActive="active-link">
-    <a mat-flat-button routerLink="chat" class="menu-button"><mat-icon class="menu-icon">chat</mat-icon></a>
-  </div>
-  <div class="menu-button-settings-container">
-    <a mat-flat-button class="menu-button" (click)="logout()"><mat-icon class="menu-icon">settings</mat-icon></a>
+  <div *ngxPermissionsOnly="['ADMIN']" class="toolbar-items">
+    <div class="menu-button-container" routerLinkActive="active-link">
+      <a mat-flat-button routerLink="newsfeed" class="menu-button"><mat-icon class="menu-icon">home</mat-icon></a>
+    </div>
+    <div class="menu-button-container" routerLinkActive="active-link">
+      <a mat-flat-button routerLink="users" class="menu-button"><mat-icon class="menu-icon">group</mat-icon></a>
+    </div>
+    <div class="menu-button-settings-container">
+      <a mat-flat-button class="menu-button" [matMenuTriggerFor]="menu"><mat-icon class="menu-icon">settings</mat-icon></a>
+    </div>
+    <mat-menu xPosition="before" #menu=matMenu>
+      <button mat-menu-item (click)="logout()">Logout</button>
+    </mat-menu>
   </div>
 </mat-toolbar>
 <router-outlet></router-outlet>

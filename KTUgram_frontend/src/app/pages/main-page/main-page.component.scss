@@ -16,13 +16,18 @@ $toolbar-height: 80px;
   height: $toolbar-height;
 }
 
-.toolbar{
+.toolbar-items{
   height: $toolbar-height;
   width: 100%;
   display: flex;
   align-content: center;
   justify-content: center;
   gap: 20px;
+}
+
+.toolbar{
+  height: $toolbar-height;
+  width: 100%;
 }
 
 .active-link{
@@ -35,6 +40,7 @@ $toolbar-height: 80px;
   justify-content: center;
   align-items: center;
   width: 100px;
+  height: $toolbar-height;
   right: 0;
 }
 

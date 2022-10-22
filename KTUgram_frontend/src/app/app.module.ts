@@ -21,6 +21,10 @@ import {MatIconModule} from "@angular/material/icon";
 import { NewsfeedComponent } from './pages/newsfeed/newsfeed.component';
 import { FollowingComponent } from './pages/following/following.component';
 import { ChatComponent } from './pages/chat/chat.component';
+import { UsersComponent } from './pages/admin/users/users.component';
+import {NgxPermissionsModule, NgxPermissionsRestrictStubModule} from "ngx-permissions";
+import {AdminGuardsGuard} from "./guards/admin-guards.guard";
+import {MatMenuModule} from "@angular/material/menu";
 
 @NgModule({
   declarations: [
@@ -32,7 +36,8 @@ import { ChatComponent } from './pages/chat/chat.component';
     MainPageComponent,
     NewsfeedComponent,
     FollowingComponent,
-    ChatComponent
+    ChatComponent,
+    UsersComponent
   ],
   imports: [
     BrowserModule,
@@ -44,10 +49,14 @@ import { ChatComponent } from './pages/chat/chat.component';
     HttpClientModule,
     MatSidenavModule,
     MatToolbarModule,
-    MatIconModule
+    MatIconModule,
+    NgxPermissionsModule.forRoot(),
+    NgxPermissionsRestrictStubModule,
+    MatMenuModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: BackEndUrlInterceptor, multi: true },
+    AdminGuardsGuard
   ],
   bootstrap: [AppComponent]
 })

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {UserService} from "../../services/userService";
 import {Router} from "@angular/router";
+import {NgxPermissionsService} from "ngx-permissions";
 
 @Component({
   selector: 'app-main-page',
@@ -9,21 +10,22 @@ import {Router} from "@angular/router";
 })
 export class MainPageComponent implements OnInit {
 
-  constructor(private userService: UserService, private router: Router) { }
+  constructor(private userService: UserService, private router: Router, private permissionService: NgxPermissionsService) { }
 
   username!: string | null;
 
   ngOnInit(): void {
-    this.username = localStorage.getItem("username");
-    if(this.username == null){
-      this.router.navigate(["/login"]);
-    }
   }
 
   logout(){
     this.userService.logout().subscribe(result => {
       localStorage.removeItem("username");
+      localStorage.removeItem("loggedIn");
+      localStorage.removeItem("perms");
+      this.permissionService.flushPermissions();
+      this.permissionService.loadPermissions(['GUEST']);
       this.router.navigate(['/login']);
+      console.log(this.permissionService.getPermissions());
     })
   }
 }

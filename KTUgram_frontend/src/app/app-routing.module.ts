@@ -7,18 +7,52 @@ import {MainPageComponent} from "./pages/main-page/main-page.component";
 import {NewsfeedComponent} from "./pages/newsfeed/newsfeed.component";
 import {FollowingComponent} from "./pages/following/following.component";
 import {ChatComponent} from "./pages/chat/chat.component";
+import {NgxPermissionsGuard} from "ngx-permissions";
+import {AdminGuardsGuard} from "./guards/admin-guards.guard";
+import {UsersComponent} from "./pages/admin/users/users.component";
 
 const routes: Routes = [
-  {path: 'login', component: LoginPageComponent},
-  {path: 'register', component: RegisterPageComponent},
+  {path: 'login', component: LoginPageComponent, canActivate: [NgxPermissionsGuard],
+    data: {
+      permissions: {
+        login: 'GUEST'
+      }
+    }},
+  {path: 'register', component: RegisterPageComponent, canActivate: [NgxPermissionsGuard],
+    data: {
+      permissions: {
+        only: 'GUEST'
+      }
+    }},
   {
     path: 'main',
     component: MainPageComponent,
     children: [
-      {path: '', redirectTo: 'newsfeed', pathMatch: 'full'},
-      {path: 'newsfeed', component: NewsfeedComponent},
-      {path: 'following', component: FollowingComponent},
-      {path: 'chat', component: ChatComponent}
+      {path: '', canActivate: [AdminGuardsGuard], pathMatch: 'full', component: MainPageComponent},
+      {path: 'newsfeed', component: NewsfeedComponent, canActivate: [NgxPermissionsGuard],
+        data: {
+          permissions: {
+            only: ['USER', 'GUEST', 'ADMIN']
+          }
+        }},
+      {path: 'following', component: FollowingComponent, canActivate: [NgxPermissionsGuard],
+      data: {
+        permissions: {
+          only: ['USER', 'GUEST']
+        }
+      }},
+      {path: 'chat', component: ChatComponent, canActivate: [NgxPermissionsGuard],
+      data:{
+        permissions: {
+          only: ['USER', 'GUEST']
+        }
+      }},
+      {path: 'users', component: UsersComponent, canActivate: [NgxPermissionsGuard],
+      data:{
+        permissions: {
+          only: 'ADMIN'
+        }
+      }}
     ]
   },
   {path: '**', redirectTo: "main"}

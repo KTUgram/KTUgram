@@ -11,12 +11,6 @@ export class ChatComponent implements OnInit {
 
   constructor(private userService: UserService, private router: Router) { }
 
-  username!: string | null;
-
   ngOnInit(): void {
-    this.username = localStorage.getItem("username");
-    if(this.username == null){
-      this.router.navigate(["/login"]);
-    }
   }
 }
