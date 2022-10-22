@@ -1,4 +1,7 @@
-<h1>NEWSFEED</h1>
-<div *ngxPermissionsOnly="['ADMIN']">
-  <h2>ADMIN</h2>
-</div>
+<cdk-virtual-scroll-viewport class="viewport" itemSize="600">
+  <div class="page-container">
+    <div *cdkVirtualFor="let i of temp">
+      <app-post></app-post>
+    </div>
+  </div>
+</cdk-virtual-scroll-viewport>

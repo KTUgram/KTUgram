@@ -10,7 +10,7 @@ import {Router} from "@angular/router";
 export class NewsfeedComponent implements OnInit {
 
   constructor(private userService: UserService, private router: Router) { }
-
+  temp = new Array(10);
   ngOnInit(): void {
   }
 

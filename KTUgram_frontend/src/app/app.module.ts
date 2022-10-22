@@ -25,6 +25,8 @@ import { UsersComponent } from './pages/admin/users/users.component';
 import {NgxPermissionsModule, NgxPermissionsRestrictStubModule} from "ngx-permissions";
 import {AdminGuardsGuard} from "./guards/admin-guards.guard";
 import {MatMenuModule} from "@angular/material/menu";
+import { PostComponent } from './components/post/post.component';
+import {ScrollingModule} from "@angular/cdk/scrolling";
 
 @NgModule({
   declarations: [
@@ -37,7 +39,8 @@ import {MatMenuModule} from "@angular/material/menu";
     NewsfeedComponent,
     FollowingComponent,
     ChatComponent,
-    UsersComponent
+    UsersComponent,
+    PostComponent
   ],
   imports: [
     BrowserModule,
@@ -52,7 +55,8 @@ import {MatMenuModule} from "@angular/material/menu";
     MatIconModule,
     NgxPermissionsModule.forRoot(),
     NgxPermissionsRestrictStubModule,
-    MatMenuModule
+    MatMenuModule,
+    ScrollingModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: BackEndUrlInterceptor, multi: true },
