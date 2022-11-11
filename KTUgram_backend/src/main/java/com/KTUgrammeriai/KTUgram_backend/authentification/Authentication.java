@@ -4,6 +4,7 @@ import com.KTUgrammeriai.KTUgram_backend.admin.AdminService;
 import com.KTUgrammeriai.KTUgram_backend.person.Person;
 import com.KTUgrammeriai.KTUgram_backend.person.PersonDTO;
 import com.KTUgrammeriai.KTUgram_backend.person.PersonService;
+import com.KTUgrammeriai.KTUgram_backend.person.RegisterDTO;
 import com.KTUgrammeriai.KTUgram_backend.user.User;
 import com.KTUgrammeriai.KTUgram_backend.user.UserDTO;
 import com.KTUgrammeriai.KTUgram_backend.user.UserService;
@@ -19,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
+import java.lang.reflect.Array;
 import java.util.*;
 
 @RestController
@@ -43,7 +45,7 @@ public class Authentication {
 
 
     @PostMapping(value = "/user/register", consumes = {"application/json"})
-    public ResponseEntity<TokenResponse> register(@RequestBody final PersonDTO person){
+    public ResponseEntity<TokenResponse> register(@RequestBody final RegisterDTO person){
         Person existingPerson = personService.getPersonByUsername(person.getUsername());
         if(existingPerson != null){
             System.out.println("user already exists");
@@ -159,11 +161,27 @@ public class Authentication {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping(value = "/user/tst")
+    @PostMapping(value = "/admin/all-users")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Void> tst() {
-        System.out.println("tst");
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<List<UserDTO>> allUsers() {
+        List<User> users = userService.getAllUsers();
+        List<UserDTO> usersDTO = new ArrayList<>();
+        for (User user: users) {
+            UserDTO userDTO = new UserDTO();
+            PersonDTO personDTO = new PersonDTO();
+            personDTO.setId(user.getPerson().getId());
+            personDTO.setUsername(user.getPerson().getUsername());
+            personDTO.setEmail(user.getPerson().getEmail());
+            personDTO.setName(user.getPerson().getName());
+            personDTO.setSurname(user.getPerson().getSurname());
+            userDTO.setPerson(personDTO);
+            userDTO.setId(user.getId());
+            userDTO.setAbout(user.getAbout());
+            userDTO.setProfile_pic(user.getProfile_pic());
+            //userDTO.setStatus(user.getStatus());
+            usersDTO.add(userDTO);
+        }
+        return new ResponseEntity<>(usersDTO, HttpStatus.OK);
     }
 
     private List<String> getRights(final long employeeId, final boolean isAdmin) {

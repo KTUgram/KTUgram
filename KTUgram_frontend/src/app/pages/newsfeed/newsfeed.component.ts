@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {UserService} from "../../services/userService";
 import {Router} from "@angular/router";
 
@@ -8,9 +8,12 @@ import {Router} from "@angular/router";
   styleUrls: ['./newsfeed.component.scss']
 })
 export class NewsfeedComponent implements OnInit {
-
-  constructor(private userService: UserService, private router: Router) { }
+  private userService: UserService = Inject(UserService);
+  constructor(private router: Router) { }
   temp = new Array(10);
+
+
+
   ngOnInit(): void {
   }
 

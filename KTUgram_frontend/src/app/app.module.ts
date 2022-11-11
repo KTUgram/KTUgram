@@ -27,6 +27,15 @@ import {AdminGuardsGuard} from "./guards/admin-guards.guard";
 import {MatMenuModule} from "@angular/material/menu";
 import { PostComponent } from './components/post/post.component';
 import {ScrollingModule} from "@angular/cdk/scrolling";
+import { RegisterConfirmPageComponent } from './pages/register-confirm-page/register-confirm-page.component';
+import { CommentsPageComponent } from './pages/admin/comments-page/comments-page.component';
+import { UserCommentsPageComponent } from './pages/admin/user-comments-page/user-comments-page.component';
+import { UserPostsPageComponent } from './pages/admin/user-posts-page/user-posts-page.component';
+import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
+import { UserProfilePageComponent } from './pages/user-profile-page/user-profile-page.component';
+import { UsersTableComponent } from './components/admin/users-table/users-table.component';
+import {MatTableModule} from "@angular/material/table";
+import {MatRippleModule} from "@angular/material/core";
 
 @NgModule({
   declarations: [
@@ -40,7 +49,14 @@ import {ScrollingModule} from "@angular/cdk/scrolling";
     FollowingComponent,
     ChatComponent,
     UsersComponent,
-    PostComponent
+    PostComponent,
+    RegisterConfirmPageComponent,
+    CommentsPageComponent,
+    UserCommentsPageComponent,
+    UserPostsPageComponent,
+    ProfilePageComponent,
+    UserProfilePageComponent,
+    UsersTableComponent
   ],
   imports: [
     BrowserModule,
@@ -56,7 +72,9 @@ import {ScrollingModule} from "@angular/cdk/scrolling";
     NgxPermissionsModule.forRoot(),
     NgxPermissionsRestrictStubModule,
     MatMenuModule,
-    ScrollingModule
+    ScrollingModule,
+    MatTableModule,
+    MatRippleModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: BackEndUrlInterceptor, multi: true },

@@ -14,8 +14,9 @@
       <a mat-flat-button class="menu-button" [matMenuTriggerFor]="menu" ><mat-icon class="menu-icon">settings</mat-icon></a>
     </div>
     <mat-menu #menu=matMenu>
-      <a mat-menu-item>Profile</a>
-      <button mat-menu-item (click)="logout()">Logout</button>
+      <a *ngxPermissionsOnly="['USER']" mat-menu-item routerLink="user-profile">Profile</a>
+      <button *ngxPermissionsOnly="['USER']" mat-menu-item (click)="logout()">Logout</button>
+      <button *ngxPermissionsOnly="['GUEST']" mat-menu-item (click)="logout()">Login</button>
     </mat-menu>
   </div>
   <div *ngxPermissionsOnly="['ADMIN']" class="toolbar-items">

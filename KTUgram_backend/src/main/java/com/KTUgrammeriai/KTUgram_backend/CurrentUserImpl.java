@@ -40,6 +40,7 @@ public class CurrentUserImpl {
     }
 
     public static void setUser(final String userId, final List<String> permissions) {
+        System.out.println(String.format("user %s, permissions: %s", userId, permissions.get(0)));
         UsernamePasswordAuthenticationToken authentication = null;
         if ((permissions != null) && !permissions.isEmpty() && (userId != null) && !userId.isEmpty()) {
             authentication = new UsernamePasswordAuthenticationToken(userId, null, getAuthorities(permissions));

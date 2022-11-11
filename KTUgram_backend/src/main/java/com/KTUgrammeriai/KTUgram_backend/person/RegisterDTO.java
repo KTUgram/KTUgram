@@ -3,9 +3,10 @@ package com.KTUgrammeriai.KTUgram_backend.person;
 import lombok.Data;
 
 @Data
-public class PersonDTO {
-    private long id;
+public class RegisterDTO {
+    private int id;
     private String username;
+    private String password;
     private String email;
     private String name;
     private String surname;

@@ -10,9 +10,18 @@ import {ChatComponent} from "./pages/chat/chat.component";
 import {NgxPermissionsGuard} from "ngx-permissions";
 import {AdminGuardsGuard} from "./guards/admin-guards.guard";
 import {UsersComponent} from "./pages/admin/users/users.component";
+import {RegisterConfirmPageComponent} from "./pages/register-confirm-page/register-confirm-page.component";
+import {ProfilePageComponent} from "./pages/profile-page/profile-page.component";
+import {UserProfilePageComponent} from "./pages/user-profile-page/user-profile-page.component";
 
 const routes: Routes = [
   {path: 'login', component: LoginPageComponent, canActivate: [NgxPermissionsGuard],
+    data: {
+      permissions: {
+        login: 'GUEST'
+      }
+    }},
+  {path: 'confirm', component: RegisterConfirmPageComponent, canActivate: [NgxPermissionsGuard],
     data: {
       permissions: {
         login: 'GUEST'
@@ -45,6 +54,18 @@ const routes: Routes = [
       data:{
         permissions: {
           only: ['USER', 'GUEST']
+        }
+      }},
+      {path: 'user-profile', component: UserProfilePageComponent, canActivate: [NgxPermissionsGuard],
+      data:{
+        permissions: {
+          only: ['USER']
+        }
+      }},
+      {path: 'profile/:id', component: ProfilePageComponent, canActivate: [NgxPermissionsGuard],
+      data:{
+        permissions: {
+          only: ['USER', 'GUEST', 'ADMIN']
         }
       }},
       {path: 'users', component: UsersComponent, canActivate: [NgxPermissionsGuard],

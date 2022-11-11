@@ -3,3 +3,7 @@ $toolbar-height: 80px;
 .main-container{
   height: 100%;
 }
+
+.main-container >*{
+  box-sizing: border-box;
+}
