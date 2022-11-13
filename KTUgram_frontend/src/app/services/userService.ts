@@ -28,8 +28,8 @@ export class UserService {
     return this.http.post('user/logout', {}).pipe();
   }
 
-  tst(){
-    return this.http.get('user/tst').pipe();
+  getUserById(id: number): Observable<User>{
+    return this.http.get<User>('user/getUserById/' + id).pipe();
   }
 
   isLogged(): boolean{

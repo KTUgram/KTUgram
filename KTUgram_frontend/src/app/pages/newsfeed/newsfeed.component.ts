@@ -1,6 +1,8 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {UserService} from "../../services/userService";
 import {Router} from "@angular/router";
+import {Post} from "../../models/post";
+import {PostService} from "../../services/postService";
 
 @Component({
   selector: 'app-newsfeed',
@@ -9,12 +11,15 @@ import {Router} from "@angular/router";
 })
 export class NewsfeedComponent implements OnInit {
   private userService: UserService = Inject(UserService);
-  constructor(private router: Router) { }
-  temp = new Array(10);
+  //private postService: PostService = Inject(PostService);
+  constructor(private postService: PostService) { }
 
-
+  posts!: Post[];
 
   ngOnInit(): void {
+    this.postService.getPosts().subscribe(data => {
+      this.posts = data;
+      console.log(this.posts)
+    })
   }
-
 }

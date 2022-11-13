@@ -17,7 +17,7 @@ public class User {
     @Column(name = "apie")
     private String about;
     @Column(name = "profilio_nuotrauka")
-    private byte[] profile_pic;
+    private String profile_pic;
     @Column(name = "statusas")
     private boolean status;
     @ManyToOne(optional = false)

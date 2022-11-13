@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 public class UserDTO {
     private long id;
     private String about;
-    private byte[] profile_pic;
+    private String profile_pic;
     private boolean status;
     private PersonDTO person;
 }

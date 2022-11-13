@@ -1,2 +1,4 @@
-<h1>Profile</h1>
-<p>Username: User1</p>
+<div *ngIf="user">
+  <h1>Profile</h1>
+  <p>Username: {{user.person.username}}</p>
+</div>

@@ -1,3 +1,28 @@
-<div class="post-card mat-elevation-z6">
-    <a routerLink="/main/profile/1">User 1</a>
+<div *ngIf="post" class="post-card mat-elevation-z6">
+  <div class="info-container">
+    <div class="profile-container">
+      <div class="profile-img-container">
+        <img src="{{post.user.profile_pic}}">
+      </div>
+      <div class="profile-name-container">
+        <a routerLink="/main/profile/{{post.user.id}}">{{post.user.person.username}}</a>
+      </div>
+    </div>
+    <div class="title-container">
+      <p>{{post.title}}</p>
+    </div>
+  </div>
+  <div class="img-container">
+    <img src="{{post.content}}">
+    <img class="img-blur" src="{{post.content}}">
+  </div>
+  <div class="button-container">
+    <button><mat-icon>favorite_outline</mat-icon></button>
+    <button><mat-icon>comment</mat-icon></button>
+  </div>
+  <div class="info-container">
+    <div class="about-container">
+      <p>{{post.about}}</p>
+    </div>
+  </div>
 </div>

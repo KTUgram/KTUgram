@@ -188,4 +188,6 @@ public class Authentication {
         //return userService.getEmployeeRights(employeeId);
         return isAdmin ? List.of("ADMIN") : List.of("USER");
     }
+
+
 }
