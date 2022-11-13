@@ -13,6 +13,9 @@ import {UsersComponent} from "./pages/admin/users/users.component";
 import {RegisterConfirmPageComponent} from "./pages/register-confirm-page/register-confirm-page.component";
 import {ProfilePageComponent} from "./pages/profile-page/profile-page.component";
 import {UserProfilePageComponent} from "./pages/user-profile-page/user-profile-page.component";
+import {CommentsPageComponent} from "./pages/admin/comments-page/comments-page.component";
+import {UserCommentsPageComponent} from "./pages/admin/user-comments-page/user-comments-page.component";
+import {UserPostsPageComponent} from "./pages/admin/user-posts-page/user-posts-page.component";
 
 const routes: Routes = [
   {path: 'login', component: LoginPageComponent, canActivate: [NgxPermissionsGuard],
@@ -69,6 +72,24 @@ const routes: Routes = [
         }
       }},
       {path: 'users', component: UsersComponent, canActivate: [NgxPermissionsGuard],
+      data:{
+        permissions: {
+          only: 'ADMIN'
+        }
+      }},
+      {path: 'comments', component: CommentsPageComponent, canActivate: [NgxPermissionsGuard],
+      data:{
+        permissions: {
+          only: 'ADMIN'
+        }
+      }},
+      {path: 'comments/:id', component: CommentsPageComponent, canActivate: [NgxPermissionsGuard],
+      data:{
+        permissions: {
+          only: 'ADMIN'
+        }
+      }},
+      {path: 'posts/:id', component: UserPostsPageComponent, canActivate: [NgxPermissionsGuard],
       data:{
         permissions: {
           only: 'ADMIN'

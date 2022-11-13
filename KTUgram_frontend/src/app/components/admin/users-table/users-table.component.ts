@@ -20,5 +20,5 @@ export class UsersTableComponent implements OnInit {
     })
   }
 
-  displayedColumns: string[] = ["id", "username", "name", "surname", "email"];
+  displayedColumns: string[] = ["id", "username", "name", "surname", "email", "comments", "posts", "block"];
 }

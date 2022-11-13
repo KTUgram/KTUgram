@@ -2,13 +2,38 @@ table{
   width: 100%;
 }
 
-.mat-header-row{
+.comm-button{
+  background-color: teal;
 }
 
-.mat-column-id,
+.post-button{
+  background-color: teal;
+}
+
+.block-button{
+  background-color: #ec4b4b;
+}
+
+.mat-header-row{
+  background-color: teal;
+  height: 40px;
+}
+
+.mat-column-id{
+  color: white;
+  width: 5%;
+  border-right: solid 1px rgba(255, 255, 255, 0.12);
+  text-align: left;
+}
+
 .mat-column-username,
 .mat-column-name,
 .mat-column-surname,
-.mat-column-email{
-  width: 20%;
+.mat-column-email,
+.mat-column-comments,
+.mat-column-posts,
+.mat-column-block{
+  color: white;
+  width: 14%;
+  text-align: center;
 }
