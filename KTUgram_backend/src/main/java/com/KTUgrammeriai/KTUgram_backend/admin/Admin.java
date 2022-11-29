@@ -7,10 +7,11 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "administratorius")
+@Table(name = "administratoriai")
 public class Admin {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name = "id_administratorius")
     private long id;
     @Column(name = "pareigos")
     private String position;

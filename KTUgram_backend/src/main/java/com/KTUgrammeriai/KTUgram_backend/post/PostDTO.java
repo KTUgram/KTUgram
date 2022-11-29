@@ -1,5 +1,4 @@
 package com.KTUgrammeriai.KTUgram_backend.post;
-import com.KTUgrammeriai.KTUgram_backend.user.User;
 import com.KTUgrammeriai.KTUgram_backend.user.UserDTO;
 import lombok.Data;
 

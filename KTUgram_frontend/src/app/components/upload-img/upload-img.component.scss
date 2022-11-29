@@ -1,0 +1,50 @@
+input[type=file]{
+  opacity: 0;
+  position: absolute;
+  z-index: -100;
+}
+
+label::after{
+  content: "Upload image";
+  z-index: 10;
+  grid-row: 2 span / 1;
+  font-size: medium;
+  font-weight: bold;
+  color: teal;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+p{
+  font-size: medium;
+}
+
+.upload-img-container{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.upload-img{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  grid-row: 1 / span 1;
+}
+
+.upload-container{
+  width: 400px;
+  height: 400px;
+  background-color: rgba(0, 0, 0, 0.1);
+  border: #1e1e1e dashed 5px;
+  border-radius: 10px;
+  display: grid;
+  grid-template-rows: 250px 1fr;
+  //overflow: hidden;
+}
+
+.fileOver{
+  border: teal dashed 5px !important;
+}

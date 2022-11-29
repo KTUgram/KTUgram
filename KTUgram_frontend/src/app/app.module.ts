@@ -36,6 +36,10 @@ import { UserProfilePageComponent } from './pages/user-profile-page/user-profile
 import { UsersTableComponent } from './components/admin/users-table/users-table.component';
 import {MatTableModule} from "@angular/material/table";
 import {MatRippleModule} from "@angular/material/core";
+import { AddPostComponent } from './components/add-post/add-post.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import { UploadImgComponent } from './components/upload-img/upload-img.component';
+import { DragNDropDirective } from './directives/dragNDrop/drag-ndrop.directive';
 
 @NgModule({
   declarations: [
@@ -56,26 +60,30 @@ import {MatRippleModule} from "@angular/material/core";
     UserPostsPageComponent,
     ProfilePageComponent,
     UserProfilePageComponent,
-    UsersTableComponent
+    UsersTableComponent,
+    AddPostComponent,
+    UploadImgComponent,
+    DragNDropDirective
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    HttpClientModule,
-    MatSidenavModule,
-    MatToolbarModule,
-    MatIconModule,
-    NgxPermissionsModule.forRoot(),
-    NgxPermissionsRestrictStubModule,
-    MatMenuModule,
-    ScrollingModule,
-    MatTableModule,
-    MatRippleModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        HttpClientModule,
+        MatSidenavModule,
+        MatToolbarModule,
+        MatIconModule,
+        NgxPermissionsModule.forRoot(),
+        NgxPermissionsRestrictStubModule,
+        MatMenuModule,
+        ScrollingModule,
+        MatTableModule,
+        MatRippleModule,
+        MatDialogModule
+    ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: BackEndUrlInterceptor, multi: true },
     AdminGuardsGuard

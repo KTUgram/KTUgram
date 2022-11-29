@@ -5,11 +5,21 @@
   display: flex;
   align-items: center;
   flex-direction: column;
+
+}
+.add-btn{
+  position: sticky !important;
+  width: auto;
+  height: auto;
+  top: 2rem;
+  left: 2rem;
+  text-align: center;
 }
 
 .viewport{
   width: 100%;
   height: calc(100vh - 80px);
+  position: relative;
 }
 
 .viewport::-webkit-scrollbar{

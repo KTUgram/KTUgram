@@ -15,6 +15,7 @@ export class LoginPageComponent implements OnInit {
   constructor(private userService: UserService, private router: Router, private permissionsService: NgxPermissionsService) { }
 
   ngOnInit(): void {
+    localStorage.setItem("perms", "GUEST");
   }
 
   loginSubmit(data: any){

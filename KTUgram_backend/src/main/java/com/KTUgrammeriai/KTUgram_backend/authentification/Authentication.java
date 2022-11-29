@@ -9,6 +9,7 @@ import com.KTUgrammeriai.KTUgram_backend.user.User;
 import com.KTUgrammeriai.KTUgram_backend.user.UserDTO;
 import com.KTUgrammeriai.KTUgram_backend.user.UserService;
 import com.KTUgrammeriai.KTUgram_backend.user.UserWrapper;
+import com.KTUgrammeriai.KTUgram_backend.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -60,6 +61,8 @@ public class Authentication {
         newPerson.setSurname(person.getSurname());
         Person savedPerson = personService.personRepository.save(newPerson);
         newUser.setPerson(savedPerson);
+        newUser.setStatus(true);
+        newUser.setState(true);
         userService.userRepository.save(newUser);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -167,19 +170,7 @@ public class Authentication {
         List<User> users = userService.getAllUsers();
         List<UserDTO> usersDTO = new ArrayList<>();
         for (User user: users) {
-            UserDTO userDTO = new UserDTO();
-            PersonDTO personDTO = new PersonDTO();
-            personDTO.setId(user.getPerson().getId());
-            personDTO.setUsername(user.getPerson().getUsername());
-            personDTO.setEmail(user.getPerson().getEmail());
-            personDTO.setName(user.getPerson().getName());
-            personDTO.setSurname(user.getPerson().getSurname());
-            userDTO.setPerson(personDTO);
-            userDTO.setId(user.getId());
-            userDTO.setAbout(user.getAbout());
-            userDTO.setProfile_pic(user.getProfile_pic());
-            //userDTO.setStatus(user.getStatus());
-            usersDTO.add(userDTO);
+            usersDTO.add(Utils.userToUserDTO(user));
         }
         return new ResponseEntity<>(usersDTO, HttpStatus.OK);
     }

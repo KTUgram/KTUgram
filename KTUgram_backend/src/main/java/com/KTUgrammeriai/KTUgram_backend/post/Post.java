@@ -8,10 +8,11 @@ import java.sql.Time;
 import java.util.Date;
 
 @Data
-@Table(name = "irasas")
+@Table(name = "irasai")
 @Entity
 public class Post {
     @Id
+    @Column(name = "id_irasas")
     private long id;
     @Column(name = "data")
     private Date date;
