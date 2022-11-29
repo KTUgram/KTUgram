@@ -12,7 +12,7 @@ public class UserDTO {
     private Date birthday;
     private String about;
     private String profile_pic;
-    private boolean status;
-    private boolean state;
+    private int status;
+    private int state;
     private PersonDTO person;
 }

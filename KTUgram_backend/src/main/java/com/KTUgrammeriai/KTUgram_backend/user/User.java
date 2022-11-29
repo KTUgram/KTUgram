@@ -27,9 +27,9 @@ public class User {
     @Column(name = "profilio_nuotrauka")
     private String profile_pic;
     @Column(name = "statusas")
-    private boolean status;
+    private int status;
     @Column(name = "busena")
-    private boolean state;
+    private int state;
     @ManyToOne(optional = false)
     @JoinColumn(name = "fk_asmuo", nullable = false)
     private Person person;

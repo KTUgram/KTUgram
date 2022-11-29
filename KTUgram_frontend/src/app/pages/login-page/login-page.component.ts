@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {MatSnackBar} from "@angular/material/snack-bar";
 import {UserService} from "../../services/userService";
 import {Token} from "../../models/token";
 import {HttpResponse} from "@angular/common/http";
@@ -12,7 +13,7 @@ import {NgxPermissionsService} from "ngx-permissions";
 })
 export class LoginPageComponent implements OnInit {
 
-  constructor(private userService: UserService, private router: Router, private permissionsService: NgxPermissionsService) { }
+  constructor(private userService: UserService, private router: Router, private permissionsService: NgxPermissionsService, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     localStorage.setItem("perms", "GUEST");
@@ -31,6 +32,10 @@ export class LoginPageComponent implements OnInit {
         this.permissionsService.loadPermissions(result.body.rights);
         console.log(this.permissionsService.getPermissions());
         this.router.navigate(["/main"]);
+      }
+      else if(result.status == 202)
+      {
+        this.snackBar.open("Your account has been blocked!", "Dismiss", {duration: 3000});
       }
     })
   }

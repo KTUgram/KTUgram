@@ -1,8 +1,10 @@
 import {HttpClient, HttpResponse} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {NgxPermissionsService} from "ngx-permissions";
+import {Observable} from "rxjs";
 import * as http from "http";
 import {User} from "../models/user";
+import {Token} from "../models/token";
 
 @Injectable({ providedIn: 'root' })
 export class AdminService {
@@ -11,5 +13,8 @@ export class AdminService {
 
   getAllUsers(){
     return this.http.post<User[]>("admin/all-users", null).pipe();
+  }
+  blockUser(id:number): Observable<HttpResponse<Token>> {
+    return this.http.post<Token>("admin/blockUserById/", id, { observe: 'response' }).pipe();
   }
 }

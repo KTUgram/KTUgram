@@ -61,8 +61,8 @@ public class Authentication {
         newPerson.setSurname(person.getSurname());
         Person savedPerson = personService.personRepository.save(newPerson);
         newUser.setPerson(savedPerson);
-        newUser.setStatus(true);
-        newUser.setState(true);
+        newUser.setStatus(1);
+        newUser.setState(1);
         userService.userRepository.save(newUser);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -80,11 +80,21 @@ public class Authentication {
         passwordsMatched = checkPassword(tokenRequest.getPassword(), oldPassword, tokenRequest.getUsername());
 
         if (passwordsMatched) {
+
             final long personId = person.getId();
             boolean isAdmin = adminService.findByPersonId(personId) != null;
 
             final TokenResponse response = createResponse(jwtTokenUtil.generateToken(tokenRequest), getRights(personId, isAdmin), person, isAdmin);
 
+            if(!isAdmin) //check if user is blocked
+            {
+                var status = userService.userRepository.findByPerson_Id(personId).getStatus();
+                if(status == 2) //blocked
+                {
+                    System.out.println("Access attempt from a blocker user  " + tokenRequest.getUsername());
+                    return new ResponseEntity<>(HttpStatus.valueOf(202));
+                }
+            }
             // create a cookie
             final String refreshToken = UUID.randomUUID().toString();
             sessionHandlerService.registerSession(refreshToken, personId, String.join(",", response.getRights()));

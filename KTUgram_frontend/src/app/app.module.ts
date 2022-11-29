@@ -40,7 +40,7 @@ import { AddPostComponent } from './components/add-post/add-post.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import { UploadImgComponent } from './components/upload-img/upload-img.component';
 import { DragNDropDirective } from './directives/dragNDrop/drag-ndrop.directive';
-
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 @NgModule({
   declarations: [
     AppComponent,
@@ -82,7 +82,8 @@ import { DragNDropDirective } from './directives/dragNDrop/drag-ndrop.directive'
         ScrollingModule,
         MatTableModule,
         MatRippleModule,
-        MatDialogModule
+        MatDialogModule,
+        MatSnackBarModule
     ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: BackEndUrlInterceptor, multi: true },

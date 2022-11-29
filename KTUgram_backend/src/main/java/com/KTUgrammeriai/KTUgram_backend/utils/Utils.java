@@ -22,8 +22,8 @@ public class Utils {
         userDTO.setId(user.getId());
         userDTO.setAbout(user.getAbout());
         userDTO.setProfile_pic(user.getProfile_pic());
-        userDTO.setStatus(user.isStatus());
-        userDTO.setState(user.isState());
+        userDTO.setStatus(user.getStatus());
+        userDTO.setState(user.getState());
         userDTO.setBirthday(user.getBirthday());
         userDTO.setCountry(user.getCountry());
         userDTO.setCity(user.getCity());
