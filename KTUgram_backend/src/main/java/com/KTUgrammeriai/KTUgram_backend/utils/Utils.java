@@ -1,6 +1,8 @@
 package com.KTUgrammeriai.KTUgram_backend.utils;
 
 import com.KTUgrammeriai.KTUgram_backend.person.PersonDTO;
+import com.KTUgrammeriai.KTUgram_backend.post.Post;
+import com.KTUgrammeriai.KTUgram_backend.post.PostDTO;
 import com.KTUgrammeriai.KTUgram_backend.user.User;
 import com.KTUgrammeriai.KTUgram_backend.user.UserDTO;
 
@@ -29,6 +31,20 @@ public class Utils {
         userDTO.setCity(user.getCity());
 
         return userDTO;
+    }
+
+    public static PostDTO postToPostDTO(Post post){
+        PostDTO postDTO = new PostDTO();
+        postDTO.setContent(post.getContent());
+        postDTO.setTitle(post.getTitle());
+        postDTO.setLocation(post.getLocation());
+        postDTO.setTime(post.getTime());
+        postDTO.setDate(post.getDate());
+        postDTO.setState(post.getState());
+        postDTO.setAbout(post.getAbout());
+        postDTO.setId(post.getId());
+        postDTO.setUser(userToUserDTO(post.getUser()));
+        return postDTO;
     }
 
 }

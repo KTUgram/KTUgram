@@ -10,5 +10,5 @@ export interface Post{
   location: string;
   title: string;
   state: string;
-  user: User;
+  user?: User;
 }

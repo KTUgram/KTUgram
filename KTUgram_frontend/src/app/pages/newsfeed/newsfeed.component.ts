@@ -17,15 +17,38 @@ export class NewsfeedComponent implements OnInit {
   constructor(private postService: PostService, private dialog: MatDialog) { }
 
   posts!: Post[];
+  likedPostsId: number[] = [];
 
   ngOnInit(): void {
     this.postService.getPosts().subscribe(data => {
       this.posts = data;
       console.log(this.posts)
     });
+
+    this.postService.getLikedPosts().subscribe(data => {
+      data.forEach((item: any) => {
+        this.likedPostsId.push(item.post.id);
+      })
+    });
   }
 
   onAddPostClicked(){
     this.dialog.open(AddPostComponent);
+  }
+
+  onPostLiked(id: number){
+    this.postService.likePost(id).subscribe(() => {
+      this.postService.getLikedPosts().subscribe((data) => {
+        this.likedPostsId = [];
+        data.forEach((item: any) => {
+          this.likedPostsId.push(item.post.id);
+        })
+        console.log(this.likedPostsId);
+      })
+    })
+  }
+
+  isLiked(id: number): boolean{
+    return this.likedPostsId.includes(id);
   }
 }

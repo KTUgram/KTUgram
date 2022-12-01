@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class CurrentUserImpl {
     private static Logger LOG = LoggerFactory.getLogger(CurrentUserImpl.class);
 
-    public long getId() {
+    public static long getId() {
         final SecurityContext context = SecurityContextHolder.getContext();
         final Authentication authentication = context.getAuthentication();
 

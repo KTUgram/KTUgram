@@ -1,9 +1,14 @@
-<div class="upload-container" appDragNDrop>
-  <img class="upload-img" src="assets/web/icons/upload_icon.svg">
-  <div class="upload-img-container">
-    <p>Drag and drop</p>
-    <p>or</p>
-    <label for="upld"></label>
+<div class="upload-container" appDragNDrop (dropEvent)="onDrop($event)" (click)="onUploadClick(upload)">
+  <div *ngIf="uploadedUrl == null">
+    <img class="upload-img" src="assets/web/icons/upload_icon.svg">
+    <div class="upload-img-container">
+      <p>Drag and drop</p>
+      <p>or</p>
+      <label for="upld"></label>
+    </div>
+  </div>
+  <div class="uploaded-img" *ngIf="uploadedUrl != null">
+    <img [src]="uploadedUrl">
   </div>
 </div>
-<input id="upld" type="file">
+<input #upload id="upld" type="file">

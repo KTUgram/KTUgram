@@ -12,17 +12,18 @@ import java.util.Date;
 @Entity
 public class Post {
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id_irasas")
     private long id;
-    @Column(name = "data")
+    @Column(name = "data", nullable = true)
     private Date date;
-    @Column(name = "laikas")
+    @Column(name = "laikas", nullable = true)
     private Time time;
     @Column(name = "apie")
     private String about;
     @Column(name = "turinys")
     private String content;
-    @Column(name = "vietove")
+    @Column(name = "vietove", nullable = true)
     private String location;
     @Column(name = "pavadinimas")
     private String title;

@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 import {Post} from "../../models/post";
 
 @Component({
@@ -10,10 +10,16 @@ export class PostComponent implements OnChanges {
 
   constructor() { }
 
-  @Input() post!: Post; //{id:0, about:"", content:"", date:new Date(), location: "", state: "", time: "", title: "", user: };
+  @Input() post!: Post;
+  @Input() liked: boolean = false;
+  @Output() likedId: EventEmitter<number> = new EventEmitter<number>()
 
   ngOnChanges() {
     console.log(this.post);
+  }
+
+  onLike(){
+    this.likedId.emit(this.post.id);
   }
 
 }

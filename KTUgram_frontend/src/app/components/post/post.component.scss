@@ -86,9 +86,14 @@
     button{
       background-color: transparent;
       border: none;
-      color: white;
       text-align: left;
       cursor: pointer;
+    }
+    .not-liked, .comment{
+      color: white;
+    }
+    .liked{
+      color: teal;
     }
     button:hover{
       color: teal;

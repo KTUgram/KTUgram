@@ -1,4 +1,13 @@
 <h1 mat-dialog-title>Add Post</h1>
-<div mat-dialog-content>
-  <app-upload-img></app-upload-img>
+<div class="content" mat-dialog-content>
+  <form>
+    <mat-form-field>
+      <input #title_input matInput type="text" placeholder="Title">
+    </mat-form-field>
+    <app-upload-img (fileDropped)="fileUploaded($event)"></app-upload-img>
+    <mat-form-field>
+      <textarea #about_input class="about-input" matInput placeholder="about" maxlength="200"></textarea>
+    </mat-form-field>
+  </form>
+  <button (click)="onAddPost(title_input, about_input)" class="post-btn" color="primary" mat-flat-button>Post</button>
 </div>

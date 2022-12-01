@@ -1,0 +1,45 @@
+mat-form-field{
+  width: 100%;
+  margin: 1rem 0;
+}
+
+.post-btn{
+  position: absolute;
+  right: 1.5rem;
+  bottom: 0;
+  width: 150px;
+}
+
+form{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+.content{
+  width: 600px;
+  height: 800px;
+  position: relative;
+
+}
+
+.about-input{
+  resize: none;
+}
+
+.uploaded-img{
+  width: 400px;
+  height: 400px;
+  background-color: rgba(0, 0, 0, 0.1);
+  border: #1e1e1e dashed 5px;
+  border-radius: 10px;
+  object-fit: contain;
+
+  img{
+    width: 400px;
+    height: 400px;
+    object-fit: contain;
+  }
+}

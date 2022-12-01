@@ -2,7 +2,7 @@
   <button mat-flat-button class="primary-background add-btn" (click)="onAddPostClicked()"><mat-icon>add</mat-icon>Add Post</button>
   <div *ngIf="posts" class="page-container">
     <div *cdkVirtualFor="let post of posts; let index = index">
-      <app-post [post]="post"></app-post>
+      <app-post [liked]="isLiked(post.id)" (likedId)="onPostLiked($event)" [post]="post"></app-post>
     </div>
   </div>
 </cdk-virtual-scroll-viewport>
