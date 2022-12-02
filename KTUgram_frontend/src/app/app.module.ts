@@ -41,6 +41,7 @@ import {MatDialogModule} from "@angular/material/dialog";
 import { UploadImgComponent } from './components/upload-img/upload-img.component';
 import { DragNDropDirective } from './directives/dragNDrop/drag-ndrop.directive';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { CommentsDialogComponent } from './components/comments-dialog/comments-dialog.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -63,7 +64,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     UsersTableComponent,
     AddPostComponent,
     UploadImgComponent,
-    DragNDropDirective
+    DragNDropDirective,
+    CommentsDialogComponent
   ],
     imports: [
         BrowserModule,

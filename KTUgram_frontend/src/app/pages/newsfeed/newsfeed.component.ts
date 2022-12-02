@@ -5,6 +5,7 @@ import {Post} from "../../models/post";
 import {PostService} from "../../services/postService";
 import {AddPostComponent} from "../../components/add-post/add-post.component";
 import {MatDialog} from "@angular/material/dialog";
+import {CommentsDialogComponent} from "../../components/comments-dialog/comments-dialog.component";
 
 @Component({
   selector: 'app-newsfeed',
@@ -12,43 +13,55 @@ import {MatDialog} from "@angular/material/dialog";
   styleUrls: ['./newsfeed.component.scss']
 })
 export class NewsfeedComponent implements OnInit {
-  private userService: UserService = Inject(UserService);
-  //private postService: PostService = Inject(PostService);
   constructor(private postService: PostService, private dialog: MatDialog) { }
 
   posts!: Post[];
   likedPostsId: number[] = [];
 
   ngOnInit(): void {
+    this.getPosts();
+    this.getLikedPosts();
+  }
+
+  onAddPostClicked(){
+    let dialogRef = this.dialog.open(AddPostComponent);
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if(result == true){
+        this.getPosts();
+      }
+    })
+  }
+
+  getPosts(){
     this.postService.getPosts().subscribe(data => {
       this.posts = data;
-      console.log(this.posts)
+      this.dialog.closeAll();
     });
+  }
 
+  getLikedPosts(){
     this.postService.getLikedPosts().subscribe(data => {
+      this.likedPostsId = []
       data.forEach((item: any) => {
         this.likedPostsId.push(item.post.id);
       })
     });
   }
 
-  onAddPostClicked(){
-    this.dialog.open(AddPostComponent);
-  }
-
   onPostLiked(id: number){
     this.postService.likePost(id).subscribe(() => {
-      this.postService.getLikedPosts().subscribe((data) => {
-        this.likedPostsId = [];
-        data.forEach((item: any) => {
-          this.likedPostsId.push(item.post.id);
-        })
-        console.log(this.likedPostsId);
-      })
+      this.getLikedPosts();
     })
   }
 
   isLiked(id: number): boolean{
     return this.likedPostsId.includes(id);
+  }
+
+  onOpenComments(id: number){
+    console.log(id);
+    let dialogRef = this.dialog.open(CommentsDialogComponent, {data: {
+      id: id
+      }})
   }
 }

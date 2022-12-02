@@ -1,0 +1,24 @@
+<h1 matDialogTitle>Comments</h1>
+<div class="container" matDialogContent>
+  <div class="comments-container">
+    <div *ngFor="let comment of comments">
+      <div class="comment-container">
+        <div class="comment-user-container">
+          <span *ngIf="comment.user">{{comment.user.person.username}}</span>
+        </div>
+        <div class="comment-content-container">
+          <span>{{comment.content}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="add-comment-container">
+    <mat-form-field>
+      <textarea #comment matInput placeholder="Comment" maxlength="200"></textarea>
+    </mat-form-field>
+  </div>
+</div>
+<div matDialogActions>
+  <button color="primary" (click)="onAddCommentClick(comment.value)" mat-flat-button>Add comment</button>
+  <button mat-flat-button>Close</button>
+</div>

@@ -1,6 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {PostService} from "../../services/postService";
 import {Post} from "../../models/post";
+import {MatDialogRef} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-add-post',
@@ -9,10 +10,9 @@ import {Post} from "../../models/post";
 })
 export class AddPostComponent implements OnInit {
 
-  constructor(private postService: PostService) { }
+  constructor(private postService: PostService, private dialogRef: MatDialogRef<AddPostComponent>) { }
 
   uploadedFile: any = null
-  uploadedUrl: any = null
 
   ngOnInit(): void {
   }
@@ -20,7 +20,7 @@ export class AddPostComponent implements OnInit {
   onAddPost(title: any, about: any){
     let post: Post = {date: new Date(Date.now()), time: "10", about: about.value, content: "null", location: "aa", title: title.value, state: "0"};
     this.postService.uploadPost(post, this.uploadedFile).subscribe(() => {
-      console.log("Posted");
+      this.dialogRef.close(true);
     });
   }
 

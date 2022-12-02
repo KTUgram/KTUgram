@@ -12,7 +12,8 @@ export class PostComponent implements OnChanges {
 
   @Input() post!: Post;
   @Input() liked: boolean = false;
-  @Output() likedId: EventEmitter<number> = new EventEmitter<number>()
+  @Output() likedId: EventEmitter<number> = new EventEmitter<number>();
+  @Output() onComment: EventEmitter<number> = new EventEmitter<number>();
 
   ngOnChanges() {
     console.log(this.post);
@@ -20,6 +21,10 @@ export class PostComponent implements OnChanges {
 
   onLike(){
     this.likedId.emit(this.post.id);
+  }
+
+  onOpenComments(){
+    this.onComment.emit(this.post.id);
   }
 
 }

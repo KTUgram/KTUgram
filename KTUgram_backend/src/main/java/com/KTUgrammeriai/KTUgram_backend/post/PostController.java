@@ -1,6 +1,9 @@
 package com.KTUgrammeriai.KTUgram_backend.post;
 
 import com.KTUgrammeriai.KTUgram_backend.CurrentUserImpl;
+import com.KTUgrammeriai.KTUgram_backend.comments.Comment;
+import com.KTUgrammeriai.KTUgram_backend.comments.CommentDTO;
+import com.KTUgrammeriai.KTUgram_backend.comments.CommentService;
 import com.KTUgrammeriai.KTUgram_backend.likedPosts.LikedPost;
 import com.KTUgrammeriai.KTUgram_backend.likedPosts.LikedPostDTO;
 import com.KTUgrammeriai.KTUgram_backend.likedPosts.LikedPostService;
@@ -10,21 +13,14 @@ import com.KTUgrammeriai.KTUgram_backend.user.UserService;
 import com.KTUgrammeriai.KTUgram_backend.utils.FileUploadUtils;
 import com.KTUgrammeriai.KTUgram_backend.utils.Utils;
 import net.bytebuddy.utility.RandomString;
-import org.apache.tomcat.jni.Time;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.w3c.dom.html.HTMLInputElement;
-import org.w3c.dom.html.HTMLTextAreaElement;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,13 +36,16 @@ public class PostController {
     @Autowired
     LikedPostService likedPostService;
 
+    @Autowired
+    CommentService commentService;
+
     @PostMapping(value = "/posts/get-posts")
     public ResponseEntity<List<PostDTO>> allPosts() {
         List<PostDTO> postsDTO = new ArrayList<>();
         List<Post> posts = postService.getAllPosts();
 
         for (Post post : posts){
-            UserDTO userDTO = Utils.userToUserDTO(post.getUser());
+            UserDTO userDTO = Utils.convertUser(post.getUser());
             PostDTO postDTO = new PostDTO();
             postDTO.setUser(userDTO);
             postDTO.setId(post.getId());
@@ -93,10 +92,10 @@ public class PostController {
         for(LikedPost post : likedPosts){
             LikedPostDTO postDTO = new LikedPostDTO();
             postDTO.setId(post.getId());
-            postDTO.setPost(Utils.postToPostDTO(post.getPost()));
+            postDTO.setPost(Utils.convertPost(post.getPost()));
             postDTO.setDate(post.getDate());
             postDTO.setTime(post.getTime());
-            postDTO.setUser(Utils.userToUserDTO(post.getUser()));
+            postDTO.setUser(Utils.convertUser(post.getUser()));
             likedPostsDTO.add(postDTO);
         }
         return new ResponseEntity<>(likedPostsDTO, HttpStatus.OK);
@@ -115,6 +114,39 @@ public class PostController {
             likedPostService.likedPostRepository.save(newLikedPost);
             return new ResponseEntity<>(HttpStatus.OK);
         }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping(value = "/posts/comments/{id}")
+    public ResponseEntity<List<CommentDTO>> getComments(@PathVariable("id") long id){
+        List<Comment> comments = commentService.getPostComments(id);
+        List<CommentDTO> commentsDTO = new ArrayList<>();
+
+        for (Comment comment : comments){
+            commentsDTO.add(Utils.convertComment(comment));
+        }
+
+        return new ResponseEntity<>(commentsDTO, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/posts/add-comment")
+    public ResponseEntity<Void> addComment(@RequestBody CommentDTO commentDTO){
+        User user = userService.findByPersonId(CurrentUserImpl.getId());
+        commentDTO.setUser(Utils.convertUser(user));
+        System.out.println(commentDTO.getPost().getContent());
+        Comment comment = Utils.convertComment(commentDTO);
+        commentService.commentRepository.save(comment);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/posts/get-post/{id}")
+    public ResponseEntity<PostDTO> getPost(@PathVariable("id") long id){
+        Optional<Post> post = postService.getPostById(id);
+        if(post.isPresent()){
+            PostDTO postDTO = Utils.convertPost(post.get());
+            return new ResponseEntity<>(postDTO, HttpStatus.OK);
+        }
+
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

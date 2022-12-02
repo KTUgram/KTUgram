@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import {Observable} from "rxjs";
 import {NgxPermissionsService} from "ngx-permissions";
 import {Post} from "../models/post";
+import {Comment} from "../models/comment";
 
 @Injectable({ providedIn: 'root' })
 export class PostService {
@@ -27,5 +28,17 @@ export class PostService {
 
   likePost(id: number){
     return this.http.get('posts/like/' + id).pipe();
+  }
+
+  getComments(id: number): Observable<Comment[]>{
+    return this.http.get<Comment[]>('posts/comments/' + id).pipe();
+  }
+
+  addComment(comment: Comment){
+    return this.http.post('posts/add-comment', comment).pipe();
+  }
+
+  getPost(id: number): Observable<Post>{
+    return this.http.get<Post>('posts/get-post/' + id).pipe();
   }
 }
