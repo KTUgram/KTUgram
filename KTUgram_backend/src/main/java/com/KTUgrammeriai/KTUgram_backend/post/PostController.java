@@ -129,6 +129,32 @@ public class PostController {
         return new ResponseEntity<>(commentsDTO, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/posts/comments-by-user/{id}")
+    public ResponseEntity<List<CommentDTO>> getCommentsByUser(@PathVariable("id") long id){
+        User user = userService.findByPersonId(CurrentUserImpl.getId());
+        List<Comment> comments = commentService.getPostCommentsByUser(id, user.getId());
+        List<CommentDTO> commentsDTO = new ArrayList<>();
+
+        for (Comment comment : comments){
+            commentsDTO.add(Utils.convertComment(comment));
+        }
+
+        return new ResponseEntity<>(commentsDTO, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/posts/comments-except-user/{id}")
+    public ResponseEntity<List<CommentDTO>> getCommentsExceptUser(@PathVariable("id") long id){
+        User user = userService.findByPersonId(CurrentUserImpl.getId());
+        List<Comment> comments = commentService.getPostCommentsExceptUser(id, user.getId());
+        List<CommentDTO> commentsDTO = new ArrayList<>();
+
+        for (Comment comment : comments){
+            commentsDTO.add(Utils.convertComment(comment));
+        }
+
+        return new ResponseEntity<>(commentsDTO, HttpStatus.OK);
+    }
+
     @PostMapping(value = "/posts/add-comment")
     public ResponseEntity<Void> addComment(@RequestBody CommentDTO commentDTO){
         User user = userService.findByPersonId(CurrentUserImpl.getId());
@@ -136,6 +162,26 @@ public class PostController {
         System.out.println(commentDTO.getPost().getContent());
         Comment comment = Utils.convertComment(commentDTO);
         commentService.commentRepository.save(comment);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/posts/edit-comment")
+    public ResponseEntity<Void> editComment(@RequestBody CommentDTO commentDTO){
+        Comment comment = Utils.convertComment(commentDTO);
+        commentService.commentRepository.save(comment);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/posts/delete-comment")
+    public ResponseEntity<Void> deleteComment(@RequestBody CommentDTO commentDTO){
+        User user = userService.findByPersonId(CurrentUserImpl.getId());
+
+        if(commentDTO.getUser().getId() != user.getId()){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        Comment comment = Utils.convertComment(commentDTO);
+        commentService.commentRepository.delete(comment);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

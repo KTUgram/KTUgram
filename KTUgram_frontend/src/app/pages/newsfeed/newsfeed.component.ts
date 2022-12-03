@@ -6,6 +6,7 @@ import {PostService} from "../../services/postService";
 import {AddPostComponent} from "../../components/add-post/add-post.component";
 import {MatDialog} from "@angular/material/dialog";
 import {CommentsDialogComponent} from "../../components/comments-dialog/comments-dialog.component";
+import {Comment} from "../../models/comment";
 
 @Component({
   selector: 'app-newsfeed',
@@ -17,6 +18,7 @@ export class NewsfeedComponent implements OnInit {
 
   posts!: Post[];
   likedPostsId: number[] = [];
+  postComments: Map<number, Comment[]> = new Map<number, Comment[]>();
 
   ngOnInit(): void {
     this.getPosts();
@@ -35,7 +37,15 @@ export class NewsfeedComponent implements OnInit {
   getPosts(){
     this.postService.getPosts().subscribe(data => {
       this.posts = data;
-      this.dialog.closeAll();
+      data.forEach(post => {
+        if(post.id){
+          this.postService.getComments(post.id).subscribe(comments => {
+            if (post.id) {
+              this.postComments.set(post.id, comments);
+            }
+          })
+        }
+      })
     });
   }
 
@@ -59,9 +69,19 @@ export class NewsfeedComponent implements OnInit {
   }
 
   onOpenComments(id: number){
-    console.log(id);
     let dialogRef = this.dialog.open(CommentsDialogComponent, {data: {
       id: id
       }})
+    dialogRef.afterClosed().subscribe(() => {
+      this.getPosts();
+    })
+  }
+
+  getPostComments(id: number): Comment[] | undefined{
+    let comments = this.postComments.get(id);
+    if(comments){
+      return comments;
+    }
+    return undefined;
   }
 }

@@ -34,8 +34,24 @@ export class PostService {
     return this.http.get<Comment[]>('posts/comments/' + id).pipe();
   }
 
+  getCommentsByUser(id: number){
+    return this.http.get<Comment[]>('posts/comments-by-user/' + id).pipe();
+  }
+
+  getCommentsExceptByUser(id: number){
+    return this.http.get<Comment[]>('posts/comments-except-user/' + id).pipe();
+  }
+
   addComment(comment: Comment){
     return this.http.post('posts/add-comment', comment).pipe();
+  }
+
+  editComment(comment: Comment){
+    return this.http.post('posts/edit-comment', comment).pipe();
+  }
+
+  deleteComment(comment: Comment){
+    return this.http.post('posts/delete-comment', comment).pipe();
   }
 
   getPost(id: number): Observable<Post>{

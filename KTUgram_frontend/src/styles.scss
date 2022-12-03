@@ -1,4 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+@import "theme_variables";
+
 
 html, body {
   height: 100%;
@@ -12,4 +14,9 @@ body {
   margin: 0;
   box-sizing: border-box;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+snack-bar-container.mat-snack-bar-container {
+  background-color: $warn !important;
+  color: white;
 }

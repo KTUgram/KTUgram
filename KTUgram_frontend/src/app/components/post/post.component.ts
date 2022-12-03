@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 import {Post} from "../../models/post";
+import {Comment} from "../../models/comment";
 
 @Component({
   selector: 'app-post',
@@ -12,6 +13,7 @@ export class PostComponent implements OnChanges {
 
   @Input() post!: Post;
   @Input() liked: boolean = false;
+  @Input() comments: Comment[] | undefined;
   @Output() likedId: EventEmitter<number> = new EventEmitter<number>();
   @Output() onComment: EventEmitter<number> = new EventEmitter<number>();
 

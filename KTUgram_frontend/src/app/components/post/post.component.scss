@@ -88,11 +88,13 @@
     margin-top: 1rem;
     margin-left: 1rem;
     padding: 0;
+    display: flex;
+    position: relative;
     button{
       background-color: transparent;
       border: none;
       text-align: left;
-      cursor: pointer;
+      //cursor: pointer;
       position: relative;
       width: 20px;
       height: 20px;
@@ -114,6 +116,11 @@
     }
     button:hover{
       color: $primary;
+    }
+
+    p{
+      height: 20px;
+      z-index: 100;
     }
   }
 }

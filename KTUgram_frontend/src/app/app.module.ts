@@ -42,6 +42,8 @@ import { UploadImgComponent } from './components/upload-img/upload-img.component
 import { DragNDropDirective } from './directives/dragNDrop/drag-ndrop.directive';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { CommentsDialogComponent } from './components/comments-dialog/comments-dialog.component';
+import { EditCommentDialogComponent } from './components/edit-comment-dialog/edit-comment-dialog.component';
+import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -65,7 +67,9 @@ import { CommentsDialogComponent } from './components/comments-dialog/comments-d
     AddPostComponent,
     UploadImgComponent,
     DragNDropDirective,
-    CommentsDialogComponent
+    CommentsDialogComponent,
+    EditCommentDialogComponent,
+    DeleteDialogComponent
   ],
     imports: [
         BrowserModule,

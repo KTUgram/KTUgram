@@ -15,4 +15,12 @@ public class CommentService {
     public List<Comment> getPostComments(long postId){
         return commentRepository.findByPost_IdEquals(postId);
     }
+
+    public List<Comment> getPostCommentsByUser(long postId, long userId){
+        return commentRepository.findByPost_IdEqualsAndUser_IdEquals(postId, userId);
+    }
+
+    public List<Comment> getPostCommentsExceptUser(long postId, long userId){
+        return commentRepository.findByPost_IdEqualsAndUser_IdIsNot(postId, userId);
+    }
 }

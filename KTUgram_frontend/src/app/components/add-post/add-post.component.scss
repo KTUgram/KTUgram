@@ -4,9 +4,6 @@ mat-form-field{
 }
 
 .post-btn{
-  position: absolute;
-  right: 1.5rem;
-  bottom: 0;
   width: 150px;
 }
 
@@ -22,7 +19,7 @@ form{
   width: 600px;
   height: 800px;
   position: relative;
-
+  overflow-y: hidden;
 }
 
 .about-input{

@@ -1,14 +1,29 @@
 <h1 matDialogTitle>Comments</h1>
 <div class="container" matDialogContent>
   <div class="comments-container">
+    <div *ngFor="let userComment of userComments">
+      <div class="comment-container">
+        <div class="comment-content">
+          <span  class="comment-user-container" *ngIf="userComment.user">{{userComment.user.person.username}}</span>
+          <span class="comment-content-container">{{userComment.content}}</span>
+        </div>
+        <button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="onEditCommentClick(userComment)">Edit</button>
+          <button mat-menu-item (click)="onDeleteCommentClick(userComment)">Delete</button>
+        </mat-menu>
+      </div>
+    </div>
     <div *ngFor="let comment of comments">
       <div class="comment-container">
-        <div class="comment-user-container">
-          <span *ngIf="comment.user">{{comment.user.person.username}}</span>
+        <div class="comment-content">
+          <span class="comment-user-container" *ngIf="comment.user">{{comment.user.person.username}}</span>
+          <span class="comment-content-container">{{comment.content}}</span>
         </div>
-        <div class="comment-content-container">
-          <span>{{comment.content}}</span>
-        </div>
+        <button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item>Report</button>
+        </mat-menu>
       </div>
     </div>
   </div>
@@ -19,6 +34,6 @@
   </div>
 </div>
 <div matDialogActions>
-  <button color="primary" (click)="onAddCommentClick(comment.value)" mat-flat-button>Add comment</button>
+  <button color="primary" (click)="onAddCommentClick(comment)" mat-flat-button>Add comment</button>
   <button mat-flat-button>Close</button>
 </div>
