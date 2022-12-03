@@ -1,0 +1,13 @@
+@use '@angular/material' as mat;
+@import "@angular/material/theming";
+@import "theme";
+
+$primary: mat.get-color-from-palette($theme-primary, 200);
+$accent: mat.get-color-from-palette($theme-accent, 200);
+$warn: mat.get-color-from-palette($theme-warn, 200);
+$dark-bg: $dark-background;
+$dark-bg-5: $dark-bg-lighter-5;
+$dark-bg-10: $dark-bg-lighter-10;
+$dark-bg-20: $dark-bg-lighter-20;
+$dark-bg-30: $dark-bg-lighter-30;
+$light-bg: $light-background;

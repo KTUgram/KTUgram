@@ -1,3 +1,5 @@
+@import "src/theme_variables";
+
 .page-container{
   height: 100%;
   padding: 20px;
@@ -25,10 +27,10 @@
 .viewport::-webkit-scrollbar{
   width: 8px;
   border-radius: 30px;
-  background-color: #3f3f3f;
+  background-color: $dark-bg-lighter-10;
 }
 
 .viewport::-webkit-scrollbar-thumb{
   border-radius: 30px;
-  background-color: teal;
+  background-color: $primary;
 }

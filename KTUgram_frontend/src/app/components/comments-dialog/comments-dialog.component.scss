@@ -1,3 +1,5 @@
+@import "src/theme_variables";
+
 .container{
   width: 600px;
 }
@@ -23,7 +25,7 @@
     .comment-user-container{
       margin-right: 0.5rem;
       span{
-        color: darken(white, 20%);
+        color: white;
         font-weight: 500;
         margin-bottom: 0.2rem;
         cursor: pointer;
@@ -31,6 +33,7 @@
     }
     .comment-content-container{
       word-break: break-all;
+      color: darken(white, 20%);
     }
   }
 }
@@ -38,12 +41,12 @@
 .comments-container::-webkit-scrollbar{
   width: 8px;
   border-radius: 30px;
-  background-color: #3f3f3f;
+  background-color: $dark-bg-lighter-10;
 }
 
 .comments-container::-webkit-scrollbar-thumb{
   border-radius: 30px;
-  background-color: teal;
+  background-color: $primary;
 }
 
 mat-form-field{
