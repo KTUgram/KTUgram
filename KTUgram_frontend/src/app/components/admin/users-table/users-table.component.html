@@ -31,7 +31,7 @@
     <th mat-header-cell *matHeaderCellDef> Block </th >
     <td mat-cell *matCellDef="let element"> 
       <a class="block-button" (click)="blockUser(element.id)" mat-raised-button *ngIf="element.status == 1"><mat-icon>blockquote</mat-icon></a>
-      <a class="unblock-button" (click)="unblockUser(element.id)" mat-raised-button *ngIf="element.status == 2"><mat-icon>blockquote</mat-icon></a>
+      <a class="unblock-button" (click)="unblockUser(element.id)" mat-raised-button *ngIf="element.status == 2"><mat-icon>restore</mat-icon></a>
     </td>
   </ng-container>
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

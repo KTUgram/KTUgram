@@ -5,6 +5,7 @@ import {Observable} from "rxjs";
 import * as http from "http";
 import {User} from "../models/user";
 import {Token} from "../models/token";
+import {Comment} from "../models/comment";
 
 @Injectable({ providedIn: 'root' })
 export class AdminService {
@@ -19,5 +20,11 @@ export class AdminService {
   }
   unblockUser(id:number):Observable<HttpResponse<Token>>{
     return this.http.post<Token>("admin/unblockUserById/", id, { observe: 'response' }).pipe();
+  }
+  getCommentsByUser(id: number){
+    return this.http.get<Comment[]>('admin/comments-by-user/' + id).pipe();
+  }
+  deleteUserComment(id: number){
+    return this.http.post<Token>("admin/deleteUserComment/", id, {observe: 'response'}).pipe();
   }
 }
