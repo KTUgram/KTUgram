@@ -22,13 +22,16 @@ export class CommentsPageComponent implements OnInit {
 
       if(this.id == null){
        this.id = "All comments";
+       this.adminService.getCommentsByAllUsers().subscribe((data: Comment[]) => {
+        this.userComments = data;
+       });
       }
+      else{
+        this.adminService.getCommentsByUser(Number(this.id)).subscribe((data: Comment[]) => {
+          this.userComments = data;
+        });
+      } 
     });
-
-    this.adminService.getCommentsByUser(Number(this.id)).subscribe((data: Comment[]) => {
-      this.userComments = data;
-      console.log(data);
-    })
   }
 
   deleteComment(id: number): void{

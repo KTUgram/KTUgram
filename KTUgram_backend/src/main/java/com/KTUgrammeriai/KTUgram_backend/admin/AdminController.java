@@ -69,6 +69,16 @@ public class AdminController {
         }
         return new ResponseEntity<>(commentsDTO, HttpStatus.OK);
     }
+    @GetMapping(value = "/admin/commentsByAllUsers")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<CommentDTO>> getCommentsByAllUsers(){
+        var comments = this.comments.commentRepository.findAll();
+        List<CommentDTO> commentsDTO = new ArrayList<>();
+        for (Comment comment : comments){
+            commentsDTO.add(Utils.convertComment(comment));
+        }
+        return new ResponseEntity<>(commentsDTO, HttpStatus.OK);
+    }
 
     @PostMapping(value = "/admin/deleteUserComment/")
     @PreAuthorize("hasAuthority('ADMIN')")

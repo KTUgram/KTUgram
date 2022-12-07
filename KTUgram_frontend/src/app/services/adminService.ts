@@ -24,6 +24,9 @@ export class AdminService {
   getCommentsByUser(id: number){
     return this.http.get<Comment[]>('admin/comments-by-user/' + id).pipe();
   }
+  getCommentsByAllUsers(){
+    return this.http.get<Comment[]>('admin/commentsByAllUsers').pipe();
+  }
   deleteUserComment(id: number){
     return this.http.post<Token>("admin/deleteUserComment/", id, {observe: 'response'}).pipe();
   }
