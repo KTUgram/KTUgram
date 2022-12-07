@@ -13,6 +13,16 @@ table{
 .block-button{
   background-color: #ec4b4b;
 }
+.block-button:hover{
+  background-color: red;
+}
+
+.unblock-button{
+  background-color: darkgrey;
+}
+.unblock-button:hover{
+  background-color: green;
+}
 
 .mat-header-row{
   background-color: teal;

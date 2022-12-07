@@ -21,13 +21,12 @@ export class UsersTableComponent implements OnInit {
   }
   blockUser(id: any): void{
     console.log(id)
-    this.adminService.blockUser(id).subscribe(response =>{
-      if(response.status == 200)
-        {
-          console.log("atejo 200");
-        }
-    });
-    
+    this.adminService.blockUser(id).subscribe();  
+    location.reload();
+  }
+  unblockUser(id: any):void{
+    this.adminService.unblockUser(id).subscribe();
+    location.reload();
   }
 
   displayedColumns: string[] = ["id", "username", "name", "surname", "email", "comments", "posts", "block"];

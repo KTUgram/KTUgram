@@ -36,4 +36,16 @@ public class AdminController {
         users.userRepository.save(user);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    @PostMapping(value = "/admin/unblockUserById")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<Void> unblockUserById(@RequestBody int id){
+        Optional<User> user_opt = users.getById(id);
+        if(user_opt.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        User user = user_opt.get();
+        user.setStatus(1);
+        users.userRepository.save(user);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

@@ -17,4 +17,7 @@ export class AdminService {
   blockUser(id:number): Observable<HttpResponse<Token>> {
     return this.http.post<Token>("admin/blockUserById/", id, { observe: 'response' }).pipe();
   }
+  unblockUser(id:number):Observable<HttpResponse<Token>>{
+    return this.http.post<Token>("admin/unblockUserById/", id, { observe: 'response' }).pipe();
+  }
 }
