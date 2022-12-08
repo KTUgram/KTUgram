@@ -35,8 +35,18 @@ export class CommentsPageComponent implements OnInit {
   }
 
   deleteComment(id: number): void{
-    this.adminService.deleteUserComment(id).subscribe();
-    location.reload();
+    this.adminService.deleteUserComment(id).subscribe(() => {
+      if(this.id == "All comments"){
+      this.adminService.getCommentsByAllUsers().subscribe((data: Comment[]) => {
+        this.userComments = data;
+        });
+      }
+      else {
+        this.adminService.getCommentsByUser(Number(this.id)).subscribe((data: Comment[]) => {
+          this.userComments = data;
+        });
+      }
+      });    
   }
   displayedColumns: string[] = ["id", "content", "date", "time", "post", "user", "delete"];
 }

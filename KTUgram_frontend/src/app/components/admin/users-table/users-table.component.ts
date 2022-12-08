@@ -16,17 +16,22 @@ export class UsersTableComponent implements OnInit {
   ngOnInit(): void {
     this.adminService.getAllUsers().subscribe(data => {
       this.allUsers = data;
-      console.log(this.allUsers);
     })
   }
   blockUser(id: any): void{
     console.log(id)
-    this.adminService.blockUser(id).subscribe();  
-    location.reload();
+    this.adminService.blockUser(id).subscribe(()=>{
+      this.adminService.getAllUsers().subscribe(data => {
+        this.allUsers = data;
+      })
+    });    
   }
   unblockUser(id: any):void{
-    this.adminService.unblockUser(id).subscribe();
-    location.reload();
+    this.adminService.unblockUser(id).subscribe(()=>{
+      this.adminService.getAllUsers().subscribe(data => {
+        this.allUsers = data;
+      })
+    });
   }
 
   displayedColumns: string[] = ["id", "username", "name", "surname", "email", "comments", "posts", "block"];
