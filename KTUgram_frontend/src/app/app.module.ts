@@ -20,7 +20,6 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatIconModule} from "@angular/material/icon";
 import { NewsfeedComponent } from './pages/newsfeed/newsfeed.component';
 import { FollowingComponent } from './pages/following/following.component';
-import { ChatComponent } from './pages/chat/chat.component';
 import { UsersComponent } from './pages/admin/users/users.component';
 import {NgxPermissionsModule, NgxPermissionsRestrictStubModule} from "ngx-permissions";
 import {AdminGuardsGuard} from "./guards/admin-guards.guard";
@@ -44,6 +43,10 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { CommentsDialogComponent } from './components/comments-dialog/comments-dialog.component';
 import { EditCommentDialogComponent } from './components/edit-comment-dialog/edit-comment-dialog.component';
 import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
+import { MessageComponent } from './components/message/message.component';
+import { ChatComponent } from './components/chat/chat.component';
+import {ChatPageComponent} from "./pages/chat/chat.component";
+import { MessageDialogComponent } from './components/message-dialog/message-dialog.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -57,6 +60,9 @@ import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.
     ChatComponent,
     UsersComponent,
     PostComponent,
+    ChatPageComponent,
+    MessageDialogComponent,
+    MessageComponent,
     RegisterConfirmPageComponent,
     CommentsPageComponent,
     UserCommentsPageComponent,

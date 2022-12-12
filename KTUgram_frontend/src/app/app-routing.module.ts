@@ -6,7 +6,7 @@ import {RegisterPageComponent} from "./pages/register-page/register-page.compone
 import {MainPageComponent} from "./pages/main-page/main-page.component";
 import {NewsfeedComponent} from "./pages/newsfeed/newsfeed.component";
 import {FollowingComponent} from "./pages/following/following.component";
-import {ChatComponent} from "./pages/chat/chat.component";
+import {ChatPageComponent} from "./pages/chat/chat.component";
 import {NgxPermissionsGuard} from "ngx-permissions";
 import {AdminGuardsGuard} from "./guards/admin-guards.guard";
 import {UsersComponent} from "./pages/admin/users/users.component";
@@ -53,7 +53,7 @@ const routes: Routes = [
           only: ['USER', 'GUEST']
         }
       }},
-      {path: 'chat', component: ChatComponent, canActivate: [NgxPermissionsGuard],
+      {path: 'chat', component: ChatPageComponent, canActivate: [NgxPermissionsGuard],
       data:{
         permissions: {
           only: ['USER', 'GUEST']

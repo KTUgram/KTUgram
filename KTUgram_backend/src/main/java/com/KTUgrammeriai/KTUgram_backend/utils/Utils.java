@@ -2,6 +2,8 @@ package com.KTUgrammeriai.KTUgram_backend.utils;
 
 import com.KTUgrammeriai.KTUgram_backend.comments.Comment;
 import com.KTUgrammeriai.KTUgram_backend.comments.CommentDTO;
+import com.KTUgrammeriai.KTUgram_backend.messages.Message;
+import com.KTUgrammeriai.KTUgram_backend.messages.MessageDTO;
 import com.KTUgrammeriai.KTUgram_backend.person.Person;
 import com.KTUgrammeriai.KTUgram_backend.person.PersonDTO;
 import com.KTUgrammeriai.KTUgram_backend.post.Post;
@@ -119,6 +121,34 @@ public class Utils {
         comment.setUser(convertUser(commentDTO.getUser()));
         comment.setPost(convertPost(commentDTO.getPost()));
         return comment;
+    }
+    public static Message convertMessage(MessageDTO messageDTO){
+        Message message = new Message();
+        message.setId(messageDTO.getId());
+        message.setDate(messageDTO.getDate());
+        message.setContent(messageDTO.getContent());
+        message.setRead_date(messageDTO.getRead_date());
+        message.setRead_time(messageDTO.getRead_time());
+        message.setState(messageDTO.getState());
+        message.setReceiver_user(convertUser(messageDTO.getReceiver_user()));
+        message.setWriter_user(convertUser(messageDTO.getWriter_user()));
+
+        return message;
+    }
+
+    public static MessageDTO convertMessage(Message message){
+        MessageDTO messageDTO = new MessageDTO();
+        messageDTO.setId(message.getId());
+        messageDTO.setContent(message.getContent());
+        messageDTO.setTime(message.getTime());
+        messageDTO.setDate(message.getDate());
+        messageDTO.setRead_date(message.getRead_date());
+        messageDTO.setRead_time(message.getRead_time());
+        messageDTO.setState(message.getState());
+        messageDTO.setReceiver_user(convertUser(message.getReceiver_user()));
+        messageDTO.setWriter_user(convertUser(message.getWriter_user()));
+
+        return messageDTO;
     }
 
 }

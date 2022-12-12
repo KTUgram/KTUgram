@@ -1,0 +1,40 @@
+<h1 matDialogTitle>Messages</h1>
+
+  <div class="container" matDialogContent>
+    <div class="messages-container">
+      <div *ngFor="let Message of allMessages">
+          <div class="message-container" *ngIf = "existsInUserMessages(Message)">
+              <div class="message-content">
+                <span  class="message-user-container" *ngIf="Message.writer_user">{{Message.writer_user.person.name}}</span>
+                <span class="message-content-container">{{Message.content}}</span>
+              </div>
+              <button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item>Edit</button>
+                <button mat-menu-item>Delete</button>
+              </mat-menu>
+          </div>
+          <div class="message-container" *ngIf = "existsInOtherUserMessages(Message)">
+            <div class="message-content">
+              <span  class="message-user-container" *ngIf="Message.writer_user">{{Message.writer_user.person.name}}</span>
+              <span class="message-content-container">{{Message.content}}</span>
+            </div>
+            <button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item>Report</button>
+            </mat-menu>
+          </div>
+      </div>
+    </div>
+    <div class="add-message-container">
+      <mat-form-field appearance="outline">
+        <textarea #message matInput placeholder="Message" maxlength="200"></textarea>
+      </mat-form-field>
+    </div>
+  </div>
+  <div matDialogActions>
+    <button color="primary" (click)="onAddMessageClick(message)" mat-flat-button>Send message</button>
+    <button mat-flat-button>Close</button>
+  </div>
+
+
