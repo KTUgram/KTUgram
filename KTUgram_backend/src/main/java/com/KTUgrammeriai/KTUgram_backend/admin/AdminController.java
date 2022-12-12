@@ -5,6 +5,9 @@ import com.KTUgrammeriai.KTUgram_backend.admin.*;
 import com.KTUgrammeriai.KTUgram_backend.comments.Comment;
 import com.KTUgrammeriai.KTUgram_backend.comments.CommentDTO;
 import com.KTUgrammeriai.KTUgram_backend.comments.CommentService;
+import com.KTUgrammeriai.KTUgram_backend.post.PostDTO;
+import com.KTUgrammeriai.KTUgram_backend.post.PostService;
+import com.KTUgrammeriai.KTUgram_backend.post.Post;
 import com.KTUgrammeriai.KTUgram_backend.user.User;
 import com.KTUgrammeriai.KTUgram_backend.user.UserDTO;
 import com.KTUgrammeriai.KTUgram_backend.user.UserRepository;
@@ -29,7 +32,8 @@ public class AdminController {
     @Autowired
     private UserService users;
 
-
+    @Autowired
+    private PostService posts;
     @Autowired
     private CommentService comments;
 
@@ -90,6 +94,29 @@ public class AdminController {
         var comment = optComment.get();
         comments.commentRepository.delete(comment);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/admin/deleteUserPost/")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<Void> deleteUserPost(@RequestBody long id){
+        var optPost = posts.getPostById(id);
+        if(optPost.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        var post = optPost.get();
+        posts.postRepository.delete(post);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/admin/getUserPosts/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<PostDTO>> getUserPosts(@PathVariable("id") long id){
+        var posts = this.posts.postRepository.findByUser_IdEquals(id);
+        List<PostDTO> postsDTO = new ArrayList<>();
+        for (Post post : posts){
+            postsDTO.add(Utils.convertPost(post));
+        }
+        return new ResponseEntity<>(postsDTO, HttpStatus.OK);
     }
 
 }

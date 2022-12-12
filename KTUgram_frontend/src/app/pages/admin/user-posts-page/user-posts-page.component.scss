@@ -1,0 +1,38 @@
+.mat-column-id{
+    color: white;
+    width: 5%;
+    border-right: solid 1px rgba(255, 255, 255, 0.12);
+    text-align: left;
+  }
+  
+  .mat-column-content,
+  .mat-column-date,
+  .mat-column-time,
+  .mat-column-about,
+  .mat-column-title,
+  .mat-column-user,
+  .mat-column-delete{
+    color: white;
+    width: 12.5%;
+    text-align: center;
+  }
+  .mat-column-content{
+    overflow: auto;
+  }
+  .mat-header-row{
+    background-color: teal;
+    height: 40px;
+  }
+  table{
+    width: 80%;
+    text-align: center;
+    margin: auto;
+    table-layout: fixed;
+  }
+
+  .delete-button{
+    background-color: #ec4b4b;
+  }
+  .delete-button:hover{
+    background-color: red;
+  }

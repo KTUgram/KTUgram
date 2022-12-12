@@ -6,6 +6,7 @@ import * as http from "http";
 import {User} from "../models/user";
 import {Token} from "../models/token";
 import {Comment} from "../models/comment";
+import {Post} from "../models/post";
 
 @Injectable({ providedIn: 'root' })
 export class AdminService {
@@ -29,5 +30,11 @@ export class AdminService {
   }
   deleteUserComment(id: number){
     return this.http.post<Token>("admin/deleteUserComment/", id, {observe: 'response'}).pipe();
+  }
+  getUserPosts(id: number){
+    return this.http.get<Post[]>("admin/getUserPosts/" + id).pipe();
+  }
+  deleteUserPost(id: number){
+    return this.http.post<Token>("admin/deleteUserPost/", id, {observe: 'response'}).pipe();
   }
 }
