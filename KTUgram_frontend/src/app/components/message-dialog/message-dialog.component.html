@@ -1,28 +1,50 @@
-<h1 matDialogTitle>Messages</h1>
+<h1 matDialogTitle xmlns="http://www.w3.org/1999/html">Messages</h1>
+
 
   <div class="container" matDialogContent>
     <div class="messages-container">
       <div *ngFor="let Message of allMessages">
           <div class="message-container" *ngIf = "existsInUserMessages(Message)">
+
               <div class="message-content">
-                <span  class="message-user-container" *ngIf="Message.writer_user">{{Message.writer_user.person.name}}</span>
-                <span class="message-content-container">{{Message.content}}</span>
+                <div *ngIf="Message.writer_user && Message.writer_user.id != undefined">
+                  <div class = "message-profile-container">
+                    <div class="profile-img-container">
+                      <img src="{{Message.writer_user.profile_pic}}">
+                    </div>
+                    <span  class="message-user-container" *ngIf="Message.writer_user">{{Message.writer_user.person.name}}</span>
+                    <span class="message-content-container">{{Message.content}}</span>
+                    <button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
+                    <mat-menu #menu="matMenu">
+                      <button mat-menu-item (click)="onEditMessageClick(Message)">Edit</button>
+                      <button mat-menu-item (click)="onDeleteMessageClick(Message)">Delete</button>
+                    </mat-menu>
+                  </div>
+
+                </div>
               </div>
-              <button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
-              <mat-menu #menu="matMenu">
-                <button mat-menu-item (click)="onEditMessageClick(Message)">Edit</button>
-                <button mat-menu-item (click)="onDeleteMessageClick(Message)">Delete</button>
-              </mat-menu>
+            <div class="message-details-container">
+              <div class="message-details-content"> Time: {{Message.date | date: 'yyyy-MM-dd'}} {{Message.time}}</div>
+            </div>
+
           </div>
           <div class="message-container" *ngIf = "existsInOtherUserMessages(Message)">
             <div class="message-content">
-              <span  class="message-user-container" *ngIf="Message.writer_user">{{Message.writer_user.person.name}}</span>
-              <span class="message-content-container">{{Message.content}}</span>
+              <div *ngIf="Message.writer_user && Message.writer_user.id != undefined">
+                <div class = "message-profile-container">
+                  <div class="profile-img-container">
+                    <img src="{{Message.writer_user.profile_pic}}">
+                  </div>
+                  <span  class="message-user-container" *ngIf="Message.writer_user">{{Message.writer_user.person.name}}</span>
+                  <span class="message-content-container">{{Message.content}}</span>
+                  <button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
+                  <mat-menu #menu="matMenu">
+                    <button mat-menu-item>Report</button>
+                  </mat-menu>
+                </div>
+
+              </div>
             </div>
-            <button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
-            <mat-menu #menu="matMenu">
-              <button mat-menu-item>Report</button>
-            </mat-menu>
           </div>
       </div>
     </div>
@@ -38,5 +60,3 @@
     <button mat-flat-button>Close</button>
     <button class="reload-button" (click)="onReloadMessagesClick()" mat-flat-button>Reload messages</button>
   </div>
-
-
