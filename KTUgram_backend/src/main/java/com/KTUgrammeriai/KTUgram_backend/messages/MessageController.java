@@ -84,11 +84,19 @@ public class MessageController {
     }
 
 
-    @PostMapping(value = "/messages/add-message")
-    public ResponseEntity<Void> addMessage(@RequestBody MessageDTO messageDTO){
+    @PostMapping(value = "/messages/add-message/{id}")
+    public ResponseEntity<Void> addMessage(@PathVariable("id") long receiverId, @RequestBody MessageDTO messageDTO){
         User loggedUser = userService.findByPersonId(CurrentUserImpl.getId());
         UserDTO loggedUserDTO = Utils.convertUser(loggedUser);
-        // setting values of writer from current session user
+        Optional<User> user_opt = userService.getById(receiverId);
+        if(user_opt.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        User receiverUser = user_opt.get();
+        UserDTO receiverUserDTO = Utils.convertUser(receiverUser);
+
+        // setting values of users
+        messageDTO.setReceiver_user(receiverUserDTO);
         messageDTO.setWriter_user(loggedUserDTO);
         messageDTO.setState(1);
         UserDTO reader = messageDTO.getReceiver_user();
@@ -99,6 +107,27 @@ public class MessageController {
         messageService.MessageRepository.save(message);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PostMapping(value = "/messages/edit-message")
+    public ResponseEntity<Void> editMessage(@RequestBody MessageDTO messageDTO){
+        Message message = Utils.convertMessage(messageDTO);
+        messageService.MessageRepository.save(message);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/messages/delete-message")
+    public ResponseEntity<Void> deleteComment(@RequestBody MessageDTO messageDTO){
+        User user = userService.findByPersonId(CurrentUserImpl.getId());
+
+        if(messageDTO.getWriter_user().getId() != user.getId()){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        Message message = Utils.convertMessage(messageDTO);
+        messageService.MessageRepository.delete(message);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
     @GetMapping(value = "/messages/get-messages/{id}")
     public ResponseEntity<List<MessageDTO>> getMessages(@PathVariable("id") long otherUserId) {

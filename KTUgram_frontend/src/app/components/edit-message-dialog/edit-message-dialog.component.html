@@ -1,0 +1,10 @@
+<h1 matDialogTitle>Edit message</h1>
+<div matDialogContent class="edit-message-container">
+  <mat-form-field appearance="outline">
+    <textarea #content matInput maxlength="200" [value]="this.message.content"></textarea>
+  </mat-form-field>
+</div>
+<div matDialogActions>
+  <button color="primary" (click)="onDone(content.value)" mat-flat-button>Done</button>
+  <button mat-flat-button (click)="onClose()">Cancel</button>
+</div>

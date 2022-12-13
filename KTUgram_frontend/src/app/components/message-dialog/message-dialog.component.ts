@@ -7,6 +7,10 @@ import {Post} from "../../models/post";
 import {Comment} from "../../models/comment";
 import {User} from "../../models/user";
 import {Time} from "@angular/common";
+import {EditCommentDialogComponent} from "../edit-comment-dialog/edit-comment-dialog.component";
+import {EditMessageDialogComponent} from "../edit-message-dialog/edit-message-dialog.component";
+import {DeleteDialogComponent} from "../delete-dialog/delete-dialog.component";
+import {DeleteMessageDialogComponent} from "../delete-message-dialog/delete-message-dialog.component";
 
 @Component({
   selector: 'app-message-dialog',
@@ -65,15 +69,31 @@ export class MessageDialogComponent implements OnInit {
       this.snackbar.open("Please fill out message", "Dismiss", {duration: 3000, panelClass: ['mat-accent']});
       return;
     }
-    this.messageService.getUser(this.data.id).subscribe(data => {
-      user = data;
-      if(user) {
-        let message: Message = {content: content, receiver_user: user};
-        this.messageService.addMessage(message).subscribe(value => {
+    let message: Message = {content: content};
+    this.messageService.addMessage(this.data.id, message).subscribe(value => {
+       this.getMessages();
+       messageField.value = "";
+    })
+  }
+
+  onEditMessageClick(message: Message){
+    let dialogRef = this.dialog.open(EditMessageDialogComponent, {data: {message: message}})
+    dialogRef.afterClosed().subscribe(response => {
+      if(response != undefined){
+        this.messageService.editMessage(response).subscribe(() => {
           this.getMessages();
-          messageField.value = "";
         })
       }
     })
+  }
+  onDeleteMessageClick(message: Message){
+    let dialogRef = this.dialog.open(DeleteMessageDialogComponent, {data: {message: message }});
+    dialogRef.afterClosed().subscribe(response => {
+      if(response == true){
+        this.messageService.deleteMessage(message).subscribe(() => {
+          this.getMessages();
+        });
+      }
+    });
   }
 }

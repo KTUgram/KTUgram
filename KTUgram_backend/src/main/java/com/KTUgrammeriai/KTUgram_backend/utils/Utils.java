@@ -126,6 +126,7 @@ public class Utils {
         Message message = new Message();
         message.setId(messageDTO.getId());
         message.setDate(messageDTO.getDate());
+        message.setTime(messageDTO.getTime());
         message.setContent(messageDTO.getContent());
         message.setRead_date(messageDTO.getRead_date());
         message.setRead_time(messageDTO.getRead_time());
