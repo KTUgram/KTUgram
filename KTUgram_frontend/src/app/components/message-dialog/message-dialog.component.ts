@@ -39,10 +39,10 @@ export class MessageDialogComponent implements OnInit {
   existsInUserMessages(message: Message){
     let value = false;
     this.userMessages.forEach( (userMessage) => {
-        if(userMessage.id == message.id){
-          value = true;
-        }
-      })
+      if(userMessage.id == message.id){
+        value = true;
+      }
+    })
     return value;
   }
   existsInOtherUserMessages(message: Message){
@@ -55,38 +55,25 @@ export class MessageDialogComponent implements OnInit {
     return value;
   }
 
+  onReloadMessagesClick(){
+    this.getMessages();
+  }
   onAddMessageClick(messageField: any){
     let user: User;
-    let writerUser: User;
     let content = messageField.value;
     if(content === ""){
       this.snackbar.open("Please fill out message", "Dismiss", {duration: 3000, panelClass: ['mat-accent']});
       return;
     }
-
     this.messageService.getUser(this.data.id).subscribe(data => {
       user = data;
-
       if(user) {
-        this.messageService.getLoggedUser().subscribe(loggedUser => {
-          writerUser = loggedUser;
-          if(writerUser) {
-            const now = new Date();
-            let currentYYmmdd: Date = new Date(now.getFullYear(), now.getMonth(), now.getDay());
-            let timeNow: Time;
-            timeNow={hours:now.getHours(), minutes:now.getMinutes()};
-            let currentHrmmss: Date
-            let message: Message = {content: content, date:currentYYmmdd, state: 1, writer_user: writerUser, receiver_user: user};
-            this.messageService.addMessage(message).subscribe(value => {
-              this.getMessages();
-              messageField.value = "";
-            });
-          }
+        let message: Message = {content: content, receiver_user: user};
+        this.messageService.addMessage(message).subscribe(value => {
+          this.getMessages();
+          messageField.value = "";
         })
       }
     })
-
-
   }
-
 }

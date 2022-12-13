@@ -67,20 +67,12 @@ public class MessageController {
 
     @GetMapping(value = "/messages/get-user/{id}")
     public ResponseEntity<UserDTO> getUser(@PathVariable("id") long userId) {
-        System.out.print("Ieskomas pagal ID:");
-        System.out.println(userId);
         Optional<User> user_opt = userService.getById(userId);
         if(user_opt.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
         User user = user_opt.get();
-        System.out.print("user_opt.get() rezultatas: ");
-        System.out.println(user.getId());
         UserDTO userDTO = Utils.convertUser(user);
-        System.out.print("UserDTO duomenys backende: ");
-        System.out.println(userDTO.getId());
-        System.out.println(userDTO.getState());
         return new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
 
@@ -91,9 +83,14 @@ public class MessageController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    // smth wrong here messages/add-message
+
     @PostMapping(value = "/messages/add-message")
     public ResponseEntity<Void> addMessage(@RequestBody MessageDTO messageDTO){
+        User loggedUser = userService.findByPersonId(CurrentUserImpl.getId());
+        UserDTO loggedUserDTO = Utils.convertUser(loggedUser);
+        // setting values of writer from current session user
+        messageDTO.setWriter_user(loggedUserDTO);
+        messageDTO.setState(1);
         UserDTO reader = messageDTO.getReceiver_user();
         if(reader == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
