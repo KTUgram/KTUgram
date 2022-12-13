@@ -57,4 +57,8 @@ export class PostService {
   getPost(id: number): Observable<Post>{
     return this.http.get<Post>('posts/get-post/' + id).pipe();
   }
+
+  getPostsByUser(id: number): Observable<Post[]>{
+    return this.http.get<Post[]>('posts/get-posts-by-user/' + id).pipe();
+  }
 }

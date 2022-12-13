@@ -49,6 +49,7 @@ import {ChatPageComponent} from "./pages/chat/chat.component";
 import { MessageDialogComponent } from './components/message-dialog/message-dialog.component';
 import { EditMessageDialogComponent } from './components/edit-message-dialog/edit-message-dialog.component';
 import { DeleteMessageDialogComponent } from './components/delete-message-dialog/delete-message-dialog.component';
+import { ProfilePictureComponent } from './components/profile-picture/profile-picture.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -79,7 +80,8 @@ import { DeleteMessageDialogComponent } from './components/delete-message-dialog
     EditCommentDialogComponent,
     DeleteDialogComponent,
     EditMessageDialogComponent,
-    DeleteMessageDialogComponent
+    DeleteMessageDialogComponent,
+    ProfilePictureComponent
   ],
     imports: [
         BrowserModule,

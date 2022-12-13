@@ -195,4 +195,16 @@ public class PostController {
 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+    @GetMapping(value = "/posts/get-posts-by-user/{id}")
+    public ResponseEntity<List<PostDTO>> getPostsByUser(@PathVariable("id") long id){
+        List<Post> userPosts = postService.getPostsByUser(id);
+        List<PostDTO> userPostsDTO = new ArrayList<>();
+
+        for(Post post : userPosts){
+            userPostsDTO.add(Utils.convertPost(post));
+        }
+
+        return new ResponseEntity<>(userPostsDTO, HttpStatus.OK);
+    }
 }

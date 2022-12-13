@@ -1,0 +1,115 @@
+@import "src/theme_variables";
+
+.page-container{
+  display: grid;
+  grid-template-columns: 1fr 1200px 1fr;
+
+  .content-container{
+    grid-column: 2 / span 1;
+    display: grid;
+
+
+    .profile-info-container{
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      grid-template-rows: 80px 50px 100px;
+      row-gap: 1rem;
+      column-gap: 6rem;
+
+      .profile-pic{
+        height: 100%;
+        grid-column: 1 / span 1;
+        grid-row: 1 / span 3;
+        display: flex;
+        align-items: flex-start;
+      }
+
+      .profile-name-info-container{
+        height: 80px;
+        grid-row: 1 / span 1;
+        grid-column: 2 / span 1;
+        display: flex;
+        align-items: flex-end;
+        column-gap: 1rem;
+
+        span{
+          font-size: xx-large;
+          display: inline-block;
+          vertical-align: center;
+          line-height: normal;
+        }
+
+        button{
+          width: 150px;
+        }
+      }
+
+      .profile-social-info-container{
+        grid-row: 2 / span 1;
+        grid-column: 2 / span 1;
+        width: 400px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .posts-amount, .followers-amount, .following-amount{
+          font-weight: bold;
+        }
+
+        .posts-amount::after, .followers-amount::after, .following-amount::after{
+          margin-left: 10px;
+          font-weight: normal;
+        }
+
+        .posts-amount::after{
+          content: "Posts";
+        }
+
+        .followers-amount::after{
+          content: "Followers";
+        }
+
+        .following-amount::after{
+          content: "Following";
+        }
+      }
+
+      .profile-about-info-container{
+        grid-row: 3 / span 1;
+        grid-column: 2 / span 1;
+        width: 400px;
+        display: flex;
+        justify-items: center;
+        justify-content: space-between;
+        overflow-wrap: anywhere;
+      }
+    }
+
+    .profile-posts-container{
+      grid-row: 2 / span 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      row-gap: 1rem;
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+.viewport{
+  width: 100%;
+  height: calc(100vh - 80px);
+  position: relative;
+}
+
+.viewport::-webkit-scrollbar{
+  width: 8px;
+  border-radius: 30px;
+  background-color: $dark-bg-lighter-10;
+}
+
+.viewport::-webkit-scrollbar-thumb{
+  border-radius: 30px;
+  background-color: $primary;
+}
+
+

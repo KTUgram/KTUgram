@@ -1,0 +1,4 @@
+<div class="profile-picture" [ngStyle]="{'width.px': width, 'height.px': height}">
+  <img *ngIf="pictureLocation" [src]="pictureLocation" alt="Profile picture">
+  <img *ngIf="!pictureLocation" src="assets/web/icons/empty_profile_icon.svg" alt="Profile picture">
+</div>

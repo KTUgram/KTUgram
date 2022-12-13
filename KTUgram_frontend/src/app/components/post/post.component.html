@@ -2,7 +2,8 @@
   <div class="info-container">
     <div class="profile-container">
       <div class="profile-img-container">
-        <img src="{{post.user.profile_pic}}">
+        <img *ngIf="post.user.profile_pic" src="{{post.user.profile_pic}}">
+        <img *ngIf="!post.user.profile_pic" src="assets/web/icons/empty_profile_icon.svg">
       </div>
       <div class="profile-name-container">
         <a routerLink="/main/profile/{{post.user.id}}">{{post.user.person.username}}</a>
