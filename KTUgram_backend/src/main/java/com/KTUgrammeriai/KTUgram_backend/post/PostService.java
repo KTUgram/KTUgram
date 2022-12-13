@@ -27,4 +27,8 @@ public class PostService {
     public Optional<Post> getPostById(long id){
         return postRepository.findById(id);
     }
+
+    public List<Post> getPostsByUser(long id){
+        return postRepository.findByUser_IdEquals(id);
+    }
 }

@@ -7,6 +7,10 @@ import {Post} from "../../models/post";
 import {Comment} from "../../models/comment";
 import {User} from "../../models/user";
 import {Time} from "@angular/common";
+import {EditCommentDialogComponent} from "../edit-comment-dialog/edit-comment-dialog.component";
+import {EditMessageDialogComponent} from "../edit-message-dialog/edit-message-dialog.component";
+import {DeleteDialogComponent} from "../delete-dialog/delete-dialog.component";
+import {DeleteMessageDialogComponent} from "../delete-message-dialog/delete-message-dialog.component";
 
 @Component({
   selector: 'app-message-dialog',
@@ -39,10 +43,10 @@ export class MessageDialogComponent implements OnInit {
   existsInUserMessages(message: Message){
     let value = false;
     this.userMessages.forEach( (userMessage) => {
-        if(userMessage.id == message.id){
-          value = true;
-        }
-      })
+      if(userMessage.id == message.id){
+        value = true;
+      }
+    })
     return value;
   }
   existsInOtherUserMessages(message: Message){
@@ -55,38 +59,41 @@ export class MessageDialogComponent implements OnInit {
     return value;
   }
 
+  onReloadMessagesClick(){
+    this.getMessages();
+  }
   onAddMessageClick(messageField: any){
     let user: User;
-    let writerUser: User;
     let content = messageField.value;
     if(content === ""){
       this.snackbar.open("Please fill out message", "Dismiss", {duration: 3000, panelClass: ['mat-accent']});
       return;
     }
+    let message: Message = {content: content};
+    this.messageService.addMessage(this.data.id, message).subscribe(value => {
+       this.getMessages();
+       messageField.value = "";
+    })
+  }
 
-    this.messageService.getUser(this.data.id).subscribe(data => {
-      user = data;
-
-      if(user) {
-        this.messageService.getLoggedUser().subscribe(loggedUser => {
-          writerUser = loggedUser;
-          if(writerUser) {
-            const now = new Date();
-            let currentYYmmdd: Date = new Date(now.getFullYear(), now.getMonth(), now.getDay());
-            let timeNow: Time;
-            timeNow={hours:now.getHours(), minutes:now.getMinutes()};
-            let currentHrmmss: Date
-            let message: Message = {content: content, date:currentYYmmdd, state: 1, writer_user: writerUser, receiver_user: user};
-            this.messageService.addMessage(message).subscribe(value => {
-              this.getMessages();
-              messageField.value = "";
-            });
-          }
+  onEditMessageClick(message: Message){
+    let dialogRef = this.dialog.open(EditMessageDialogComponent, {data: {message: message}})
+    dialogRef.afterClosed().subscribe(response => {
+      if(response != undefined){
+        this.messageService.editMessage(response).subscribe(() => {
+          this.getMessages();
         })
       }
     })
-
-
   }
-
+  onDeleteMessageClick(message: Message){
+    let dialogRef = this.dialog.open(DeleteMessageDialogComponent, {data: {message: message }});
+    dialogRef.afterClosed().subscribe(response => {
+      if(response == true){
+        this.messageService.deleteMessage(message).subscribe(() => {
+          this.getMessages();
+        });
+      }
+    });
+  }
 }

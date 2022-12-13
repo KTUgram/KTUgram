@@ -32,8 +32,16 @@ export class MessageService {
     return this.http.get<User>('messages/get-logged-user').pipe();
   }
 
-  addMessage(message: Message){
-    return this.http.post('messages/add-message', message).pipe();
+  addMessage(id: number, message: Message){
+    return this.http.post('messages/add-message/' + id, message).pipe();
+  }
+
+  editMessage(message: Message){
+    return this.http.post('messages/edit-message', message).pipe();
+  }
+
+  deleteMessage(message: Message){
+    return this.http.post('messages/delete-message', message).pipe();
   }
 
 }

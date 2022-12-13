@@ -8,7 +8,7 @@ export interface Message{
   time?: Time;
   read_date?: Date;
   read_time?: Time;
-  state: number;
-  receiver_user: User;
-  writer_user: User;
+  state?: number;
+  receiver_user?: User;
+  writer_user?: User;
 }

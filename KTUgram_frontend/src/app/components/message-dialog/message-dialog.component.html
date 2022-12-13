@@ -10,8 +10,8 @@
               </div>
               <button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
               <mat-menu #menu="matMenu">
-                <button mat-menu-item>Edit</button>
-                <button mat-menu-item>Delete</button>
+                <button mat-menu-item (click)="onEditMessageClick(Message)">Edit</button>
+                <button mat-menu-item (click)="onDeleteMessageClick(Message)">Delete</button>
               </mat-menu>
           </div>
           <div class="message-container" *ngIf = "existsInOtherUserMessages(Message)">
@@ -34,7 +34,9 @@
   </div>
   <div matDialogActions>
     <button color="primary" (click)="onAddMessageClick(message)" mat-flat-button>Send message</button>
+
     <button mat-flat-button>Close</button>
+    <button class="reload-button" (click)="onReloadMessagesClick()" mat-flat-button>Reload messages</button>
   </div>
 
 

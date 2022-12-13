@@ -18,10 +18,6 @@ export class ChatPageComponent implements OnInit {
   constructor(private messageService: MessageService, private dialog: MatDialog) { }
 
 
-  //usersId: number[] = [];
-  //userMessages: Map<number, Message[]> = new Map<number, Message[]>();
-  //userMessages !: Message[];
-
   users !: User[];
   userMessages: Map<number, Message[]> = new Map<number, Message[]>();
 

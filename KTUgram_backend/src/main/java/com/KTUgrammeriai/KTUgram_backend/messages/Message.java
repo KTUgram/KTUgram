@@ -19,6 +19,7 @@ public class Message {
     @Column(name = "id_zinute")
     private long id;
 
+    @CreationTimestamp
     @Column(name = "data")
     private Date date;
 
