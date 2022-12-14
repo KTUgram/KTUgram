@@ -1,13 +1,18 @@
 package com.KTUgrammeriai.KTUgram_backend.authentification;
 
+import com.KTUgrammeriai.KTUgram_backend.CurrentUserImpl;
 import com.KTUgrammeriai.KTUgram_backend.admin.AdminService;
 import com.KTUgrammeriai.KTUgram_backend.person.Person;
 import com.KTUgrammeriai.KTUgram_backend.person.PersonService;
-import com.KTUgrammeriai.KTUgram_backend.person.RegisterDTO;
+import com.KTUgrammeriai.KTUgram_backend.post.Post;
+import com.KTUgrammeriai.KTUgram_backend.user.RegisterUserDTO;
 import com.KTUgrammeriai.KTUgram_backend.user.User;
 import com.KTUgrammeriai.KTUgram_backend.user.UserDTO;
 import com.KTUgrammeriai.KTUgram_backend.user.UserService;
+import com.KTUgrammeriai.KTUgram_backend.utils.FileUploadUtils;
 import com.KTUgrammeriai.KTUgram_backend.utils.Utils;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -16,7 +21,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.*;
 
 @RestController
@@ -40,25 +47,43 @@ public class Authentication {
     private UserService userService;
 
 
-    @PostMapping(value = "/user/register", consumes = {"application/json"})
-    public ResponseEntity<TokenResponse> register(@RequestBody final RegisterDTO person){
-        Person existingPerson = personService.getPersonByUsername(person.getUsername());
+    @PostMapping(value = "/user/register")
+    public ResponseEntity<TokenResponse> register(@RequestParam("profile_pic") MultipartFile pic, @RequestParam("register_data") String data) throws IOException {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        RegisterUserDTO user = objectMapper.readValue(data, RegisterUserDTO.class);
+        System.out.println(user.getPerson().getUsername());
+
+        Person existingPerson = personService.getPersonByUsername(user.getPerson().getUsername());
         if(existingPerson != null){
             System.out.println("user already exists");
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
+
+        String uploadDir = null;
+        String extension = pic.getOriginalFilename().split("\\.")[1];
+        if(extension != null) {
+            String fileName = RandomString.make(20) + "." + pic.getOriginalFilename().split("\\.")[1];
+            uploadDir = "images/profile_pics/";
+            FileUploadUtils.saveFile(uploadDir, fileName, pic);
+            uploadDir += fileName;
+        }
+
         Person newPerson = new Person();
         User newUser = new User();
-        newPerson.setUsername(person.getUsername());
-        newPerson.setEmail(person.getEmail());
-        newPerson.setPassword(passwordEncoder.encode(person.getPassword()));
-        newPerson.setName(person.getName());
-        newPerson.setSurname(person.getSurname());
+        newPerson.setUsername(user.getPerson().getUsername());
+        newPerson.setEmail(user.getPerson().getEmail());
+        newPerson.setPassword(passwordEncoder.encode(user.getPerson().getPassword()));
+        newPerson.setName(user.getPerson().getName());
+        newPerson.setSurname(user.getPerson().getSurname());
         Person savedPerson = personService.personRepository.save(newPerson);
         newUser.setPerson(savedPerson);
+        newUser.setAbout(user.getAbout());
+        newUser.setProfile_pic(uploadDir);
         newUser.setStatus(1);
         newUser.setState(1);
         userService.userRepository.save(newUser);
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -180,10 +205,15 @@ public class Authentication {
         return new ResponseEntity<>(usersDTO, HttpStatus.OK);
     }
 
+    @GetMapping(path = "/user/check-username")
+    public ResponseEntity<Boolean> checkUsername(@RequestParam("username") String username){
+        System.out.println(username);
+        System.out.println(userService.userExists(username));
+        return new ResponseEntity<>(userService.userExists(username), HttpStatus.OK);
+    }
+
     private List<String> getRights(final long employeeId, final boolean isAdmin) {
         //return userService.getEmployeeRights(employeeId);
         return isAdmin ? List.of("ADMIN") : List.of("USER");
     }
-
-
 }

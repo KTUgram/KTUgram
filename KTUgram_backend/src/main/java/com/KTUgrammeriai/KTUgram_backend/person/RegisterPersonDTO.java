@@ -3,7 +3,7 @@ package com.KTUgrammeriai.KTUgram_backend.person;
 import lombok.Data;
 
 @Data
-public class RegisterDTO {
+public class RegisterPersonDTO {
     private int id;
     private String username;
     private String password;

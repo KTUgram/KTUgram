@@ -1,20 +1,71 @@
 <div class="register-card mat-elevation-z6">
-  <h3 class="primary-color">Create new account</h3>
-  <form>
-    <mat-form-field>
-      <mat-label>Username</mat-label>
-      <input matInput #username placeholder="Username">
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Email</mat-label>
-      <input matInput #email placeholder="Email">
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Password</mat-label>
-      <input #pass matInput type="password">
-    </mat-form-field>
-    <button mat-raised-button type="button" class="register-button primary-background" (click)="signupButtonClicked(username.value, email.value, pass.value, 'vardas', 'pavarde')">Sign up</button>
-    <p>Already a member? <a routerLink="/login" class="primary-color">Login</a ></p>
-  </form>
+  <h3>Create new account</h3>
+  <mat-stepper #stepper linear="true">
+    <mat-step [completed]="accountDetailsStepCompleted" [stepControl]="accountDetailsGroup">
+      <form [formGroup]="accountDetailsGroup">
+        <ng-template matStepLabel>Fill out account details</ng-template>
+        <mat-form-field appearance="fill">
+          <mat-label>Username</mat-label>
+          <input matInput type="text" formControlName="username" required>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Password</mat-label>
+          <input matInput type="password" formControlName="password" required>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="email" required>
+        </mat-form-field>
+      </form>
+      <div>
+        <button mat-flat-button (click)="filledAccountDetails(stepper)">Next</button>
+      </div>
+    </mat-step>
+    <mat-step [completed]="personalDetailsStepCompleted" [stepControl]="personalDetailsGroup">
+      <form [formGroup]="personalDetailsGroup">
+        <ng-template matStepLabel>Fill out personal details</ng-template>
+        <mat-form-field appearance="fill">
+          <mat-label>First name</mat-label>
+          <input matInput type="text" formControlName="firstName">
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Last name</mat-label>
+          <input matInput type="text" formControlName="lastName">
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Phone number</mat-label>
+          <input matInput type="text" formControlName="phone">
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Birthday</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="birthday">
+          <mat-datepicker-toggle [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </form>
+      <div>
+        <button mat-flat-button (click)="stepperBack(stepper)">Back</button>
+        <button mat-flat-button (click)="filledPersonalDetails(stepper)">Next</button>
+      </div>
+    </mat-step>
+    <mat-step [stepControl]="profileDetailsGroup">
+      <form [formGroup]="profileDetailsGroup">
+        <ng-template matStepLabel>Fill out profile details</ng-template>
+        <mat-form-field appearance="fill">
+          <mat-label>About</mat-label>
+          <input matInput type="text" formControlName="about" required>
+        </mat-form-field>
+      </form>
+      <div class="profile-pic-upload">
+        <span>Profile picture (Optional)</span>
+        <app-upload-img (fileDropped)="fileUploaded($event)"></app-upload-img>
+      </div>
+      <div>
+        <button mat-flat-button (click)="stepperBack(stepper)">Back</button>
+        <button mat-flat-button color="primary" (click)="signupButtonClicked()">Sign up</button>
+      </div>
+    </mat-step>
+  </mat-stepper>
+  <p>Already a member? <a routerLink="/login" class="primary-color">Login</a ></p>
 </div>
 

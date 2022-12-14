@@ -16,7 +16,7 @@ import java.util.List;
 
 public class AuthorizationFilter extends BasicAuthenticationFilter {
     private static final List<String> LOCAL_APIS = Arrays.asList(
-                    new String[] {"/user/re-login", "/user/login", "/user/logout", "/user/register", "/translations", "/user/get-access-token", "/v1", "/actuator/prometheus"});
+                    new String[] {"/user/re-login", "/user/login", "/user/logout", "/user/register", "/translations", "/user/get-access-token", "/v1", "/actuator/prometheus", "/user/check-username"});
 
     private SessionHandlerService sessionHandlerService;
 

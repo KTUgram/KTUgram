@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {UserService} from "../../services/userService";
 import {Router} from "@angular/router";
 import {Person} from "../../models/person";
+import {User} from "../../models/user";
 
 @Component({
   selector: 'app-register-page',
@@ -15,9 +16,8 @@ export class RegisterPageComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  registerSubmit(person: Person){
-    console.log(person);
-    this.userService.register(person).subscribe(response => {
+  registerSubmit(registerInfo: any){
+    this.userService.register(registerInfo.user, registerInfo.profile_pic).subscribe(response => {
       this.router.navigate(["/confirm"]);
     })
   }

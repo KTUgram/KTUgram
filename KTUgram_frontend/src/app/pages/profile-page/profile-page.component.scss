@@ -2,7 +2,7 @@
 
 .page-container{
   display: grid;
-  grid-template-columns: 1fr 1200px 1fr;
+  grid-template-columns: 1fr 1100px 1fr;
 
   .content-container{
     grid-column: 2 / span 1;
@@ -87,8 +87,9 @@
 
     .profile-posts-container{
       grid-row: 2 / span 1;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
       row-gap: 1rem;
       margin-bottom: 1rem;
     }

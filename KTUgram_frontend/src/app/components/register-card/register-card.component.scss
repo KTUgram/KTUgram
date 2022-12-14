@@ -1,32 +1,51 @@
+@import "src/theme_variables";
+
 .register-card{
-  padding: 20px 10px 20px 10px;
-  width: 600px;
+  padding: 20px;
+  width: 800px;
   height: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: $dark-bg-lighter-2;
+  border-radius: 5px;
+
+  h3{
+    font-size: xx-large;
+  }
+
+  a{
+    color: $primary;
+  }
 }
 
-form{
-  width: 70%;
+mat-stepper{
+  margin-bottom: 1rem;
+}
+
+.mat-stepper-horizontal{
+  width: 100%;
 }
 
 mat-form-field{
-  width: 100%;
-  margin-bottom: 20px;
+  width: 80%;
 }
 
-.register-button{
+form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
-  margin-bottom: 20px;
+  margin-top: 1rem;
 }
 
-p{
-  width: 100%;
-  color: gray;
+.profile-pic-upload{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-h3{
-  font-size: xx-large;
-  font-weight: bold;
+.mat-horizontal-stepper-header {
+  pointer-events: none !important;
 }

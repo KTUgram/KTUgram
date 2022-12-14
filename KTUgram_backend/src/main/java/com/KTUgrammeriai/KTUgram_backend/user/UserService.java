@@ -23,4 +23,8 @@ public class UserService {
     public Optional<User> getById(long id){
        return userRepository.findById(id);
     }
+
+    public boolean userExists(String username){
+        return userRepository.existsByPerson_UsernameEquals(username);
+    }
 }

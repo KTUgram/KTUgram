@@ -34,7 +34,7 @@ import { ProfilePageComponent } from './pages/profile-page/profile-page.componen
 import { UserProfilePageComponent } from './pages/user-profile-page/user-profile-page.component';
 import { UsersTableComponent } from './components/admin/users-table/users-table.component';
 import {MatTableModule} from "@angular/material/table";
-import {MatRippleModule} from "@angular/material/core";
+import {MatNativeDateModule, MatRippleModule} from "@angular/material/core";
 import { AddPostComponent } from './components/add-post/add-post.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import { UploadImgComponent } from './components/upload-img/upload-img.component';
@@ -50,6 +50,9 @@ import { MessageDialogComponent } from './components/message-dialog/message-dial
 import { EditMessageDialogComponent } from './components/edit-message-dialog/edit-message-dialog.component';
 import { DeleteMessageDialogComponent } from './components/delete-message-dialog/delete-message-dialog.component';
 import { ProfilePictureComponent } from './components/profile-picture/profile-picture.component';
+import {MatStepperModule} from "@angular/material/stepper";
+import {ReactiveFormsModule} from "@angular/forms";
+import {MatDatepickerModule} from "@angular/material/datepicker";
 @NgModule({
   declarations: [
     AppComponent,
@@ -83,26 +86,30 @@ import { ProfilePictureComponent } from './components/profile-picture/profile-pi
     DeleteMessageDialogComponent,
     ProfilePictureComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatButtonModule,
-        HttpClientModule,
-        MatSidenavModule,
-        MatToolbarModule,
-        MatIconModule,
-        NgxPermissionsModule.forRoot(),
-        NgxPermissionsRestrictStubModule,
-        MatMenuModule,
-        ScrollingModule,
-        MatTableModule,
-        MatRippleModule,
-        MatDialogModule,
-        MatSnackBarModule
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    HttpClientModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatIconModule,
+    NgxPermissionsModule.forRoot(),
+    NgxPermissionsRestrictStubModule,
+    MatMenuModule,
+    ScrollingModule,
+    MatTableModule,
+    MatRippleModule,
+    MatDialogModule,
+    MatSnackBarModule,
+    MatStepperModule,
+    ReactiveFormsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+  ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: BackEndUrlInterceptor, multi: true },
     AdminGuardsGuard
