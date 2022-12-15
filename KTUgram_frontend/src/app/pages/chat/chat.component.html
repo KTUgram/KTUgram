@@ -1,5 +1,5 @@
 
-<cdk-virtual-scroll-viewport class="viewport" itemSize="600">
+<cdk-virtual-scroll-viewport class="viewport" itemSize="100">
   <div *ngIf="users" class="page-container">
     <div *cdkVirtualFor="let user of users">
       <app-message [messages]="getUserMessages(user.id)" (onMessage)="onOpenMessages($event)"  [user]="user"></app-message>

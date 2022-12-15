@@ -1,16 +1,17 @@
 import {Component, EventEmitter, Inject, OnInit, Output} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MessageService} from "../../services/messageService";
 import {Message} from "../../models/message";
 import {Post} from "../../models/post";
 import {Comment} from "../../models/comment";
 import {User} from "../../models/user";
-import {Time} from "@angular/common";
+import {Time, ViewportScroller} from "@angular/common";
 import {EditCommentDialogComponent} from "../edit-comment-dialog/edit-comment-dialog.component";
 import {EditMessageDialogComponent} from "../edit-message-dialog/edit-message-dialog.component";
 import {DeleteDialogComponent} from "../delete-dialog/delete-dialog.component";
 import {DeleteMessageDialogComponent} from "../delete-message-dialog/delete-message-dialog.component";
+import {SearchMessageDialogComponent} from "../search-message-dialog/search-message-dialog.component";
 
 @Component({
   selector: 'app-message-dialog',
@@ -19,7 +20,7 @@ import {DeleteMessageDialogComponent} from "../delete-message-dialog/delete-mess
 })
 export class MessageDialogComponent implements OnInit {
 
-  constructor(@Inject(MAT_DIALOG_DATA) private data: any, private messageService: MessageService, private dialog: MatDialog, private snackbar: MatSnackBar) {}
+  constructor(@Inject(MAT_DIALOG_DATA) private data: any, private viewPortScroller: ViewportScroller, private messageService: MessageService, private dialog: MatDialog, private snackbar: MatSnackBar, private dialogRef: MatDialogRef<MessageDialogComponent>) {}
 
   otherUserMessages!: Message[];
   allMessages!: Message[];
@@ -42,20 +43,29 @@ export class MessageDialogComponent implements OnInit {
   }
   existsInUserMessages(message: Message){
     let value = false;
-    this.userMessages.forEach( (userMessage) => {
-      if(userMessage.id == message.id){
-        value = true;
-      }
-    })
+    if(this.userMessages != undefined) {
+      this.userMessages.forEach((userMessage) => {
+        if (userMessage.id == message.id) {
+          value = true;
+        }
+      })
+    }
     return value;
   }
+
+  onClose(){
+    this.dialogRef.close();
+  }
+
   existsInOtherUserMessages(message: Message){
     let value = false;
-    this.otherUserMessages.forEach( (userMessage) => {
-      if(userMessage.id == message.id){
-        value = true;
-      }
-    })
+    if(this.otherUserMessages != undefined){
+      this.otherUserMessages.forEach( (userMessage) => {
+        if(userMessage.id == message.id){
+          value = true;
+        }
+      })
+    }
     return value;
   }
 
@@ -86,12 +96,25 @@ export class MessageDialogComponent implements OnInit {
       }
     })
   }
+  onSearchMessageClick(){
+    let dialogRef = this.dialog.open(SearchMessageDialogComponent, {data: {allMessages: this.allMessages }});
+    dialogRef.afterClosed().subscribe((responseId) =>{
+      if(responseId != undefined) {
+        console.log(responseId);
+          const jumpMessage = document.getElementById(responseId);
+          if(jumpMessage != null){
+            jumpMessage.scrollIntoView();
+          }
+      }
+    })
+  }
   onDeleteMessageClick(message: Message){
     let dialogRef = this.dialog.open(DeleteMessageDialogComponent, {data: {message: message }});
     dialogRef.afterClosed().subscribe(response => {
       if(response == true){
         this.messageService.deleteMessage(message).subscribe(() => {
           this.getMessages();
+
         });
       }
     });

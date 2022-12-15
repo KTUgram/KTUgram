@@ -56,7 +56,7 @@ public class MessageController {
         User loggedUser = userService.findByPersonId(CurrentUserImpl.getId());
         for (User user: users) {
             UserDTO singleUser = Utils.convertUser(user);
-            if(loggedUser.getId() != singleUser.getId())
+            if(loggedUser.getId() != singleUser.getId() && singleUser.getStatus() != 2)
             {
                 usersDTO.add(Utils.convertUser(user));
             }

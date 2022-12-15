@@ -53,6 +53,8 @@ import { ProfilePictureComponent } from './components/profile-picture/profile-pi
 import {MatStepperModule} from "@angular/material/stepper";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatDatepickerModule} from "@angular/material/datepicker";
+import { SearchMessageDialogComponent } from './components/search-message-dialog/search-message-dialog.component';
+import { FoundMessageDialogComponent } from './components/found-message-dialog/found-message-dialog.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -84,7 +86,9 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
     DeleteDialogComponent,
     EditMessageDialogComponent,
     DeleteMessageDialogComponent,
-    ProfilePictureComponent
+    ProfilePictureComponent,
+    SearchMessageDialogComponent,
+    FoundMessageDialogComponent
   ],
   imports: [
     BrowserModule,

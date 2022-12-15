@@ -1,0 +1,30 @@
+<h1 matDialogTitle xmlns="http://www.w3.org/1999/html">Matching messages</h1>
+<div class="container" matDialogContent>
+  <div class="messages-container">
+    <div *ngFor="let Message of matchingMessages">
+      <div class="message-container">
+        <div class="message-content">
+          <div *ngIf="Message.writer_user && Message.writer_user.id != undefined">
+            <div class = "message-profile-container">
+              <div class="profile-img-container">
+                <img src="{{Message.writer_user.profile_pic}}">
+              </div>
+              <span  class="message-user-container" *ngIf="Message.writer_user">{{Message.writer_user.person.name}}</span>
+              <span class="message-content-container">{{Message.content}}</span>
+                <button mat-flat-button (click)="onJumpToMessage(Message)">Jump</button>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="message-details-container">
+          <div class="message-details-content"> Time: {{Message.date | date: 'yyyy-MM-dd'}} {{Message.time}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<div matDialogActions>
+  <button mat-flat-button (click)="onClose()">Close</button>
+</div>
