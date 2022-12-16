@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {UserService} from "../../services/userService";
 import {User} from "../../models/user";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Post} from "../../models/post";
 import {PostService} from "../../services/postService";
 import {Comment} from "../../models/comment";
@@ -16,7 +16,7 @@ import {MatDialog} from "@angular/material/dialog";
 })
 export class ProfilePageComponent implements OnInit {
 
-  constructor(private userService: UserService, private activeRoute: ActivatedRoute, private postService: PostService, private dialog: MatDialog) { }
+  constructor(private userService: UserService, private activeRoute: ActivatedRoute, private postService: PostService, private dialog: MatDialog, private router: Router) { }
 
   user!: User
   userPosts!: Post[];
@@ -35,11 +35,25 @@ export class ProfilePageComponent implements OnInit {
       if(param.get("id") != null){
         // @ts-ignore
         let id: number = +param.get("id");
-        this.userService.getUserById(id).subscribe(user => {
-          this.user = user;
-          this.getFollowingInfo();
+        this.userService.getUserById(id).subscribe(response => {
+          if(response.body != null && response.status == 200){
+            this.user = response.body;
+            this.getFollowingInfo();
+            this.getPosts(id);
+            return;
+          }
+
+          if(response.status == 204){
+            this.router.navigate(["/main"]);
+            return;
+          }
+
+          if(response.status == 202){
+            this.router.navigate(["/main/user-profile"]);
+            return;
+          }
+
         });
-        this.getPosts(id);
       }
     })
   }

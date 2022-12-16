@@ -32,8 +32,8 @@ export class UserService {
     return this.http.post('user/logout', {}).pipe();
   }
 
-  getUserById(id: number): Observable<User>{
-    return this.http.get<User>('user/getUserById/' + id).pipe();
+  getUserById(id: number): Observable<HttpResponse<User>>{
+    return this.http.get<User>('user/getUserById/' + id, {observe: 'response'}).pipe();
   }
 
   isLogged(): boolean{
@@ -70,5 +70,16 @@ export class UserService {
 
   isFollowing(id: number): Observable<boolean>{
     return this.http.get<boolean>('user/is-following/' + id).pipe();
+  }
+
+  getUser(): Observable<User>{
+    return this.http.get<User>('user/getUser').pipe();
+  }
+
+  updateProfile(about: string, profile_pic: any): Observable<void>{
+    const fd = new FormData();
+    fd.append('image', profile_pic)
+    fd.append('about', about)
+    return this.http.post<void>(  'user/update-profile', fd).pipe();
   }
 }

@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>Edit profile</h1>
+<div mat-dialog-content class="container">
+  <mat-form-field appearance="fill">
+    <mat-label>About</mat-label>
+    <textarea #about matInput required>{{data.about}}</textarea>
+  </mat-form-field>
+  <span>Change profile picture</span>
+  <app-upload-img (fileDropped)="onFileUpload($event)"></app-upload-img>
+</div>
+<div mat-dialog-actions>
+  <button mat-flat-button (click)="onDialogDone(about.value)">Done</button>
+  <button mat-flat-button (click)="onDialogClose()">Cancel</button>
+</div>

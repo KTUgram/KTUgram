@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {NgxPermissionsService} from "ngx-permissions";
 import {Post} from "../models/post";
 import {Comment} from "../models/comment";
+import {User} from "../models/user";
 
 @Injectable({ providedIn: 'root' })
 export class PostService {

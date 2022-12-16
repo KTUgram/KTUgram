@@ -56,6 +56,7 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import { SearchMessageDialogComponent } from './components/search-message-dialog/search-message-dialog.component';
 import { FoundMessageDialogComponent } from './components/found-message-dialog/found-message-dialog.component';
 import { UserCardComponent } from './components/user-card/user-card.component';
+import { EditProfileDialogComponent } from './components/edit-profile-dialog/edit-profile-dialog.component';
 
 @NgModule({
   declarations: [
@@ -91,7 +92,8 @@ import { UserCardComponent } from './components/user-card/user-card.component';
     ProfilePictureComponent,
     SearchMessageDialogComponent,
     FoundMessageDialogComponent,
-    UserCardComponent
+    UserCardComponent,
+    EditProfileDialogComponent
   ],
   imports: [
     BrowserModule,
