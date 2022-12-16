@@ -3,11 +3,9 @@
 
   <div class="info-container">
     <div class="profile-container">
-      <div class="profile-img-container">
-        <img src="{{user.profile_pic}}">
-      </div>
+      <app-profile-picture [pictureLocation]="user.profile_pic" width="50" height="50"></app-profile-picture>
       <div class="profile-name-container">
-        <a routerLink="/main/profile/{{user.id}}">{{user.person.username}} {{user.person.surname}}</a>
+        <a routerLink="/main/profile/{{user.id}}">{{user.person.username}}</a>
       </div>
       <div class="button-container">
         Send message:

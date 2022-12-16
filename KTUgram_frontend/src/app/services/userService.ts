@@ -51,4 +51,24 @@ export class UserService {
   userExists(username: string): Observable<boolean>{
     return this.http.get<boolean>('user/check-username?username=' + username).pipe();
   }
+
+  getFollowers(id: number): Observable<User[]>{
+    return this.http.get<User[]>('user/followers/' + id).pipe();
+  }
+
+  getFollowing(id: number): Observable<User[]>{
+    return this.http.get<User[]>('user/following/' + id).pipe();
+  }
+
+  getUserFollowing(): Observable<User[]>{
+    return this.http.get<User[]>('user/following').pipe();
+  }
+
+  updateFollow(id: number): Observable<void>{
+    return this.http.get<void>('user/update-follow/' + id).pipe();
+  }
+
+  isFollowing(id: number): Observable<boolean>{
+    return this.http.get<boolean>('user/is-following/' + id).pipe();
+  }
 }

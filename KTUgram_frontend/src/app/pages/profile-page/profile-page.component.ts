@@ -20,6 +20,9 @@ export class ProfilePageComponent implements OnInit {
 
   user!: User
   userPosts!: Post[];
+  following!: User[];
+  followers!: User[];
+  isFollowing: boolean = false;
   likedPostsId: number[] = [];
   postComments: Map<number, Comment[]> = new Map<number, Comment[]>();
 
@@ -34,10 +37,26 @@ export class ProfilePageComponent implements OnInit {
         let id: number = +param.get("id");
         this.userService.getUserById(id).subscribe(user => {
           this.user = user;
+          this.getFollowingInfo();
         });
         this.getPosts(id);
       }
     })
+  }
+
+  getFollowingInfo(){
+    if(this.user.id){
+      let id = this.user.id;
+      this.userService.getFollowers(id).subscribe(followers => {
+        this.followers = followers;
+      })
+      this.userService.getFollowing(id).subscribe(following => {
+        this.following = following;
+      })
+      this.userService.isFollowing(id).subscribe(response => {
+        this.isFollowing = response
+      })
+    }
   }
 
   getPosts(id: number){
@@ -91,4 +110,11 @@ export class ProfilePageComponent implements OnInit {
     return undefined;
   }
 
+  onFollowClicked(){
+    if(this.user.id){
+      this.userService.updateFollow(this.user.id).subscribe(() => {
+        this.getFollowingInfo();
+      });
+    }
+  }
 }

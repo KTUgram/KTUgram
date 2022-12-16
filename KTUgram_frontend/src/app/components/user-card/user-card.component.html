@@ -1,0 +1,11 @@
+<div *ngIf="user" class="container">
+  <div class="profile-pic">
+    <app-profile-picture [pictureLocation]="user.profile_pic" height="50" width="50"></app-profile-picture>
+  </div>
+  <div class="username-container">
+    <a routerLink="/main/profile/{{user.id}}">{{user.person.username}}</a>
+  </div>
+  <div class="unfollow-container">
+    <button class="unfollow-button" mat-flat-button color="primary" (click)="unfollowClicked()">Unfollow</button>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+.container{
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: 1fr 500px 1fr;
+}
+
+.user-container{
+  grid-column: 2 / span 1;
+}

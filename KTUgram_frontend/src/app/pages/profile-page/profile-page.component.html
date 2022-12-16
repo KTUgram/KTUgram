@@ -7,12 +7,12 @@
         </div>
         <div class="profile-name-info-container">
           <span>{{user.person.username}}</span>
-          <button mat-flat-button color="primary">Follow</button>
+          <button mat-flat-button color="primary" (click)="onFollowClicked()">{{isFollowing ? "Following" : "Follow"}}</button>
         </div>
         <div class="profile-social-info-container">
           <span class="posts-amount">{{userPosts.length}}</span>
-          <span class="followers-amount">100</span>
-          <span class="following-amount">15</span>
+          <span class="followers-amount">{{followers.length}}</span>
+          <span class="following-amount">{{following.length}}</span>
         </div>
         <div class="profile-about-info-container">
           <span>{{user.about}}</span>

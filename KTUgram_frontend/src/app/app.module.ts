@@ -55,6 +55,8 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import { SearchMessageDialogComponent } from './components/search-message-dialog/search-message-dialog.component';
 import { FoundMessageDialogComponent } from './components/found-message-dialog/found-message-dialog.component';
+import { UserCardComponent } from './components/user-card/user-card.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -88,7 +90,8 @@ import { FoundMessageDialogComponent } from './components/found-message-dialog/f
     DeleteMessageDialogComponent,
     ProfilePictureComponent,
     SearchMessageDialogComponent,
-    FoundMessageDialogComponent
+    FoundMessageDialogComponent,
+    UserCardComponent
   ],
   imports: [
     BrowserModule,

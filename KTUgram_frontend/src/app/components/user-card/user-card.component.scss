@@ -1,0 +1,47 @@
+@import "src/theme_variables";
+
+.container{
+  display: grid;
+  grid-template-columns: 50px 1fr 100px;
+  column-gap: 1rem;
+  margin-bottom: 1rem;
+  height: 80px;
+  background-color: $dark-bg-5;
+  border-radius: 10px;
+  padding: 0 1rem;
+
+  .profile-pic{
+    grid-column: 1 / span 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .username-container{
+    grid-column: 2 / span 1;
+    display: flex;
+    align-items: center;
+    font-size: medium;
+
+    a{
+      text-decoration: none;
+      color: white;
+    }
+  }
+
+  .unfollow-container{
+    grid-column: 3 / span 1;
+    display: flex;
+    align-items: center;
+
+    .unfollow-button{
+      height: 40px;
+      width: 100%;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+}
