@@ -108,10 +108,17 @@ public class PostController {
         Optional<Post> _likedPost = postService.getPostById(postId);
         if(_likedPost.isPresent()){
             Post likedPost = _likedPost.get();
-            LikedPost newLikedPost = new LikedPost();
-            newLikedPost.setUser(user);
-            newLikedPost.setPost(likedPost);
-            likedPostService.likedPostRepository.save(newLikedPost);
+            Optional<LikedPost> likedPostOpt = likedPostService.findUserLikedPost(user.getId(), postId);
+
+            if(likedPostOpt.isEmpty()){
+                LikedPost newLikedPost = new LikedPost();
+                newLikedPost.setUser(user);
+                newLikedPost.setPost(likedPost);
+                likedPostService.save(newLikedPost);
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+            System.out.println("liked");
+            likedPostService.delete(likedPostOpt.get());
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
