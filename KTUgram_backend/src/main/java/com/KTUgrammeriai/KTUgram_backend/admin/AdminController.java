@@ -17,15 +17,19 @@ import com.KTUgrammeriai.KTUgram_backend.user.UserRepository;
 import com.KTUgrammeriai.KTUgram_backend.user.UserService;
 import com.KTUgrammeriai.KTUgram_backend.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.Tuple;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static com.KTUgrammeriai.KTUgram_backend.utils.Utils.convertComment;
 
 @RestController
 public class AdminController {
@@ -95,22 +99,49 @@ public class AdminController {
 
     @GetMapping(value = "/admin/comments-by-user/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<List<CommentDTO>> getCommentsByUser(@PathVariable("id") long id){
+    public ResponseEntity<List<Pair<CommentDTO, Integer>>> getCommentsByUser(@PathVariable("id") long id){
         var comments = this.comments.commentRepository.findByUser_IdEquals(id);
-        List<CommentDTO> commentsDTO = new ArrayList<>();
+        List<Pair<CommentDTO, Integer>> commentsDTO = new ArrayList<>();
         for (Comment comment : comments){
-            commentsDTO.add(Utils.convertComment(comment));
+            var reports = this.commentReports.commentReportRepository.countByComment_IdEquals(comment.getId());
+            commentsDTO.add(Pair.of(convertComment(comment), reports));
         }
+        return new ResponseEntity<>(commentsDTO, HttpStatus.OK);
+    }
+    @GetMapping(value = "/admin/comments-by-user-sorted/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<Pair<CommentDTO, Integer>>> getCommentsByUserSorted(@PathVariable("id") long id){
+        var comments = this.comments.commentRepository.findByUser_IdEquals(id);
+        List<Pair<CommentDTO, Integer>> commentsDTO = new ArrayList<>();
+        for (Comment comment : comments){
+            var reports = this.commentReports.commentReportRepository.countByComment_IdEquals(comment.getId());
+            commentsDTO.add(Pair.of(convertComment(comment), reports));
+        }
+        commentsDTO.sort((final var f, final var s) -> s.getSecond().compareTo(f.getSecond()));
         return new ResponseEntity<>(commentsDTO, HttpStatus.OK);
     }
     @GetMapping(value = "/admin/commentsByAllUsers")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<List<CommentDTO>> getCommentsByAllUsers(){
+    public ResponseEntity<List<Pair<CommentDTO, Integer>>> getCommentsByAllUsers(){
         var comments = this.comments.commentRepository.findAll();
-        List<CommentDTO> commentsDTO = new ArrayList<>();
+        List<Pair<CommentDTO, Integer>> commentsDTO = new ArrayList<>();
         for (Comment comment : comments){
-            commentsDTO.add(Utils.convertComment(comment));
+            var reports = this.commentReports.commentReportRepository.countByComment_IdEquals(comment.getId());
+            commentsDTO.add(Pair.of(convertComment(comment), reports));
         }
+        return new ResponseEntity<>(commentsDTO, HttpStatus.OK);
+    }
+    @GetMapping(value = "/admin/commentsByAllUsersSortByReports")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<Pair<CommentDTO, Integer>>> getCommentsByAllUsersSortedByReports(){
+        var comments = this.comments.commentRepository.findAll();
+
+        List<Pair<CommentDTO, Integer>> commentsDTO = new ArrayList<>();
+        for (Comment comment : comments){
+            var reports = this.commentReports.commentReportRepository.countByComment_IdEquals(comment.getId());
+            commentsDTO.add(Pair.of(convertComment(comment), reports));
+        }
+        commentsDTO.sort((final var f, final var s) -> s.getSecond().compareTo(f.getSecond()));
         return new ResponseEntity<>(commentsDTO, HttpStatus.OK);
     }
 

@@ -2,6 +2,7 @@ import { Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Navigation, Route, Router} from "@angular/router";
 import { AdminService } from '../../../services/adminService';
 import {Comment} from "../../../models/comment";
+import {CommentTuple} from "../../../models/commentTuple";
 import { CommentReport } from '../../../models/commentReport';
 
 @Component({
@@ -15,7 +16,8 @@ export class CommentsPageComponent implements OnInit {
 
   id: string | null = null;
 
-  userComments!: Comment[]
+  userComments!: CommentTuple[]
+  wasSorted: boolean = false;
 
   ngOnInit(): void {
     this.activeRoute.paramMap.subscribe(map => {
@@ -23,12 +25,13 @@ export class CommentsPageComponent implements OnInit {
 
       if(this.id == null){
        this.id = "All comments";
-       this.adminService.getCommentsByAllUsers().subscribe((data: Comment[]) => {
+       this.adminService.getCommentsByAllUsers().subscribe((data: CommentTuple[]) => {
         this.userComments = data;
        });
+       
       }
       else{
-        this.adminService.getCommentsByUser(Number(this.id)).subscribe((data: Comment[]) => {
+        this.adminService.getCommentsByUser(Number(this.id)).subscribe((data: CommentTuple[]) => {
           this.userComments = data;
         });
       } 
@@ -37,20 +40,48 @@ export class CommentsPageComponent implements OnInit {
 
   deleteComment(id: number): void{
     this.adminService.deleteUserComment(id).subscribe(() => {
-      
-      if(this.id == "All comments"){
-      this.adminService.getCommentsByAllUsers().subscribe((data: Comment[]) => {
-        this.userComments = data;
-        });
-      }
-      else {
-        this.adminService.getCommentsByUser(Number(this.id)).subscribe((data: Comment[]) => {
-          this.userComments = data;
-        });
-      }
-      });   
+      this.GetItemsOnReload();    
+    });   
   }
 
+  sortByReports():void{
+    if(!this.wasSorted){
+      this.wasSorted = true;
+    }
+    else{
+      this.wasSorted = false;
+    }
+    this.GetItemsOnReload();
+  }
+
+
+  GetItemsOnReload() :void
+  {
+    if(this.wasSorted){
+      if(this.id == "All comments"){
+        this.adminService.getCommentsByAllUsersSortedByReports().subscribe((data: CommentTuple[]) => {
+          this.userComments = data;
+          });
+      }
+      else {
+          this.adminService.getCommentsByUserSortedByReports(Number(this.id)).subscribe((data: CommentTuple[]) => {
+            this.userComments = data;
+          });
+      }
+    }
+    else{
+      if(this.id == "All comments"){
+        this.adminService.getCommentsByAllUsers().subscribe((data: CommentTuple[]) => {
+          this.userComments = data;
+          });
+      }
+      else {
+          this.adminService.getCommentsByUser(Number(this.id)).subscribe((data: CommentTuple[]) => {
+            this.userComments = data;
+          });
+      }
+    }
+  }
   
-  displayedColumns: string[] = ["id", "content", "date", "time", "post", "user", "reports", "delete"];
+  displayedColumns: string[] = ["id", "content", "date", "time", "post", "user", "reports", "delete", "reportCount"];
 }

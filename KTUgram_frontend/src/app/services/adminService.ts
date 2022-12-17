@@ -8,6 +8,7 @@ import {Token} from "../models/token";
 import {Comment} from "../models/comment";
 import {Post} from "../models/post";
 import { CommentReport } from '../models/commentReport';
+import { CommentTuple } from '../models/commentTuple';
 
 @Injectable({ providedIn: 'root' })
 export class AdminService {
@@ -24,10 +25,10 @@ export class AdminService {
     return this.http.post<Token>("admin/unblockUserById/", id, { observe: 'response' }).pipe();
   }
   getCommentsByUser(id: number){
-    return this.http.get<Comment[]>('admin/comments-by-user/' + id).pipe();
+    return this.http.get<CommentTuple[]>('admin/comments-by-user/' + id).pipe();
   }
   getCommentsByAllUsers(){
-    return this.http.get<Comment[]>('admin/commentsByAllUsers').pipe();
+    return this.http.get<CommentTuple[]>('admin/commentsByAllUsers').pipe();
   }
   deleteUserComment(id: number){
     return this.http.post<Token>("admin/deleteUserComment/", id, {observe: 'response'}).pipe();
@@ -49,5 +50,11 @@ export class AdminService {
   deleteAllReportsByCommentId(id: number) //not used atm
   {
     return this.http.post<Token>("admin/deleteCommentReports", id, { observe: 'response'}).pipe();
+  }
+  getCommentsByAllUsersSortedByReports(){
+    return this.http.get<CommentTuple[]>("admin/commentsByAllUsersSortByReports").pipe();
+  }
+  getCommentsByUserSortedByReports(id: number){
+    return this.http.get<CommentTuple[]>('admin/comments-by-user-sorted/' + id).pipe();
   }
 }

@@ -8,4 +8,6 @@ import java.util.List;
 public interface CommentReportRepository extends CrudRepository<CommentReport, Long>{
     List<CommentReport> findByComment_IdEquals(long id);
     void deleteByComment_IdEquals(long id);
+    int countByComment_IdEquals(long id);
+
 }

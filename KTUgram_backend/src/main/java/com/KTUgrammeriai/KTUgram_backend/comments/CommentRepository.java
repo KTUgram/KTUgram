@@ -11,5 +11,4 @@ public interface CommentRepository extends CrudRepository<Comment, Long> {
     List<Comment> findByPost_IdEqualsAndUser_IdIsNot(long id, long id1);
 
     List<Comment> findByUser_IdEquals(long id);
-
 }

@@ -1,42 +1,50 @@
-<h1>Comments</h1>
+<div class = 'above-table'>
+  <h1 class="headas">All comments</h1>
 <p>of: {{id}}</p>
+<a class="sort-button" (click)="sortByReports()" mat-raised-button><mat-icon>sort</mat-icon></a>
+</div>
+
 
 <table mat-table [dataSource]="userComments" class="mat-elevation-z8">
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef> Id </th>
-      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.first.id}} </td>
     </ng-container>
     <ng-container matColumnDef="content">
       <th mat-header-cell *matHeaderCellDef> Content </th>
-      <td mat-cell *matCellDef="let element"> {{element.content}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.first.content}} </td>
     </ng-container>
     <ng-container matColumnDef="date">
       <th mat-header-cell *matHeaderCellDef> Date </th>
-      <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.first.date}} </td>
     </ng-container>
     <ng-container matColumnDef="time">
       <th mat-header-cell *matHeaderCellDef> Time </th>
-      <td mat-cell *matCellDef="let element"> {{element.time}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.first.time}} </td>
     </ng-container>
     <ng-container matColumnDef="post">
         <th mat-header-cell *matHeaderCellDef> Post </th>
-        <td mat-cell *matCellDef="let element"> {{element.post.title}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.first.post.title}} </td>
       </ng-container>
       <ng-container matColumnDef="user">
         <th mat-header-cell *matHeaderCellDef> User </th>
-        <td mat-cell *matCellDef="let element"> <a class='username-link' routerLink="/main/profile/{{element.user.id}}">{{element.user.person.username}}</a> </td>
+        <td mat-cell *matCellDef="let element"> <a class='username-link' routerLink="/main/profile/{{element.first.user.id}}">{{element.first.user.person.username}}</a> </td>
       </ng-container>
       <ng-container matColumnDef="reports">
         <th mat-header-cell *matHeaderCellDef> Reports </th >
         <td mat-cell *matCellDef="let element"> 
-          <a class="post-button" routerLink="/main/comments/reports/{{element.id}}" mat-raised-button><mat-icon>wysiwyg</mat-icon></a>
+          <a class="post-button" routerLink="/main/comments/reports/{{element.first.id}}" mat-raised-button><mat-icon>wysiwyg</mat-icon></a>
         </td>
       </ng-container>
     <ng-container matColumnDef="delete">
         <th mat-header-cell *matHeaderCellDef> Delete </th >
         <td mat-cell *matCellDef="let element"> 
-          <a class="delete-button" (click)="deleteComment(element.id)" mat-raised-button><mat-icon>delete</mat-icon></a>
+          <a class="delete-button" (click)="deleteComment(element.first.id)" mat-raised-button><mat-icon>delete</mat-icon></a>
         </td>
+      </ng-container>
+      <ng-container matColumnDef="reportCount">
+        <th mat-header-cell *matHeaderCellDef> Times reported </th>
+        <td mat-cell *matCellDef="let element"> {{element.second}} </td>
       </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
