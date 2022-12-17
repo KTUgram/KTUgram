@@ -2,6 +2,8 @@ package com.KTUgrammeriai.KTUgram_backend.utils;
 
 import com.KTUgrammeriai.KTUgram_backend.commentReports.CommentReport;
 import com.KTUgrammeriai.KTUgram_backend.commentReports.CommentReportDTO;
+import com.KTUgrammeriai.KTUgram_backend.blockedUsers.BlockedUsers;
+import com.KTUgrammeriai.KTUgram_backend.blockedUsers.BlockedUsersDTO;
 import com.KTUgrammeriai.KTUgram_backend.comments.Comment;
 import com.KTUgrammeriai.KTUgram_backend.comments.CommentDTO;
 import com.KTUgrammeriai.KTUgram_backend.messages.Message;
@@ -74,6 +76,7 @@ public class Utils {
 
         return userDTO;
     }
+
 
     public static Post convertPost(PostDTO postDTO){
         Post post = new Post();
@@ -163,6 +166,21 @@ public class Utils {
         message.setWriter_user(convertUser(messageDTO.getWriter_user()));
 
         return message;
+    }
+
+    public static BlockedUsers convertBlockedUsers(BlockedUsersDTO blockedUsersDTO){
+        BlockedUsers blockedUsers = new BlockedUsers();
+        blockedUsers.setId(blockedUsersDTO.getId());
+        blockedUsers.setBlockerUser(convertUser(blockedUsersDTO.getBlockerUser()));
+        blockedUsers.setBlockedUser(convertUser(blockedUsersDTO.getBlockedUser()));
+        return blockedUsers;
+    }
+    public static BlockedUsersDTO convertBlockedUsers(BlockedUsers blockedUser){
+        BlockedUsersDTO blockedUsersDTO = new BlockedUsersDTO();
+        blockedUsersDTO.setId(blockedUser.getId());
+        blockedUsersDTO.setBlockerUser(convertUser(blockedUser.getBlockerUser()));
+        blockedUsersDTO.setBlockedUser(convertUser(blockedUser.getBlockedUser()));
+        return blockedUsersDTO;
     }
 
     public static MessageDTO convertMessage(Message message){

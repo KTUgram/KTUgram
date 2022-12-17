@@ -1,0 +1,23 @@
+<h1 matDialogTitle>Blocked users</h1>
+<div *ngFor="let BlockedUser of blockedUsers">
+
+  <div *ngIf="BlockedUser && BlockedUser.id != undefined" class="person-card">
+    <div *ngIf="BlockedUser.blockedUser">
+    <div class="info-container">
+      <div class="profile-container">
+          <app-profile-picture [pictureLocation]="BlockedUser.blockedUser.profile_pic" width="50" height="50"></app-profile-picture>
+          <div class="profile-name-container">
+            <a routerLink="/main/profile/{{BlockedUser.blockedUser.id}}" (click)="onClose()">{{BlockedUser.blockedUser.person.username}}</a>
+          </div>
+        <div class="button-container">
+          Unblock
+          <button class="comment" (click)="onUnblockClick(BlockedUser.id)"><mat-icon>speaker_notes_off</mat-icon></button>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div matDialogActions>
+  <button mat-flat-button (click)="onClose()" >Close</button>
+</div>

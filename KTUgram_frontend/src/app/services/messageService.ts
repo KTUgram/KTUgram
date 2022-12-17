@@ -6,6 +6,7 @@ import {Post} from "../models/post";
 import {Comment} from "../models/comment";
 import {User} from "../models/user";
 import {Message} from "../models/message";
+import {BlockedUser} from "../models/blockedUser";
 
 @Injectable({ providedIn: 'root' })
 export class MessageService {
@@ -38,6 +39,17 @@ export class MessageService {
 
   editMessage(message: Message){
     return this.http.post('messages/edit-message', message).pipe();
+  }
+  blockMessages(id: number){
+    return this.http.get('messages/block-user-messages/' + id).pipe();
+  }
+
+  getBlockedUsers(){
+    return this.http.get<BlockedUser[]>('messages/get-blocked-users').pipe();
+  }
+
+  removeBlockedUser(id: number){
+    return this.http.get('messages/remove-blocked-user/' + id).pipe();
   }
 
   deleteMessage(message: Message){

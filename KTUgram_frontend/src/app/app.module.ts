@@ -58,6 +58,8 @@ import { SearchMessageDialogComponent } from './components/search-message-dialog
 import { FoundMessageDialogComponent } from './components/found-message-dialog/found-message-dialog.component';
 import { UserCardComponent } from './components/user-card/user-card.component';
 import { EditProfileDialogComponent } from './components/edit-profile-dialog/edit-profile-dialog.component';
+import { BlockUserMessageDialogComponent } from './components/block-user-message-dialog/block-user-message-dialog.component';
+import { BlockedUsersDialogComponent } from './components/blocked-users-dialog/blocked-users-dialog.component';
 
 @NgModule({
   declarations: [
@@ -95,7 +97,9 @@ import { EditProfileDialogComponent } from './components/edit-profile-dialog/edi
     SearchMessageDialogComponent,
     FoundMessageDialogComponent,
     UserCardComponent,
-    EditProfileDialogComponent
+    EditProfileDialogComponent,
+    BlockUserMessageDialogComponent,
+    BlockedUsersDialogComponent
   ],
   imports: [
     BrowserModule,

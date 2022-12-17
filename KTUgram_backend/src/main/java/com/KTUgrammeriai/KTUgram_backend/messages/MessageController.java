@@ -1,6 +1,10 @@
 package com.KTUgrammeriai.KTUgram_backend.messages;
 
 import com.KTUgrammeriai.KTUgram_backend.CurrentUserImpl;
+import com.KTUgrammeriai.KTUgram_backend.blockedUsers.BlockedUsers;
+import com.KTUgrammeriai.KTUgram_backend.blockedUsers.BlockedUsersDTO;
+import com.KTUgrammeriai.KTUgram_backend.blockedUsers.BlockedUsersRepository;
+import com.KTUgrammeriai.KTUgram_backend.blockedUsers.BlockedUsersService;
 import com.KTUgrammeriai.KTUgram_backend.comments.Comment;
 import com.KTUgrammeriai.KTUgram_backend.comments.CommentDTO;
 import com.KTUgrammeriai.KTUgram_backend.comments.CommentService;
@@ -38,6 +42,9 @@ public class MessageController {
     @Autowired
     MessageService messageService;
 
+    @Autowired
+    BlockedUsersService blockedUsersService;
+
     PersonService personService;
 
     @Autowired
@@ -53,16 +60,40 @@ public class MessageController {
     public ResponseEntity<List<UserDTO>> getUsers() {
         List<UserDTO> usersDTO = new ArrayList<>();
         List<User> users = userService.getAllUsers();
+        List<BlockedUsers> blockedUsers = blockedUsersService.getAllBlockedUsers();
         User loggedUser = userService.findByPersonId(CurrentUserImpl.getId());
         for (User user: users) {
             UserDTO singleUser = Utils.convertUser(user);
+            boolean blocked = false;
+            for(BlockedUsers blockedUser: blockedUsers){
+                if(blockedUser.getBlockerUser().getId() == loggedUser.getId() && blockedUser.getBlockedUser().getId() == singleUser.getId()){
+                    blocked = true;
+                    break;
+                }
+            }
             if(loggedUser.getId() != singleUser.getId() && singleUser.getStatus() != 2)
             {
-                usersDTO.add(Utils.convertUser(user));
+                if(!blocked) {
+                    usersDTO.add(Utils.convertUser(user));
+                }
             }
         }
 
         return new ResponseEntity<>(usersDTO, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/messages/get-blocked-users")
+    public ResponseEntity<List<BlockedUsersDTO>> getBlockedUsers() {
+        List<BlockedUsersDTO> blockedUsersDTO = new ArrayList<>();
+        List<BlockedUsers> blockedUsers = blockedUsersService.getAllBlockedUsers();
+        User loggedUser = userService.findByPersonId(CurrentUserImpl.getId());
+        for (BlockedUsers blockedUser: blockedUsers) {
+            if (blockedUser.getBlockerUser().getId() == loggedUser.getId()){
+                blockedUsersDTO.add(Utils.convertBlockedUsers(blockedUser));
+            }
+        }
+
+        return new ResponseEntity<>(blockedUsersDTO, HttpStatus.OK);
     }
 
     @GetMapping(value = "/messages/get-user/{id}")
@@ -108,6 +139,26 @@ public class MessageController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping(value = "/messages/block-user-messages/{id}")
+    public ResponseEntity<Void> blockUserMessages(@PathVariable("id") long otherUserId){
+        User loggedUser = userService.findByPersonId(CurrentUserImpl.getId());
+        UserDTO loggedUserDTO = Utils.convertUser(loggedUser);
+        Optional<User> user_opt = userService.getById(otherUserId);
+        if(user_opt.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        User otherUser = user_opt.get();
+        UserDTO otherUserDTO = Utils.convertUser(otherUser);
+        BlockedUsersDTO blockedUsersDTO = new BlockedUsersDTO();
+        blockedUsersDTO.setBlockerUser(loggedUserDTO);
+        blockedUsersDTO.setBlockedUser(otherUserDTO);
+        BlockedUsers blockedUsers = Utils.convertBlockedUsers(blockedUsersDTO);
+
+        blockedUsersService.saveBlockedUsers(blockedUsers);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @PostMapping(value = "/messages/edit-message")
     public ResponseEntity<Void> editMessage(@RequestBody MessageDTO messageDTO){
         Message message = Utils.convertMessage(messageDTO);
@@ -126,6 +177,26 @@ public class MessageController {
         Message message = Utils.convertMessage(messageDTO);
         messageService.MessageRepository.delete(message);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/messages/remove-blocked-user/{id}")
+    public ResponseEntity<Void> removeBlockedUser(@PathVariable("id") long blockedDataId){
+
+        User user = userService.findByPersonId(CurrentUserImpl.getId());
+        List<BlockedUsers> blockedUsers = blockedUsersService.getAllBlockedUsers();
+        System.out.println(blockedDataId);
+        for(BlockedUsers blockedUser: blockedUsers){
+            if(blockedUser.getId() == blockedDataId){
+                if(blockedUser.getBlockerUser().getId() == user.getId()) {
+                    blockedUsersService.deleteBlockedUser(blockedUser);
+                    return new ResponseEntity<>(HttpStatus.OK);
+                }
+                else{
+                    return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+                }
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 

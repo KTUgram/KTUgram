@@ -12,6 +12,7 @@ import {EditMessageDialogComponent} from "../edit-message-dialog/edit-message-di
 import {DeleteDialogComponent} from "../delete-dialog/delete-dialog.component";
 import {DeleteMessageDialogComponent} from "../delete-message-dialog/delete-message-dialog.component";
 import {SearchMessageDialogComponent} from "../search-message-dialog/search-message-dialog.component";
+import {BlockUserMessageDialogComponent} from "../block-user-message-dialog/block-user-message-dialog.component";
 
 @Component({
   selector: 'app-message-dialog',
@@ -91,7 +92,7 @@ export class MessageDialogComponent implements OnInit {
     dialogRef.afterClosed().subscribe(response => {
       if(response != undefined){
         this.messageService.editMessage(response).subscribe(() => {
-          this.getMessages();
+          this.dialogRef.close();
         })
       }
     })
@@ -107,6 +108,20 @@ export class MessageDialogComponent implements OnInit {
           }
       }
     })
+  }
+  onBlockUserClick(){
+    this.messageService.getUser(this.data.id).subscribe( user => {
+      let dialogRef = this.dialog.open(BlockUserMessageDialogComponent, {data: {user: user }});
+      dialogRef.afterClosed().subscribe(response => {
+        if(response == true) {
+          this.messageService.blockMessages(this.data.id).subscribe(() => {
+            this.getMessages();
+            this.onClose();
+
+          });
+        }
+      });
+    });
   }
   onDeleteMessageClick(message: Message){
     let dialogRef = this.dialog.open(DeleteMessageDialogComponent, {data: {message: message }});
