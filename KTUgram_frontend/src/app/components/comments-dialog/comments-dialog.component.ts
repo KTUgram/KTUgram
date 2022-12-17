@@ -6,6 +6,7 @@ import {Post} from "../../models/post";
 import {EditCommentDialogComponent} from "../edit-comment-dialog/edit-comment-dialog.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {DeleteDialogComponent} from "../delete-dialog/delete-dialog.component";
+import {ReportDialogComponent} from "../report-dialog/report-dialog.component";
 
 @Component({
   selector: 'app-comments-dialog',
@@ -65,6 +66,18 @@ export class CommentsDialogComponent implements OnInit {
     let dialogRef = this.dialog.open(DeleteDialogComponent, {data: {
       comment: comment.content
       }});
+    dialogRef.afterClosed().subscribe(result => {
+      if(result == true){
+        this.postService.deleteComment(comment).subscribe(() => {
+          this.getComments();
+        });
+      }
+    });
+  }
+
+  onReportCommentClick(comment: Comment)
+  {
+    let dialogRef = this.dialog.open(ReportDialogComponent, {data: {comment}});
     dialogRef.afterClosed().subscribe(result => {
       if(result == true){
         this.postService.deleteComment(comment).subscribe(() => {

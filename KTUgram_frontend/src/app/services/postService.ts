@@ -5,6 +5,7 @@ import {NgxPermissionsService} from "ngx-permissions";
 import {Post} from "../models/post";
 import {Comment} from "../models/comment";
 import {User} from "../models/user";
+import { CommentReport } from '../models/commentReport';
 
 @Injectable({ providedIn: 'root' })
 export class PostService {
@@ -53,6 +54,10 @@ export class PostService {
 
   deleteComment(comment: Comment){
     return this.http.post('posts/delete-comment', comment).pipe();
+  }
+
+  reportComment(reportComment: CommentReport){
+    return this.http.post('posts/report-comment', reportComment).pipe();
   }
 
   getPost(id: number): Observable<Post>{
