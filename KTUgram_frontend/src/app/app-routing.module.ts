@@ -17,6 +17,7 @@ import {CommentsPageComponent} from "./pages/admin/comments-page/comments-page.c
 import {UserCommentsPageComponent} from "./pages/admin/user-comments-page/user-comments-page.component";
 import {UserPostsPageComponent} from "./pages/admin/user-posts-page/user-posts-page.component";
 import { CommentReportsPageComponent } from './pages/admin/comments-page/reports/commentReports-page.component';
+import { UserReportsPageComponent } from './pages/admin/user-reports-page/user-reports-page.component';
 
 const routes: Routes = [
   {path: 'login', component: LoginPageComponent, canActivate: [NgxPermissionsGuard],
@@ -70,6 +71,12 @@ const routes: Routes = [
       data:{
         permissions: {
           only: ['USER', 'GUEST', 'ADMIN']
+        }
+      }},
+      {path: 'reports/:id', component: UserReportsPageComponent, canActivate: [NgxPermissionsGuard],
+      data:{
+        permissions: {
+          only: ['ADMIN']
         }
       }},
       {path: 'users', component: UsersComponent, canActivate: [NgxPermissionsGuard],

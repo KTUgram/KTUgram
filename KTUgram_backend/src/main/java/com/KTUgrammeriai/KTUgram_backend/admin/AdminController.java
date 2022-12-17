@@ -15,6 +15,8 @@ import com.KTUgrammeriai.KTUgram_backend.user.User;
 import com.KTUgrammeriai.KTUgram_backend.user.UserDTO;
 import com.KTUgrammeriai.KTUgram_backend.user.UserRepository;
 import com.KTUgrammeriai.KTUgram_backend.user.UserService;
+import com.KTUgrammeriai.KTUgram_backend.userReports.UserReportDTO;
+import com.KTUgrammeriai.KTUgram_backend.userReports.UserReportService;
 import com.KTUgrammeriai.KTUgram_backend.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
@@ -30,6 +32,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.KTUgrammeriai.KTUgram_backend.utils.Utils.convertComment;
+import static com.KTUgrammeriai.KTUgram_backend.utils.Utils.convertUserReport;
 
 @RestController
 public class AdminController {
@@ -44,6 +47,10 @@ public class AdminController {
 
     @Autowired
     private PostService posts;
+
+    @Autowired
+    private UserReportService userReports;
+
     @Autowired
     private CommentService comments;
 
@@ -96,6 +103,52 @@ public class AdminController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PostMapping(value = "/admin/deleteUserReport")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<Void> deleteUserReport(@RequestBody int id){
+        var report = userReports.userReportRepository.findById((long)id);
+        if(report.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        userReports.userReportRepository.delete(report.get());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/admin/getUserReportsById/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<UserReportDTO>> getUserReportsById(@PathVariable("id") long id){
+       var reports = userReports.userReportRepository.findByReportedUser_IdEquals(id);
+        List<UserReportDTO> reportsDTO = new ArrayList<>();
+        for (var report : reports)
+        {
+            reportsDTO.add(convertUserReport(report));
+        }
+        return new ResponseEntity<>(reportsDTO, HttpStatus.OK);
+    }
+    @PostMapping(value = "/admin/all-users-withReports")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<Pair<UserDTO, Integer>>> allUsersWithReports() {
+        List<User> users = this.users.getAllUsers();
+        List<Pair<UserDTO, Integer>> usersDTO = new ArrayList<>();
+        for (User user: users) {
+            var count = userReports.userReportRepository.countByReportedUser_IdEquals(user.getId());
+            usersDTO.add(Pair.of(Utils.convertUser(user), (int)count));
+        }
+        return new ResponseEntity<>(usersDTO, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/admin/all-users-withReportsSorted")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<Pair<UserDTO, Integer>>> allUsersSortedByReports() {
+        List<User> users = this.users.getAllUsers();
+        List<Pair<UserDTO, Integer>> usersDTO = new ArrayList<>();
+        for (User user: users) {
+            var count = userReports.userReportRepository.countByReportedUser_IdEquals(user.getId());
+            usersDTO.add(Pair.of(Utils.convertUser(user), (int)count));
+        }
+        usersDTO.sort((final var f, final var s) -> s.getSecond().compareTo(f.getSecond()));
+        return new ResponseEntity<>(usersDTO, HttpStatus.OK);
+    }
 
     @GetMapping(value = "/admin/comments-by-user/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")

@@ -1,37 +1,49 @@
+<div class = 'above-table'>
+  <a class="sort-button" (click)="sortUsersByReports()" mat-raised-button><mat-icon>sort</mat-icon></a>
+</div>
+
 <table mat-table [dataSource]="allUsers" class="mat-elevation-z8">
   <ng-container matColumnDef="id">
     <th mat-header-cell *matHeaderCellDef> Id </th>
-    <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+    <td mat-cell *matCellDef="let element"> {{element.first.id}} </td>
   </ng-container>
   <ng-container matColumnDef="username">
     <th mat-header-cell *matHeaderCellDef> Username </th>
-    <td mat-cell *matCellDef="let element"> <a class='username-link' routerLink="/main/profile/{{element.id}}">{{element.person.username}} </a></td>
+    <td mat-cell *matCellDef="let element"> <a class='username-link' routerLink="/main/profile/{{element.first.id}}">{{element.first.person.username}} </a></td>
   </ng-container>
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef> Name </th>
-    <td mat-cell *matCellDef="let element"> {{element.person.name}} </td>
+    <td mat-cell *matCellDef="let element"> {{element.first.person.name}} </td>
   </ng-container>
   <ng-container matColumnDef="surname">
     <th mat-header-cell *matHeaderCellDef> Surname </th>
-    <td mat-cell *matCellDef="let element"> {{element.person.surname}} </td>
+    <td mat-cell *matCellDef="let element"> {{element.first.person.surname}} </td>
   </ng-container>
   <ng-container matColumnDef="email">
     <th mat-header-cell *matHeaderCellDef> Email </th>
-    <td mat-cell *matCellDef="let element"> {{element.person.email}} </td>
+    <td mat-cell *matCellDef="let element"> {{element.first.person.email}} </td>
+  </ng-container>
+  <ng-container matColumnDef="reportCount">
+    <th mat-header-cell *matHeaderCellDef> Times reported </th>
+    <td mat-cell *matCellDef="let element"> {{element.second}} </td>
   </ng-container>
   <ng-container matColumnDef="comments">
     <th mat-header-cell *matHeaderCellDef> Comments </th>
-    <td mat-cell *matCellDef="let element"> <a class="comm-button" routerLink="/main/comments/{{element.id}}" mat-raised-button><mat-icon>comment</mat-icon></a> </td>
+    <td mat-cell *matCellDef="let element"> <a class="comm-button" routerLink="/main/comments/{{element.first.id}}" mat-raised-button><mat-icon>comment</mat-icon></a> </td>
   </ng-container>
   <ng-container matColumnDef="posts">
     <th mat-header-cell *matHeaderCellDef> Posts </th>
-    <td mat-cell *matCellDef="let element"> <a class="post-button" routerLink="/main/posts/{{element.id}}" mat-raised-button><mat-icon>wysiwyg</mat-icon></a> </td>
+    <td mat-cell *matCellDef="let element"> <a class="post-button" routerLink="/main/posts/{{element.first.id}}" mat-raised-button><mat-icon>wysiwyg</mat-icon></a> </td>
+  </ng-container>
+  <ng-container matColumnDef="reports">
+    <th mat-header-cell *matHeaderCellDef> Reports </th>
+    <td mat-cell *matCellDef="let element"> <a class="reports-button" routerLink="/main/reports/{{element.first.id}}" mat-raised-button><mat-icon>wysiwyg</mat-icon></a> </td>
   </ng-container>
   <ng-container matColumnDef="block">
     <th mat-header-cell *matHeaderCellDef> Block </th >
     <td mat-cell *matCellDef="let element"> 
-      <a class="block-button" (click)="blockUser(element.id)" mat-raised-button *ngIf="element.status == 1"><mat-icon>blockquote</mat-icon></a>
-      <a class="unblock-button" (click)="unblockUser(element.id)" mat-raised-button *ngIf="element.status == 2"><mat-icon>restore</mat-icon></a>
+      <a class="block-button" (click)="blockUser(element.first.id)" mat-raised-button *ngIf="element.first.status == 1"><mat-icon>blockquote</mat-icon></a>
+      <a class="unblock-button" (click)="unblockUser(element.first.id)" mat-raised-button *ngIf="element.first.status == 2"><mat-icon>restore</mat-icon></a>
     </td>
   </ng-container>
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

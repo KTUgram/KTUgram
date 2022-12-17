@@ -4,11 +4,13 @@ import {NgxPermissionsService} from "ngx-permissions";
 import {Observable} from "rxjs";
 import * as http from "http";
 import {User} from "../models/user";
+import {UserTuple} from "../models/userTuple";
 import {Token} from "../models/token";
 import {Comment} from "../models/comment";
 import {Post} from "../models/post";
 import { CommentReport } from '../models/commentReport';
 import { CommentTuple } from '../models/commentTuple';
+import { UserReport } from '../models/userReport';
 
 @Injectable({ providedIn: 'root' })
 export class AdminService {
@@ -16,7 +18,10 @@ export class AdminService {
   }
 
   getAllUsers(){
-    return this.http.post<User[]>("admin/all-users", null).pipe();
+    return this.http.post<UserTuple[]>("admin/all-users-withReports", null).pipe();
+  }
+  getAllUsersSortedByReports(){
+    return this.http.post<UserTuple[]>("admin/all-users-withReportsSorted", null).pipe();
   }
   blockUser(id:number): Observable<HttpResponse<Token>> {
     return this.http.post<Token>("admin/blockUserById/", id, { observe: 'response' }).pipe();
@@ -56,5 +61,11 @@ export class AdminService {
   }
   getCommentsByUserSortedByReports(id: number){
     return this.http.get<CommentTuple[]>('admin/comments-by-user-sorted/' + id).pipe();
+  }
+  deleteUserReport(id: number){
+    return this.http.post<Token>("admin/deleteUserReport", id, { observe: 'response'}).pipe();
+  }
+  getUserReportsById(id: number){
+    return this.http.get<UserReport[]>("admin/getUserReportsById/" + id).pipe();
   }
 }

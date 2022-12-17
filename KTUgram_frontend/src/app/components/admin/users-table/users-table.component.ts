@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {User} from "../../../models/user";
+import {UserTuple} from "../../../models/userTuple";
 import {AdminService} from "../../../services/adminService";
 
 @Component({
@@ -11,28 +12,45 @@ export class UsersTableComponent implements OnInit {
 
   constructor(private adminService: AdminService) { }
 
-  allUsers!: User[];
+  allUsers!: UserTuple[];
+  wasSorted: boolean = false;
 
   ngOnInit(): void {
     this.adminService.getAllUsers().subscribe(data => {
       this.allUsers = data;
     })
   }
+
   blockUser(id: any): void{
-    console.log(id)
     this.adminService.blockUser(id).subscribe(()=>{
-      this.adminService.getAllUsers().subscribe(data => {
-        this.allUsers = data;
-      })
+      this.OnUpdate();
     });    
   }
+
   unblockUser(id: any):void{
     this.adminService.unblockUser(id).subscribe(()=>{
-      this.adminService.getAllUsers().subscribe(data => {
-        this.allUsers = data;
-      })
+      this.OnUpdate();
     });
   }
 
-  displayedColumns: string[] = ["id", "username", "name", "surname", "email", "comments", "posts", "block"];
+  sortUsersByReports():void{
+    this.wasSorted = !this.wasSorted;
+    this.OnUpdate();
+  }
+
+  OnUpdate():void
+  {
+    if(this.wasSorted){
+      this.adminService.getAllUsersSortedByReports().subscribe(data => {
+        this.allUsers = data;
+      });
+    }
+    else{
+      this.adminService.getAllUsers().subscribe(data => {
+        this.allUsers = data;
+      });
+    }
+  }
+
+  displayedColumns: string[] = ["id", "username", "name", "surname", "email", "comments", "posts", "reports", "reportCount", "block"];
 }

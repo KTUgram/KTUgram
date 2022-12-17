@@ -14,6 +14,8 @@ import com.KTUgrammeriai.KTUgram_backend.post.Post;
 import com.KTUgrammeriai.KTUgram_backend.post.PostDTO;
 import com.KTUgrammeriai.KTUgram_backend.user.User;
 import com.KTUgrammeriai.KTUgram_backend.user.UserDTO;
+import com.KTUgrammeriai.KTUgram_backend.userReports.UserReport;
+import com.KTUgrammeriai.KTUgram_backend.userReports.UserReportDTO;
 
 public class Utils {
 
@@ -151,6 +153,34 @@ public class Utils {
         reportDTO.setId((report.getId()));
         reportDTO.setReason(report.getReason());
         reportDTO.setReasonComment(report.getReasonComment());
+
+        return reportDTO;
+    }
+
+    public static UserReport convertUserReport(UserReportDTO reportDTO)
+    {
+        UserReport report = new UserReport();
+        report.setReporter(convertUser(reportDTO.getReporter()));
+        report.setReportedUser(convertUser(reportDTO.getReportedUser()));
+        report.setDate(reportDTO.getDate());
+        report.setTime(reportDTO.getTime());
+        report.setReason(reportDTO.getReason());
+        report.setId(reportDTO.getId());
+        report.setReasonComment(reportDTO.getReasonComment());
+
+        return report;
+    }
+
+    public static UserReportDTO convertUserReport(UserReport report)
+    {
+        UserReportDTO reportDTO = new UserReportDTO();
+        reportDTO.setReporter(convertUser(report.getReporter()));
+        reportDTO.setReportedUser(convertUser(report.getReportedUser()));
+        reportDTO.setDate(report.getDate());
+        reportDTO.setTime(report.getTime());
+        reportDTO.setId(report.getId());
+        reportDTO.setReasonComment(report.getReasonComment());
+        reportDTO.setReason(report.getReason());
 
         return reportDTO;
     }

@@ -42,6 +42,8 @@ table{
 .mat-column-email,
 .mat-column-comments,
 .mat-column-posts,
+.mat-column-reports,
+.mat-column-reportCount,
 .mat-column-block{
   color: white;
   width: 14%;
@@ -51,4 +53,8 @@ table{
 .username-link{
   text-decoration: none;
   color: white;
+}
+.above-table{
+  text-align: center;
+  padding-bottom: 1em;
 }
