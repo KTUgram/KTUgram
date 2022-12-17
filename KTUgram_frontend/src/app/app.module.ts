@@ -44,6 +44,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { CommentsDialogComponent } from './components/comments-dialog/comments-dialog.component';
 import { EditCommentDialogComponent } from './components/edit-comment-dialog/edit-comment-dialog.component';
 import { DeleteDialogComponent } from './components/delete-dialog/delete-dialog.component';
+import { ReportDialogComponent } from './components/report-dialog/report-dialog.component';
 import { MessageComponent } from './components/message/message.component';
 import { ChatComponent } from './components/chat/chat.component';
 import {ChatPageComponent} from "./pages/chat/chat.component";
@@ -91,6 +92,7 @@ import { BlockedUsersDialogComponent } from './components/blocked-users-dialog/b
     CommentsDialogComponent,
     EditCommentDialogComponent,
     DeleteDialogComponent,
+    ReportDialogComponent,
     EditMessageDialogComponent,
     DeleteMessageDialogComponent,
     ProfilePictureComponent,

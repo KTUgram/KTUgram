@@ -1,6 +1,10 @@
 package com.KTUgrammeriai.KTUgram_backend.post;
 
 import com.KTUgrammeriai.KTUgram_backend.CurrentUserImpl;
+import com.KTUgrammeriai.KTUgram_backend.commentReports.CommentReport;
+import com.KTUgrammeriai.KTUgram_backend.commentReports.CommentReportDTO;
+import com.KTUgrammeriai.KTUgram_backend.commentReports.CommentReportRepository;
+import com.KTUgrammeriai.KTUgram_backend.commentReports.CommentReportService;
 import com.KTUgrammeriai.KTUgram_backend.comments.Comment;
 import com.KTUgrammeriai.KTUgram_backend.comments.CommentDTO;
 import com.KTUgrammeriai.KTUgram_backend.comments.CommentService;
@@ -19,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.Console;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +43,9 @@ public class PostController {
 
     @Autowired
     CommentService commentService;
+    
+    @Autowired
+    CommentReportService commentReportservice;
 
     @PostMapping(value = "/posts/get-posts")
     public ResponseEntity<List<PostDTO>> allPosts() {
@@ -192,6 +200,20 @@ public class PostController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PostMapping(value = "/posts/report-comment")
+    public ResponseEntity<Void> reportComment(@RequestBody CommentReportDTO commentDTO){
+        System.out.println("aaaaaaaaaaaaa");
+        User user = userService.findByPersonId(CurrentUserImpl.getId());
+
+        commentDTO.setUser(Utils.convertUser(user));
+        
+        CommentReport comment = Utils.convertCommentReport(commentDTO);
+        
+        System.out.println(comment);
+        commentReportservice.commentReportRepository.save(comment);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @GetMapping(value = "/posts/get-post/{id}")
     public ResponseEntity<PostDTO> getPost(@PathVariable("id") long id){
         Optional<Post> post = postService.getPostById(id);
@@ -211,7 +233,6 @@ public class PostController {
         for(Post post : userPosts){
             userPostsDTO.add(Utils.convertPost(post));
         }
-
         return new ResponseEntity<>(userPostsDTO, HttpStatus.OK);
     }
 }
