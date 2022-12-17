@@ -1,0 +1,9 @@
+<h1 matDialogTitle>Block user</h1>
+<div matDialogContent>
+  <p>Are you sure you want to block this user:</p>
+  <p>{{user.person.username}}</p>
+</div>
+<div matDialogActions>
+  <button color="primary" mat-flat-button (click)="onBlock()">Block</button>
+  <button mat-flat-button (click)="onCancel()">Cancel</button>
+</div>

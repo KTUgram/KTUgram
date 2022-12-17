@@ -7,6 +7,9 @@ import {Message} from "../../models/message";
 import {CommentsDialogComponent} from "../../components/comments-dialog/comments-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {MessageDialogComponent} from "../../components/message-dialog/message-dialog.component";
+import {BlockedUser} from "../../models/blockedUser";
+import {BlockedUsersDialogComponent} from "../../components/blocked-users-dialog/blocked-users-dialog.component";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-chat',
@@ -15,15 +18,20 @@ import {MessageDialogComponent} from "../../components/message-dialog/message-di
 })
 export class ChatPageComponent implements OnInit {
 
-  constructor(private messageService: MessageService, private dialog: MatDialog) { }
+  constructor(private messageService: MessageService, private dialog: MatDialog, private snackbar: MatSnackBar) { }
 
 
   users !: User[];
   userMessages: Map<number, Message[]> = new Map<number, Message[]>();
 
+  blockedUsers !: BlockedUser[];
+
   ngOnInit(): void {
     this.getUsers();
+    this.getBlockedUsers();
   }
+
+
 
   getUsers(){
     this.messageService.getAllUsers().subscribe(data => {
@@ -40,6 +48,11 @@ export class ChatPageComponent implements OnInit {
         }
       })
     });
+  }
+  getBlockedUsers(){
+    this.messageService.getBlockedUsers().subscribe(data => {
+      this.blockedUsers = data;
+    })
   }
 
   getUserMessages(id: number): Message[] | undefined{
@@ -58,5 +71,27 @@ export class ChatPageComponent implements OnInit {
       this.getUsers();
     })
   }
-
+  onOpenBlockedUsers() {
+    this.messageService.getBlockedUsers().subscribe(data => {
+      this.blockedUsers = data;
+      if (this.blockedUsers.length != 0) {
+        let dialogRef = this.dialog.open(BlockedUsersDialogComponent, {
+          data: {
+            blockedUsers: this.blockedUsers
+          }
+        })
+        dialogRef.afterClosed().subscribe((blockDataId) => {
+          if (blockDataId != undefined) {
+            this.messageService.removeBlockedUser(blockDataId).subscribe(() => {
+              this.getUsers();
+              this.getBlockedUsers();
+            })
+          }
+        })
+      } else {
+        this.snackbar.open("Don't have blocked users", "Dismiss", {duration: 3000, panelClass: ['mat-accent']});
+        return;
+      }
+    })
+  }
 }

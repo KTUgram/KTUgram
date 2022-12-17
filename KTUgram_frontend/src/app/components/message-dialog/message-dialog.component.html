@@ -51,17 +51,19 @@
           </div>
       </div>
     </div>
-    <div class="add-message-container">
-      <mat-form-field appearance="outline">
-        <textarea #message matInput placeholder="Message" maxlength="200"></textarea>
-      </mat-form-field>
-    </div>
+
   </div>
+<div class="add-message-container">
+  <mat-form-field appearance="outline">
+    <textarea #message matInput style="" placeholder="Message" maxlength="200"></textarea>
+  </mat-form-field>
+</div>
   <div matDialogActions>
     <button color="primary" (click)="onAddMessageClick(message)" mat-flat-button>Send message</button>
 
     <button mat-flat-button (click)="onClose()" >Close</button>
     <button class="reload-button" (click)="onReloadMessagesClick()" mat-flat-button>Reload messages</button>
     <button class="reload-button" (click)="onSearchMessageClick()" mat-flat-button>Search messages</button>
+    <button class="reload-button" (click)="onBlockUserClick()" mat-flat-button>Block user</button>
   </div>
 

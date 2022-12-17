@@ -2,6 +2,8 @@
 
 .container{
   width: 800px;
+  overflow-y: clip;
+
 }
 
 .messages-container{
@@ -14,6 +16,7 @@
   align-items: center;
   position: relative;
   gap: 1rem;
+  padding-bottom: 370px;
 
   .message-container{
     width: 700px;
