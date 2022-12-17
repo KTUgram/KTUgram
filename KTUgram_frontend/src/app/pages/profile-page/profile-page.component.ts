@@ -116,6 +116,21 @@ export class ProfilePageComponent implements OnInit {
     })
   }
 
+
+  /*onReport(content: string){
+    
+    let report: CommentReport = {reason: 1, comment: this.comment, reasonComment: content};
+
+    this.postService.reportComment(report).subscribe(() =>
+    {
+      this.dialogRef.close(content); 
+    });       
+  }*/
+  onReportClick(content: string){
+
+    console.log("aaaaaaaa");
+  }
+
   getPostComments(id: number): Comment[] | undefined{
     let comments = this.postComments.get(id);
     if(comments){
