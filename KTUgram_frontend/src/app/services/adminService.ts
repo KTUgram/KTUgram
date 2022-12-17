@@ -7,6 +7,7 @@ import {User} from "../models/user";
 import {Token} from "../models/token";
 import {Comment} from "../models/comment";
 import {Post} from "../models/post";
+import { CommentReport } from '../models/commentReport';
 
 @Injectable({ providedIn: 'root' })
 export class AdminService {
@@ -36,5 +37,17 @@ export class AdminService {
   }
   deleteUserPost(id: number){
     return this.http.post<Token>("admin/deleteUserPost/", id, {observe: 'response'}).pipe();
+  }
+  getCommentReportsByCommentId(id: number)
+  {
+    return this.http.get<CommentReport[]>("admin/reportsByCommentId/" + id).pipe();
+  }
+  deleteCommentReportById(id: number){
+    return this.http.post<Token>("admin/deleteCommentReportById/", id, { observe: 'response'}).pipe();
+  }
+
+  deleteAllReportsByCommentId(id: number) //not used atm
+  {
+    return this.http.post<Token>("admin/deleteCommentReports", id, { observe: 'response'}).pipe();
   }
 }

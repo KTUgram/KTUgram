@@ -2,6 +2,9 @@ package com.KTUgrammeriai.KTUgram_backend.admin;
 
 import com.KTUgrammeriai.KTUgram_backend.CurrentUserImpl;
 import com.KTUgrammeriai.KTUgram_backend.admin.*;
+import com.KTUgrammeriai.KTUgram_backend.commentReports.CommentReport;
+import com.KTUgrammeriai.KTUgram_backend.commentReports.CommentReportDTO;
+import com.KTUgrammeriai.KTUgram_backend.commentReports.CommentReportService;
 import com.KTUgrammeriai.KTUgram_backend.comments.Comment;
 import com.KTUgrammeriai.KTUgram_backend.comments.CommentDTO;
 import com.KTUgrammeriai.KTUgram_backend.comments.CommentService;
@@ -33,9 +36,36 @@ public class AdminController {
     private UserService users;
 
     @Autowired
+    private CommentReportService commentReports;
+
+    @Autowired
     private PostService posts;
     @Autowired
     private CommentService comments;
+
+    @GetMapping(value = "/admin/reportsByCommentId/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<List<CommentReportDTO>> getCommentReportsByCommentId(@PathVariable("id") long id){
+        var reports = commentReports.commentReportRepository.findByComment_IdEquals(id);
+        List<CommentReportDTO> commentsDTO = new ArrayList<>();
+        for (CommentReport commentr : reports){
+            commentsDTO.add(Utils.convertCommentReport(commentr));
+        }
+        return new ResponseEntity<>(commentsDTO, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/admin/deleteCommentReports")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<Void> deleteCommentReports(@RequestBody int id){
+        commentReports.commentReportRepository.deleteByComment_IdEquals(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @PostMapping(value = "/admin/deleteCommentReportById")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<Void> deleteCommentReportById(@RequestBody int id){
+        commentReports.commentReportRepository.deleteById((long)id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
     @PostMapping(value = "/admin/blockUserById")
     @PreAuthorize("hasAuthority('ADMIN')")
