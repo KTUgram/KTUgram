@@ -1,5 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import { symlinkSync } from 'fs';
 import {Comment} from "../../models/comment";
 import {CommentReport} from "../../models/commentReport";
 import {PostService} from "../../services/postService";
@@ -21,11 +22,12 @@ export class ReportDialogComponent implements OnInit {
 
   onReport(content: string){
     
-    let report: CommentReport = {id: 0,reason: 1, comment: this.comment, reasonComment: content};
+    let report: CommentReport = {reason: 1, comment: this.comment, reasonComment: content};
 
-
-    this.postService.reportComment(report);
-    this.dialogRef.close(content);    
+    this.postService.reportComment(report).subscribe(() =>
+    {
+      this.dialogRef.close(content); 
+    });       
   }
 
   onCancel(){

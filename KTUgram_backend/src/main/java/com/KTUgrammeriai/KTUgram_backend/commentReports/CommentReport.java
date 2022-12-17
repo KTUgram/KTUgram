@@ -5,6 +5,9 @@ import com.KTUgrammeriai.KTUgram_backend.user.User;
 import lombok.Data;
 
 import javax.persistence.*;
+
+import org.hibernate.annotations.CreationTimestamp;
+
 import java.sql.Time;
 import java.util.Date;
 
@@ -21,8 +24,10 @@ public class CommentReport {
     private int reason;
     @Column(name = "komentaras")
     private String reasonComment;
+    @CreationTimestamp
     @Column(name = "data")
     private Date date;
+    @CreationTimestamp
     @Column(name = "laikas")
     private Time time;
     @JoinColumn(name = "fk_komentaras")

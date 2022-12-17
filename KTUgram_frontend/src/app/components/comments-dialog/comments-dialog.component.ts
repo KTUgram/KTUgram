@@ -77,7 +77,7 @@ export class CommentsDialogComponent implements OnInit {
 
   onReportCommentClick(comment: Comment)
   {
-    let dialogRef = this.dialog.open(ReportDialogComponent, {data: comment});
+    let dialogRef = this.dialog.open(ReportDialogComponent, {data: {comment}});
     dialogRef.afterClosed().subscribe(result => {
       if(result == true){
         this.postService.deleteComment(comment).subscribe(() => {

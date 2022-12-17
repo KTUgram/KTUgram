@@ -202,14 +202,12 @@ public class PostController {
 
     @PostMapping(value = "/posts/report-comment")
     public ResponseEntity<Void> reportComment(@RequestBody CommentReportDTO commentDTO){
-        System.out.println("aaaaaaaaaaaaa");
         User user = userService.findByPersonId(CurrentUserImpl.getId());
 
         commentDTO.setUser(Utils.convertUser(user));
         
         CommentReport comment = Utils.convertCommentReport(commentDTO);
         
-        System.out.println(comment);
         commentReportservice.commentReportRepository.save(comment);
         return new ResponseEntity<>(HttpStatus.OK);
     }
