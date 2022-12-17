@@ -26,6 +26,12 @@
         <th mat-header-cell *matHeaderCellDef> User </th>
         <td mat-cell *matCellDef="let element"> <a class='username-link' routerLink="/main/profile/{{element.user.id}}">{{element.user.person.username}}</a> </td>
       </ng-container>
+      <ng-container matColumnDef="reports">
+        <th mat-header-cell *matHeaderCellDef> Reports </th >
+        <td mat-cell *matCellDef="let element"> 
+          <a class="post-button" routerLink="/main/comments/reports/{{element.id}}" mat-raised-button><mat-icon>wysiwyg</mat-icon></a>
+        </td>
+      </ng-container>
     <ng-container matColumnDef="delete">
         <th mat-header-cell *matHeaderCellDef> Delete </th >
         <td mat-cell *matCellDef="let element"> 

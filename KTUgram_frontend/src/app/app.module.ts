@@ -28,6 +28,7 @@ import { PostComponent } from './components/post/post.component';
 import {ScrollingModule} from "@angular/cdk/scrolling";
 import { RegisterConfirmPageComponent } from './pages/register-confirm-page/register-confirm-page.component';
 import { CommentsPageComponent } from './pages/admin/comments-page/comments-page.component';
+import { CommentReportsPageComponent } from './pages/admin/comments-page/reports/commentReports-page.component';
 import { UserCommentsPageComponent } from './pages/admin/user-comments-page/user-comments-page.component';
 import { UserPostsPageComponent } from './pages/admin/user-posts-page/user-posts-page.component';
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
@@ -78,6 +79,7 @@ import { BlockedUsersDialogComponent } from './components/blocked-users-dialog/b
     MessageComponent,
     RegisterConfirmPageComponent,
     CommentsPageComponent,
+    CommentReportsPageComponent,
     UserCommentsPageComponent,
     UserPostsPageComponent,
     ProfilePageComponent,

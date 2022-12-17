@@ -1,5 +1,7 @@
 package com.KTUgrammeriai.KTUgram_backend.utils;
 
+import com.KTUgrammeriai.KTUgram_backend.commentReports.CommentReport;
+import com.KTUgrammeriai.KTUgram_backend.commentReports.CommentReportDTO;
 import com.KTUgrammeriai.KTUgram_backend.blockedUsers.BlockedUsers;
 import com.KTUgrammeriai.KTUgram_backend.blockedUsers.BlockedUsersDTO;
 import com.KTUgrammeriai.KTUgram_backend.comments.Comment;
@@ -125,6 +127,32 @@ public class Utils {
         comment.setPost(convertPost(commentDTO.getPost()));
         return comment;
     }
+
+    public static CommentReport convertCommentReport(CommentReportDTO reportDTO)
+    {
+        CommentReport report = new CommentReport();
+        report.setComment(convertComment(reportDTO.getComment()));
+        report.setDate(reportDTO.getDate());
+        report.setTime(reportDTO.getTime());
+        report.setUser(convertUser(reportDTO.getUser()));
+        report.setId(reportDTO.getId());
+        report.setReason(reportDTO.getReason());
+
+        return report;
+    }
+    public static CommentReportDTO convertCommentReport(CommentReport report)
+    {
+        CommentReportDTO reportDTO = new CommentReportDTO();
+        reportDTO.setComment(convertComment(report.getComment()));
+        reportDTO.setTime(report.getTime());
+        reportDTO.setDate(report.getDate());
+        reportDTO.setUser(convertUser(report.getUser()));
+        reportDTO.setId((report.getId()));
+        reportDTO.setReason(report.getReason());
+
+        return reportDTO;
+    }
+
     public static Message convertMessage(MessageDTO messageDTO){
         Message message = new Message();
         message.setId(messageDTO.getId());
