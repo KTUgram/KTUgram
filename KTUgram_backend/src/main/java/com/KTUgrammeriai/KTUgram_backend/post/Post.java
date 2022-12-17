@@ -4,7 +4,7 @@ import com.KTUgrammeriai.KTUgram_backend.user.User;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.sql.Time;
+import java.time.LocalTime;
 import java.util.Date;
 
 @Data
@@ -16,9 +16,9 @@ public class Post {
     @Column(name = "id_irasas")
     private long id;
     @Column(name = "data", nullable = true)
-    private Date date;
+    private Date date = new Date();
     @Column(name = "laikas", nullable = true)
-    private Time time;
+    private LocalTime time = LocalTime.now();
     @Column(name = "apie")
     private String about;
     @Column(name = "turinys")
