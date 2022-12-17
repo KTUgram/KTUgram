@@ -9,4 +9,5 @@ export interface CommentReport{
   time?: Time;
   comment: Comment;
   user?: User;
+  reasonComment?: String;
 }

@@ -34,5 +34,5 @@ export class CommentReportsPageComponent implements OnInit {
     });
   }
 
-  displayedColumns: string[] = ["id", "reason", "date", "time", "comment", "user", "delete"];
+  displayedColumns: string[] = ["id", "reason", "reasonComment", "date", "time", "comment", "user", "delete"];
 }

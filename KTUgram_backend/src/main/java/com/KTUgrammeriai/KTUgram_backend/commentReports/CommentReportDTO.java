@@ -12,6 +12,7 @@ import java.util.Date;
 public class CommentReportDTO {
     private long id;
     private int reason;
+    private String reasonComment;
     private Date date;
     private Time time;
     private CommentDTO comment;

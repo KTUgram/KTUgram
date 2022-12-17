@@ -8,6 +8,10 @@
       <th mat-header-cell *matHeaderCellDef> Reason </th>
       <td mat-cell *matCellDef="let element"> {{element.reason}} </td>
     </ng-container>
+    <ng-container matColumnDef="reasonComment">
+      <th mat-header-cell *matHeaderCellDef> Reason comment </th>
+      <td mat-cell *matCellDef="let element"> {{element.reasonComment}} </td>
+    </ng-container>
     <ng-container matColumnDef="date">
       <th mat-header-cell *matHeaderCellDef> Date </th>
       <td mat-cell *matCellDef="let element"> {{element.date | date: 'yyyy-MM-dd'}} </td>

@@ -19,6 +19,8 @@ public class CommentReport {
     private long id;
     @Column(name = "priezastis")
     private int reason;
+    @Column(name = "komentaras")
+    private String reasonComment;
     @Column(name = "data")
     private Date date;
     @Column(name = "laikas")

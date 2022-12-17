@@ -9,13 +9,15 @@
   .mat-column-date,
   .mat-column-time,
   .mat-column-comment,
+  .mat-column-reasonComment,
   .mat-column-user,
   .mat-column-delete{
     color: white;
     width: 12.5%;
     text-align: center;
   }
-  .mat-column-comment{
+  .mat-column-comment, 
+  .mat-column-reasonComment{
     overflow: auto;
   }
   .mat-header-row{

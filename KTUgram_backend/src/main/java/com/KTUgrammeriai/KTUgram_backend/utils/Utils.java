@@ -133,6 +133,7 @@ public class Utils {
         CommentReport report = new CommentReport();
         report.setComment(convertComment(reportDTO.getComment()));
         report.setDate(reportDTO.getDate());
+        report.setReasonComment(reportDTO.getReasonComment());
         report.setTime(reportDTO.getTime());
         report.setUser(convertUser(reportDTO.getUser()));
         report.setId(reportDTO.getId());
@@ -149,6 +150,7 @@ public class Utils {
         reportDTO.setUser(convertUser(report.getUser()));
         reportDTO.setId((report.getId()));
         reportDTO.setReason(report.getReason());
+        reportDTO.setReasonComment(report.getReasonComment());
 
         return reportDTO;
     }
