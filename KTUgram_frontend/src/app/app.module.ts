@@ -66,6 +66,7 @@ import { ReportUserDialogComponent } from './components/report-user-dialog/repor
 import { ReportPostDialogComponent } from './components/report-post-dialog/report-post-dialog.component';
 import { DeletePostDialogComponent } from './components/delete-post-dialog/delete-post-dialog.component';
 import { RemoveProfileDialogComponent } from './components/remove-profile-dialog/remove-profile-dialog.component';
+import { WarnUserDialogComponent } from './components/admin/warn-user-dialog/warn-user-dialog.component';
 
 @NgModule({
   declarations: [
@@ -111,7 +112,8 @@ import { RemoveProfileDialogComponent } from './components/remove-profile-dialog
     BlockedUsersDialogComponent,
     UserReportsPageComponent,
     DeletePostDialogComponent,
-    RemoveProfileDialogComponent
+    RemoveProfileDialogComponent,
+    WarnUserDialogComponent
   ],
   imports: [
     BrowserModule,

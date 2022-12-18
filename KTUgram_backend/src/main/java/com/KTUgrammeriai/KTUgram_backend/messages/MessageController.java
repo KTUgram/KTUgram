@@ -8,6 +8,8 @@ import com.KTUgrammeriai.KTUgram_backend.blockedUsers.BlockedUsersService;
 import com.KTUgrammeriai.KTUgram_backend.comments.Comment;
 import com.KTUgrammeriai.KTUgram_backend.comments.CommentDTO;
 import com.KTUgrammeriai.KTUgram_backend.comments.CommentService;
+import com.KTUgrammeriai.KTUgram_backend.email.EmailDetails;
+import com.KTUgrammeriai.KTUgram_backend.email.EmailService;
 import com.KTUgrammeriai.KTUgram_backend.likedPosts.LikedPost;
 import com.KTUgrammeriai.KTUgram_backend.likedPosts.LikedPostDTO;
 import com.KTUgrammeriai.KTUgram_backend.likedPosts.LikedPostService;
@@ -55,6 +57,9 @@ public class MessageController {
 
     @Autowired
     CommentService commentService;
+
+    @Autowired
+    EmailService emailService;
 
     @GetMapping(value = "/messages/get-users")
     public ResponseEntity<List<UserDTO>> getUsers() {
@@ -136,6 +141,13 @@ public class MessageController {
         }
         Message message = Utils.convertMessage(messageDTO);
         messageService.MessageRepository.save(message);
+
+        EmailDetails email = new EmailDetails();
+        email.setRecipient(receiverUser.getPerson().getEmail());
+        email.setSubject("KTUGram messaging");
+        email.setMsgBody(String.format("You got a message from &s", loggedUser.getPerson().getUsername()));
+        emailService.sendSimpleMail(email);
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

@@ -8,6 +8,8 @@ import com.KTUgrammeriai.KTUgram_backend.commentReports.CommentReportService;
 import com.KTUgrammeriai.KTUgram_backend.comments.Comment;
 import com.KTUgrammeriai.KTUgram_backend.comments.CommentDTO;
 import com.KTUgrammeriai.KTUgram_backend.comments.CommentService;
+import com.KTUgrammeriai.KTUgram_backend.email.EmailDetails;
+import com.KTUgrammeriai.KTUgram_backend.email.EmailService;
 import com.KTUgrammeriai.KTUgram_backend.post.PostDTO;
 import com.KTUgrammeriai.KTUgram_backend.post.PostService;
 import com.KTUgrammeriai.KTUgram_backend.post.Post;
@@ -18,6 +20,8 @@ import com.KTUgrammeriai.KTUgram_backend.user.UserService;
 import com.KTUgrammeriai.KTUgram_backend.userReports.UserReportDTO;
 import com.KTUgrammeriai.KTUgram_backend.userReports.UserReportService;
 import com.KTUgrammeriai.KTUgram_backend.utils.Utils;
+import com.KTUgrammeriai.KTUgram_backend.warning.Warning;
+import com.KTUgrammeriai.KTUgram_backend.warning.WarningService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 import org.springframework.http.HttpStatus;
@@ -53,6 +57,12 @@ public class AdminController {
 
     @Autowired
     private CommentService comments;
+
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
+    private WarningService warningService;
 
     @GetMapping(value = "/admin/reportsByCommentId/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -233,4 +243,29 @@ public class AdminController {
         return new ResponseEntity<>(postsDTO, HttpStatus.OK);
     }
 
+    @PostMapping(value = "/admin/warn-user/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<Void> warnUser(@PathVariable(name = "id") long id, @RequestBody String message){
+        Optional<User> userToWarn = users.getById(id);
+        if(userToWarn.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Admin admin = adminService.findByPersonId(CurrentUserImpl.getId());
+
+        Warning warning = new Warning();
+        warning.setAdmin(admin);
+        warning.setUser(userToWarn.get());
+        warning.setComment(message);
+        warningService.save(warning);
+
+        EmailDetails email = new EmailDetails();
+        email.setRecipient(userToWarn.get().getPerson().getEmail());
+        email.setSubject("Warning from KTUGram administrators");
+        email.setMsgBody(message);
+        System.out.println(String.format("Sending mail to %s \nMail content: %s", userToWarn.get().getPerson().getEmail(), message));
+        emailService.sendSimpleMail(email);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

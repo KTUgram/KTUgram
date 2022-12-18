@@ -124,7 +124,7 @@ export class ProfilePageComponent implements OnInit {
     let dialogRef = this.dialog.open(ReportUserDialogComponent, {data: this.user});
     dialogRef.afterClosed().subscribe(result => {
       if(result == true){
-        
+
       }
     });
   }
@@ -143,5 +143,11 @@ export class ProfilePageComponent implements OnInit {
         this.getFollowingInfo();
       });
     }
+  }
+
+  onDeletePost(id: number){
+    this.postService.deletePost(id).subscribe(() => {
+      this.init();
+    });
   }
 }

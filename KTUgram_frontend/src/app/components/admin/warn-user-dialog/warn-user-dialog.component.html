@@ -1,0 +1,13 @@
+<div class="dialog-container">
+  <h1 matDialogTitle>Warn user</h1>
+  <div matDialogContent>
+    <mat-form-field appearance="outline">
+      <mat-label>Warn message</mat-label>
+      <textarea #message matInput></textarea>
+    </mat-form-field>
+  </div>
+  <div matDialogActions>
+    <button mat-flat-button color="primary" (click)="onSend(message.value)">Send</button>
+    <button mat-flat-button (click)="onClose()">Cancel</button>
+  </div>
+</div>

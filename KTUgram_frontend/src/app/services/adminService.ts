@@ -68,4 +68,9 @@ export class AdminService {
   getUserReportsById(id: number){
     return this.http.get<UserReport[]>("admin/getUserReportsById/" + id).pipe();
   }
+
+  warnUser(id: number, message: string): Observable<void>{
+    console.log(id, message);
+    return this.http.post<void>('admin/warn-user/' + id, message).pipe();
+  }
 }

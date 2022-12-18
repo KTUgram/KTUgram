@@ -12,5 +12,10 @@ public interface PostRepository extends CrudRepository<Post, Long> {
 
     boolean existsByIdAndUser_Id(long id, long id1);
 
+    List<Post> findByUser_IdAndStateOrderByIdDesc(long id, String state);
+    List<Post> findByStateOrderByIdDesc(String state);
+
+
+
 
 }
