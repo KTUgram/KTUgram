@@ -121,7 +121,6 @@ export class ProfilePageComponent implements OnInit {
   }
 
   onReportClick(){
-    console.log(this.user);
     let dialogRef = this.dialog.open(ReportUserDialogComponent, {data: this.user});
     dialogRef.afterClosed().subscribe(result => {
       if(result == true){

@@ -7,6 +7,7 @@ import {Comment} from "../models/comment";
 import {User} from "../models/user";
 import { CommentReport } from '../models/commentReport';
 import { UserReport } from '../models/userReport';
+import { PostReport } from '../models/postReport';
 
 @Injectable({ providedIn: 'root' })
 export class PostService {
@@ -57,12 +58,24 @@ export class PostService {
     return this.http.post('posts/delete-comment', comment).pipe();
   }
 
+  deletePost(post: Post){
+    return this.http.post('posts/delete-post', post).pipe();
+  }
+
   reportComment(reportComment: CommentReport){
     return this.http.post('posts/report-comment', reportComment).pipe();
   }
 
   reportUser(reportUser: UserReport){
     return this.http.post('posts/report-user', reportUser).pipe();
+  }
+
+  reportPost(reportPost: PostReport){
+    return this.http.post('posts/report-post', reportPost).pipe();
+  }
+
+  removeProfile(){
+    return this.http.post('posts/remove-user', null).pipe();
   }
 
   getPost(id: number): Observable<Post>{
@@ -72,4 +85,5 @@ export class PostService {
   getPostsByUser(id: number): Observable<Post[]>{
     return this.http.get<Post[]>('posts/get-posts-by-user/' + id).pipe();
   }
+  
 }
