@@ -56,8 +56,7 @@ public class PostController {
     @PostMapping(value = "/posts/get-posts")
     public ResponseEntity<List<PostDTO>> allPosts() {
         List<PostDTO> postsDTO = new ArrayList<>();
-        //List<Post> posts = postService.getAllPosts();
-        List<Post> posts = postService.postRepository.findByOrderByIdDesc();
+        List<Post> posts = postService.getAllPosts();
 
         for (Post post : posts){
             UserDTO userDTO = Utils.convertUser(post.getUser());
@@ -207,16 +206,17 @@ public class PostController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping(value = "/posts/delete-post")
-    public ResponseEntity<Void> deleteComment(@RequestBody PostDTO postDTO){
+    @GetMapping(value = "/posts/delete-post/{id}")
+    public ResponseEntity<Void> deletePost(@PathVariable(name = "id") long id){
         User user = userService.findByPersonId(CurrentUserImpl.getId());
 
-        if(postDTO.getUser().getId() != user.getId()){
+        if(!postService.isPostByUser(id, user.getId())){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
-        Post post = Utils.convertPost(postDTO);
-        postService.postRepository.delete(post);
+        Post post = postService.getPostById(id).get();
+        post.setState("2");
+        postService.postRepository.save(post);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

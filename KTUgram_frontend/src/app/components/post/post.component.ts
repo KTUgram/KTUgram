@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {Post} from "../../models/post";
 import {Comment} from "../../models/comment";
 import { DeletePostDialogComponent } from '../delete-post-dialog/delete-post-dialog.component';
@@ -7,15 +7,16 @@ import { MatDialog } from '@angular/material/dialog';
 import { userInfo } from 'os';
 import { User } from 'src/app/models/user';
 import { ReportPostDialogComponent } from '../report-post-dialog/report-post-dialog.component';
+import {UserService} from "../../services/userService";
 
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.scss']
 })
-export class PostComponent implements OnChanges {
+export class PostComponent implements OnInit {
 
-  constructor(private postService: PostService, private dialog: MatDialog) { }
+  constructor(private postService: PostService, private dialog: MatDialog, private userService: UserService) { }
 
   user?: User;
 
@@ -24,13 +25,12 @@ export class PostComponent implements OnChanges {
   @Input() comments: Comment[] | undefined;
   @Output() likedId: EventEmitter<number> = new EventEmitter<number>();
   @Output() onComment: EventEmitter<number> = new EventEmitter<number>();
+  @Output() onDelete: EventEmitter<number> = new EventEmitter<number>();
 
   ngOnInit(){
-    console.log("aaaaa");
-  }
-
-  ngOnChanges() {
-    console.log(this.post);
+    this.userService.getUser().subscribe(response => {
+      this.user = response;
+    })
   }
 
   onLike(){
@@ -40,13 +40,11 @@ export class PostComponent implements OnChanges {
   onOpenComments(){
     this.onComment.emit(this.post.id);
   }
-  onDeleteDialog()  {    
+  onDeleteDialog()  {
     let dialogRef = this.dialog.open(DeletePostDialogComponent);
     dialogRef.afterClosed().subscribe((result) => {
       if(result == true){
-        this.postService.deletePost(this.post).subscribe(() => {
-          
-        });
+        this.onDelete.emit(this.post.id);
       }
     });
   }
@@ -55,7 +53,7 @@ export class PostComponent implements OnChanges {
     let dialogRef = this.dialog.open(ReportPostDialogComponent, {data: this.user});
     dialogRef.afterClosed().subscribe(result => {
       if(result == true){
-        
+
       }
     });
   }

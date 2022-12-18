@@ -4,11 +4,11 @@
     <div class="upload-img-container">
       <p>Drag and drop</p>
       <p>or</p>
-      <label for="upld"></label>
+      <span>Upload an image</span>
     </div>
   </div>
   <div class="uploaded-img" *ngIf="uploadedUrl != null">
     <img [src]="uploadedUrl">
   </div>
 </div>
-<input #upload id="upld" type="file">
+<input #upload (change)="onUpload($event)" id="upld" type="file">

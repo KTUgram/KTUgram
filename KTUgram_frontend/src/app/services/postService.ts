@@ -58,8 +58,8 @@ export class PostService {
     return this.http.post('posts/delete-comment', comment).pipe();
   }
 
-  deletePost(post: Post){
-    return this.http.post('posts/delete-post', post).pipe();
+  deletePost(id: number){
+    return this.http.get('posts/delete-post/' + id).pipe();
   }
 
   reportComment(reportComment: CommentReport){
@@ -85,5 +85,5 @@ export class PostService {
   getPostsByUser(id: number): Observable<Post[]>{
     return this.http.get<Post[]>('posts/get-posts-by-user/' + id).pipe();
   }
-  
+
 }

@@ -40,6 +40,16 @@
       .profile-name-container{
         display: flex;
         align-items: center;
+        position: relative;
+
+        .buttonCont{
+          position: relative;
+          margin-left: auto;
+          background-color: transparent;
+          color: white;
+          border: none;
+          cursor: pointer;
+        }
 
         a{
           font-size: medium;
@@ -108,14 +118,6 @@
         transform: translateY(-50%);
       }
     }
-    .buttonCont{
-      
-      margin-right: auto;
-      background-color: transparent;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
     .not-liked, .comment{
       color: white;
     }
@@ -133,7 +135,7 @@
   }
   .buttonDropDown{
     align-self: center;
-    
-    
+
+
   }
 }

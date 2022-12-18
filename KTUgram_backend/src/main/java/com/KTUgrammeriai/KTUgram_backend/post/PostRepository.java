@@ -8,4 +8,9 @@ import java.util.List;
 public interface PostRepository extends CrudRepository<Post, Long> {
     public List<Post> findByUser_IdEquals(long id);
     public List<Post> findByOrderByIdDesc();
+    List<Post> findByStateIsOrderByDateDesc(String state);
+
+    boolean existsByIdAndUser_Id(long id, long id1);
+
+
 }

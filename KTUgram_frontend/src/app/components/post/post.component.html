@@ -7,6 +7,11 @@
       </div>
       <div class="profile-name-container">
         <a routerLink="/main/profile/{{post.user.id}}">{{post.user.person.username}}</a>
+        <button [matMenuTriggerFor]="menu" class="buttonCont"><mat-icon>more_vert</mat-icon></button>
+        <mat-menu #menu="matMenu">
+          <button *ngIf="user && user.id == post.user.id" mat-menu-item (click)="onDeleteDialog()">Delete</button>
+          <button *ngIf="user && user.id != post.user.id" mat-menu-item (click)="onReportDialog()">Report</button>
+        </mat-menu>
       </div>
     </div>
     <div class="title-container">
@@ -21,16 +26,11 @@
     <button class="not-liked" *ngIf="!liked" (click)="onLike()" ><mat-icon>favorite_outline</mat-icon></button>
     <button class="liked" *ngIf="liked" (click)="onLike()" ><mat-icon>favorite_fill</mat-icon></button>
     <button class="comment" (click)="onOpenComments()"><mat-icon>comment</mat-icon></button>
-    
+
     <p>Comments: {{comments ? comments.length : 0}}</p>
-      <button [matMenuTriggerFor]="menu" class="buttonCont"><mat-icon>more_vert</mat-icon></button>
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="onDeleteDialog()">Delete</button>
-        <button mat-menu-item (click)="onReportDialog()">Report</button>
-      </mat-menu>
   </div>
-  
-  
+
+
   <div class="info-container">
     <div class="about-container">
       <p>{{post.about}}</p>

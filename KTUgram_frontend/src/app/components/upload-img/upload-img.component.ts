@@ -18,7 +18,6 @@ export class UploadImgComponent implements OnInit {
   @Output() fileDropped: EventEmitter<any> = new EventEmitter<any>();
 
   onDrop(file: any){
-    console.log("Received File: ", file)
     this.fileDropped.emit(file)
     var reader = new FileReader();
     reader.readAsDataURL(file);
@@ -30,6 +29,17 @@ export class UploadImgComponent implements OnInit {
 
   onUploadClick(element: any){
     element.click();
+  }
+
+  onUpload(event: any){
+    let file = event.target.files[0];
+    this.fileDropped.emit(file);
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    reader.onload = (event) => {
+      this.uploadedUrl = reader.result;
+    }
   }
 
 }
