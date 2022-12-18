@@ -82,4 +82,9 @@ export class UserService {
     fd.append('about', about)
     return this.http.post<void>(  'user/update-profile', fd).pipe();
   }
+
+  confirmRegistration(code: string): Observable<HttpResponse<void>>{
+    return this.http.post<void>('user/confirm', code, {observe: "response"}).pipe();
+  }
+
 }

@@ -60,7 +60,7 @@ public class Utils {
         user.setBirthday(userDTO.getBirthday());
         user.setCountry(userDTO.getCountry());
         user.setCity(userDTO.getCity());
-
+        user.setConfirm(userDTO.getConfirm_nr());
         return user;
     }
 
@@ -75,7 +75,7 @@ public class Utils {
         userDTO.setBirthday(user.getBirthday());
         userDTO.setCountry(user.getCountry());
         userDTO.setCity(user.getCity());
-
+        userDTO.setConfirm_nr(user.getConfirm());
         return userDTO;
     }
 

@@ -1,10 +1,10 @@
 package com.KTUgrammeriai.KTUgram_backend.authentification;
 
-import com.KTUgrammeriai.KTUgram_backend.CurrentUserImpl;
 import com.KTUgrammeriai.KTUgram_backend.admin.AdminService;
+import com.KTUgrammeriai.KTUgram_backend.email.EmailDetails;
+import com.KTUgrammeriai.KTUgram_backend.email.EmailService;
 import com.KTUgrammeriai.KTUgram_backend.person.Person;
 import com.KTUgrammeriai.KTUgram_backend.person.PersonService;
-import com.KTUgrammeriai.KTUgram_backend.post.Post;
 import com.KTUgrammeriai.KTUgram_backend.user.RegisterUserDTO;
 import com.KTUgrammeriai.KTUgram_backend.user.User;
 import com.KTUgrammeriai.KTUgram_backend.user.UserDTO;
@@ -14,6 +14,7 @@ import com.KTUgrammeriai.KTUgram_backend.utils.Utils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -46,9 +47,12 @@ public class Authentication {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private EmailService emailService;
+
 
     @PostMapping(value = "/user/register")
-    public ResponseEntity<TokenResponse> register(@RequestParam("profile_pic") MultipartFile pic, @RequestParam("register_data") String data) throws IOException {
+    public ResponseEntity<TokenResponse> register(@Param("profile_pic") MultipartFile pic, @RequestParam("register_data") String data) throws IOException {
 
         ObjectMapper objectMapper = new ObjectMapper();
         RegisterUserDTO user = objectMapper.readValue(data, RegisterUserDTO.class);
@@ -61,13 +65,17 @@ public class Authentication {
         }
 
         String uploadDir = null;
-        String extension = pic.getOriginalFilename().split("\\.")[1];
-        if(extension != null) {
-            String fileName = RandomString.make(20) + "." + pic.getOriginalFilename().split("\\.")[1];
-            uploadDir = "images/profile_pics/";
-            FileUploadUtils.saveFile(uploadDir, fileName, pic);
-            uploadDir += fileName;
+
+        if(pic != null){
+            String extension = pic.getOriginalFilename().split("\\.")[1];
+            if(extension != null) {
+                String fileName = RandomString.make(20) + "." + pic.getOriginalFilename().split("\\.")[1];
+                uploadDir = "images/profile_pics/";
+                FileUploadUtils.saveFile(uploadDir, fileName, pic);
+                uploadDir += fileName;
+            }
         }
+
 
         Person newPerson = new Person();
         User newUser = new User();
@@ -82,6 +90,13 @@ public class Authentication {
         newUser.setProfile_pic(uploadDir);
         newUser.setStatus(1);
         newUser.setState(1);
+        newUser.setState(3);
+        newUser.setConfirm(RandomString.make(8));
+        EmailDetails email = new EmailDetails();
+        email.setRecipient(user.getPerson().getEmail());
+        email.setMsgBody(String.format("Hello %s %s, \nThank you for registering to KTUGram! \nYour confirmation code is: %s", user.getPerson().getName(), user.getPerson().getSurname(), newUser.getConfirm()));
+        email.setSubject("KTUGram Account Confirmation");
+        emailService.sendSimpleMail(email);
         userService.userRepository.save(newUser);
 
         return new ResponseEntity<>(HttpStatus.OK);
@@ -108,11 +123,20 @@ public class Authentication {
 
             if(!isAdmin) //check if user is blocked
             {
-                var status = userService.userRepository.findByPerson_Id(personId).getStatus();
+                int status = userService.userRepository.findByPerson_Id(personId).getStatus();
+                int state = userService.userRepository.findByPerson_Id(personId).getState();
                 if(status == 2) //blocked
                 {
                     System.out.println("Access attempt from a blocker user  " + tokenRequest.getUsername());
                     return new ResponseEntity<>(HttpStatus.valueOf(202));
+                }
+                if(state == 3){
+                    System.out.println("Access attempt from an unconfirmed user  " + tokenRequest.getUsername());
+                    return new ResponseEntity<>(HttpStatus.valueOf(203));
+                }
+                if(state == 2){
+                    System.out.println("Access attempt from a deleted user  " + tokenRequest.getUsername());
+                    return new ResponseEntity<>(HttpStatus.valueOf(204));
                 }
             }
             // create a cookie
@@ -135,6 +159,22 @@ public class Authentication {
 
     private HashMap<String, Object> getSettings() {
         return new HashMap();
+    }
+
+    @PostMapping(value = "/user/confirm")
+    public ResponseEntity<Void> confirmRegistration(@RequestBody String code){
+        Optional<User> user = userService.getUserByConfirmationCode(code);
+        System.out.println(code);
+
+        if(user.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        User _user = user.get();
+        _user.setConfirm(null);
+        _user.setState(1);
+        userService.userRepository.save(_user);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping(value = "/user/get-access-token", consumes = {"application/json"})
@@ -213,7 +253,6 @@ public class Authentication {
     }
 
     private List<String> getRights(final long employeeId, final boolean isAdmin) {
-        //return userService.getEmployeeRights(employeeId);
         return isAdmin ? List.of("ADMIN") : List.of("USER");
     }
 }

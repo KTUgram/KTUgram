@@ -37,6 +37,14 @@ export class LoginPageComponent implements OnInit {
       {
         this.snackBar.open("Your account has been blocked!", "Dismiss", {duration: 3000});
       }
+      else if(result.status == 203)
+      {
+        this.snackBar.open("Your account has not been confirmed. Please check your email", "Dismiss", {duration: 3000});
+      }
+      else if(result.status == 204)
+      {
+        this.snackBar.open("Your account has been deleted!", "Dismiss", {duration: 3000});
+      }
     })
   }
 
