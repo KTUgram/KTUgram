@@ -40,6 +40,16 @@
       .profile-name-container{
         display: flex;
         align-items: center;
+        position: relative;
+
+        .buttonCont{
+          position: relative;
+          margin-left: auto;
+          background-color: transparent;
+          color: white;
+          border: none;
+          cursor: pointer;
+        }
 
         a{
           font-size: medium;
@@ -122,5 +132,10 @@
       height: 20px;
       z-index: 100;
     }
+  }
+  .buttonDropDown{
+    align-self: center;
+
+
   }
 }

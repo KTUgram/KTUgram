@@ -15,4 +15,5 @@ public class UserDTO {
     private int status;
     private int state;
     private PersonDTO person;
+    private String confirm_nr;
 }

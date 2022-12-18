@@ -84,4 +84,11 @@ export class NewsfeedComponent implements OnInit {
     }
     return undefined;
   }
+
+  onDeletePost(id: number){
+    this.postService.deletePost(id).subscribe(() => {
+      this.getPosts();
+      this.getLikedPosts();
+    });
+  }
 }

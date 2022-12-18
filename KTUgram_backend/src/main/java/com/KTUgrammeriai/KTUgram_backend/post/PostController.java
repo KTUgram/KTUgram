@@ -56,8 +56,7 @@ public class PostController {
     @PostMapping(value = "/posts/get-posts")
     public ResponseEntity<List<PostDTO>> allPosts() {
         List<PostDTO> postsDTO = new ArrayList<>();
-        //List<Post> posts = postService.getAllPosts();
-        List<Post> posts = postService.postRepository.findByOrderByIdDesc();
+        List<Post> posts = postService.getAllPosts();
 
         for (Post post : posts){
             UserDTO userDTO = Utils.convertUser(post.getUser());
@@ -207,6 +206,20 @@ public class PostController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping(value = "/posts/delete-post/{id}")
+    public ResponseEntity<Void> deletePost(@PathVariable(name = "id") long id){
+        User user = userService.findByPersonId(CurrentUserImpl.getId());
+
+        if(!postService.isPostByUser(id, user.getId())){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        Post post = postService.getPostById(id).get();
+        post.setState("2");
+        postService.postRepository.save(post);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @PostMapping(value = "/posts/report-comment")
     public ResponseEntity<Void> reportComment(@RequestBody CommentReportDTO commentDTO){
         User user = userService.findByPersonId(CurrentUserImpl.getId());
@@ -218,7 +231,7 @@ public class PostController {
         commentReportservice.commentReportRepository.save(comment);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
+    
     @PostMapping(value = "/posts/report-user")
     public ResponseEntity<Void> reportUser(@RequestBody UserReportDTO userDTO){
         
@@ -231,6 +244,19 @@ public class PostController {
         userReportservice.userReportRepository.save(comment);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    /*@PostMapping(value = "/posts/report-post")
+    public ResponseEntity<Void> reportPost(@RequestBody PostReportDTO postDTO){
+        
+        User user = userService.findByPersonId(CurrentUserImpl.getId());
+
+        //userDTO.setReporter(Utils.convertUser(user));
+        
+        //UserReport comment = Utils.convertUserReport(userDTO);
+        
+        userReportservice.userReportRepository.save(comment);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }*/
 
     @GetMapping(value = "/posts/get-post/{id}")
     public ResponseEntity<PostDTO> getPost(@PathVariable("id") long id){
@@ -253,4 +279,5 @@ public class PostController {
         }
         return new ResponseEntity<>(userPostsDTO, HttpStatus.OK);
     }
+    
 }

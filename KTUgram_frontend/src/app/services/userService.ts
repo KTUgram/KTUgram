@@ -7,6 +7,7 @@ import {Person} from "../models/person";
 import {log} from "util";
 import {NgxPermissionsService} from "ngx-permissions";
 import {Post} from "../models/post";
+import { symlinkSync } from 'fs';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -81,5 +82,14 @@ export class UserService {
     fd.append('image', profile_pic)
     fd.append('about', about)
     return this.http.post<void>(  'user/update-profile', fd).pipe();
+  }
+
+  confirmRegistration(code: string): Observable<HttpResponse<void>>{
+    return this.http.post<void>('user/confirm', code, {observe: "response"}).pipe();
+  }
+  
+  removeProfile(){
+    console.log("sending yeet");
+    return this.http.post('user/remove-profile', null).pipe();
   }
 }

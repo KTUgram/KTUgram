@@ -1,0 +1,15 @@
+<h1 matDialogTitle>Report post</h1>
+<div matDialogContent>
+  <p>Report reason:</p>
+</div>
+<div matDialogContent class="report-comment-container">
+  <mat-form-field appearance="outline">
+    <textarea #content matInput maxlength="200"></textarea>
+  </mat-form-field>
+</div>
+<div matDialogActions>
+  <button color="primary" mat-flat-button (click)="onReport(content.value)">Report</button>
+  <button mat-flat-button (click)="onCancel()">Cancel</button>
+</div>
+
+

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from "@angular/router";
+import {UserService} from "../../services/userService";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-register-confirm-page',
@@ -8,13 +10,18 @@ import {Router} from "@angular/router";
 })
 export class RegisterConfirmPageComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private userService: UserService, private snackbar: MatSnackBar) { }
 
   ngOnInit(): void {
   }
 
-  confirmed(){
-    this.router.navigate(['/login']);
+  confirmed(code: string){
+    this.userService.confirmRegistration(code).subscribe(response => {
+      if(response.status == 200){
+        this.router.navigate(['/login']);
+        return;
+      }
+      this.snackbar.open("Incorrect code", "dismiss",{duration: 3000})
+    })
   }
-
 }

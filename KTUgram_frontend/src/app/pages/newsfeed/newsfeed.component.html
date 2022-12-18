@@ -2,7 +2,7 @@
   <button mat-flat-button class="primary-background add-btn" (click)="onAddPostClicked()"><mat-icon>add</mat-icon>Add Post</button>
   <div *ngIf="posts" class="page-container">
     <div *cdkVirtualFor="let post of posts">
-      <app-post [comments]="getPostComments(post.id)" (onComment)="onOpenComments($event)" [liked]="isLiked(post.id)" (likedId)="onPostLiked($event)" [post]="post"></app-post>
+      <app-post [comments]="getPostComments(post.id)" (onDelete)="onDeletePost($event)" (onComment)="onOpenComments($event)" [liked]="isLiked(post.id)" (likedId)="onPostLiked($event)" [post]="post"></app-post>
     </div>
   </div>
 </cdk-virtual-scroll-viewport>

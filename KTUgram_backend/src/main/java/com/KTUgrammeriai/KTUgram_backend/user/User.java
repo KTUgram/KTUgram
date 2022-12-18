@@ -33,4 +33,6 @@ public class User {
     @ManyToOne(optional = false)
     @JoinColumn(name = "fk_asmuo", nullable = false)
     private Person person;
+    @Column(name = "patvirtinimo_nr", nullable = true)
+    private String confirm;
 }

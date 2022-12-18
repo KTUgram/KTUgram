@@ -27,4 +27,8 @@ public class UserService {
     public boolean userExists(String username){
         return userRepository.existsByPerson_UsernameEquals(username);
     }
+
+    public Optional<User> getUserByConfirmationCode(String code){
+        return userRepository.findByConfirm(code);
+    }
 }

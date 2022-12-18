@@ -118,4 +118,25 @@ public class UserController {
         userService.userRepository.save(user);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    @PostMapping(value = "/user/remove-profile")
+    public ResponseEntity<Void> removeProfile() throws IOException {
+        
+        
+        User user = userService.findByPersonId(CurrentUserImpl.getId());
+        user.setState(2);
+        /*if(image != null){
+            System.out.println("Image is null");
+            String extension = image.getOriginalFilename().split("\\.")[1];
+            if(extension != null){
+                String fileName = RandomString.make(20) + "." + image.getOriginalFilename().split("\\.")[1];
+                String uploadDir = "images/profile-pics/";
+                FileUploadUtils.saveFile(uploadDir, fileName, image);
+                user.setProfile_pic(uploadDir + fileName);
+            }
+        }*/
+
+        userService.userRepository.save(user);
+        System.out.println("getting yeeted");
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

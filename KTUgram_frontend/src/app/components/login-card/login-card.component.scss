@@ -1,3 +1,5 @@
+@import "src/theme_variables";
+
 .login-card{
   padding: 20px 10px 20px 10px;
   width: 600px;
@@ -29,4 +31,8 @@ p{
 h3{
   font-size: xx-large;
   font-weight: bold;
+}
+
+a{
+  color: $primary;
 }
