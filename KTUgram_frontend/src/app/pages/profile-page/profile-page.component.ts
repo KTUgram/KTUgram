@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import {UserService} from "../../services/userService";
 import {User} from "../../models/user";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -8,6 +8,10 @@ import {Comment} from "../../models/comment";
 import {AddPostComponent} from "../../components/add-post/add-post.component";
 import {CommentsDialogComponent} from "../../components/comments-dialog/comments-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
+import { UserReport } from 'src/app/models/userReport';
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import { ReportUserDialogComponent } from 'src/app/components/report-user-dialog/report-dialog.component';
+import { ReportDialogComponent } from 'src/app/components/report-dialog/report-dialog.component';
 
 @Component({
   selector: 'app-profile-page',
@@ -116,19 +120,14 @@ export class ProfilePageComponent implements OnInit {
     })
   }
 
-
-  /*onReport(content: string){
-    
-    let report: CommentReport = {reason: 1, comment: this.comment, reasonComment: content};
-
-    this.postService.reportComment(report).subscribe(() =>
-    {
-      this.dialogRef.close(content); 
-    });       
-  }*/
-  onReportClick(content: string){
-
-    console.log("aaaaaaaa");
+  onReportClick(){
+    console.log(this.user);
+    let dialogRef = this.dialog.open(ReportUserDialogComponent, {data: this.user});
+    dialogRef.afterClosed().subscribe(result => {
+      if(result == true){
+        
+      }
+    });
   }
 
   getPostComments(id: number): Comment[] | undefined{

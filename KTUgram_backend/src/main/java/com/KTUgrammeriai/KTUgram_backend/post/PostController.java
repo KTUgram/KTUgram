@@ -14,6 +14,9 @@ import com.KTUgrammeriai.KTUgram_backend.likedPosts.LikedPostService;
 import com.KTUgrammeriai.KTUgram_backend.user.User;
 import com.KTUgrammeriai.KTUgram_backend.user.UserDTO;
 import com.KTUgrammeriai.KTUgram_backend.user.UserService;
+import com.KTUgrammeriai.KTUgram_backend.userReports.UserReport;
+import com.KTUgrammeriai.KTUgram_backend.userReports.UserReportDTO;
+import com.KTUgrammeriai.KTUgram_backend.userReports.UserReportService;
 import com.KTUgrammeriai.KTUgram_backend.utils.FileUploadUtils;
 import com.KTUgrammeriai.KTUgram_backend.utils.Utils;
 import net.bytebuddy.utility.RandomString;
@@ -47,10 +50,14 @@ public class PostController {
     @Autowired
     CommentReportService commentReportservice;
 
+    @Autowired
+    UserReportService userReportservice;
+
     @PostMapping(value = "/posts/get-posts")
     public ResponseEntity<List<PostDTO>> allPosts() {
         List<PostDTO> postsDTO = new ArrayList<>();
-        List<Post> posts = postService.getAllPosts();
+        //List<Post> posts = postService.getAllPosts();
+        List<Post> posts = postService.postRepository.findByOrderByIdDesc();
 
         for (Post post : posts){
             UserDTO userDTO = Utils.convertUser(post.getUser());
@@ -209,6 +216,19 @@ public class PostController {
         CommentReport comment = Utils.convertCommentReport(commentDTO);
         
         commentReportservice.commentReportRepository.save(comment);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/posts/report-user")
+    public ResponseEntity<Void> reportUser(@RequestBody UserReportDTO userDTO){
+        
+        User user = userService.findByPersonId(CurrentUserImpl.getId());
+
+        userDTO.setReporter(Utils.convertUser(user));
+        
+        UserReport comment = Utils.convertUserReport(userDTO);
+        
+        userReportservice.userReportRepository.save(comment);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

@@ -6,6 +6,7 @@ import {Post} from "../models/post";
 import {Comment} from "../models/comment";
 import {User} from "../models/user";
 import { CommentReport } from '../models/commentReport';
+import { UserReport } from '../models/userReport';
 
 @Injectable({ providedIn: 'root' })
 export class PostService {
@@ -58,6 +59,10 @@ export class PostService {
 
   reportComment(reportComment: CommentReport){
     return this.http.post('posts/report-comment', reportComment).pipe();
+  }
+
+  reportUser(reportUser: UserReport){
+    return this.http.post('posts/report-user', reportUser).pipe();
   }
 
   getPost(id: number): Observable<Post>{
