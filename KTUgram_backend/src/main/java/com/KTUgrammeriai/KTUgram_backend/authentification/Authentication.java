@@ -107,7 +107,7 @@ public class Authentication {
         Person person = personService.getPersonByUsername(tokenRequest.getUsername());
         if (person == null) {
             System.out.println("User not found by " + tokenRequest.getUsername());
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(HttpStatus.valueOf(205));
         }
 
         boolean passwordsMatched = false;

@@ -25,26 +25,35 @@ export class LoginPageComponent implements OnInit {
       localStorage.removeItem('username');
       localStorage.removeItem('loggedIn');
       localStorage.removeItem('perms');
-      if(result.body != null && result.status == 200){
-        localStorage.setItem('username', result.body.loggedInUserName);
-        localStorage.setItem('loggedIn', "1");
-        localStorage.setItem('perms', result.body.rights.toString());
-        this.permissionsService.loadPermissions(result.body.rights);
-        console.log(this.permissionsService.getPermissions());
-        this.router.navigate(["/main"]);
+
+      let snackBarMessage: string = "Could not log in";
+
+      switch (result.status) {
+        case 200:
+          if(result.body != null){
+            localStorage.setItem('username', result.body.loggedInUserName);
+            localStorage.setItem('loggedIn', "1");
+            localStorage.setItem('perms', result.body.rights.toString());
+            this.permissionsService.loadPermissions(result.body.rights);
+            console.log(this.permissionsService.getPermissions());
+            this.router.navigate(["/main"]);
+          }
+          break;
+        case 202:
+          snackBarMessage = "Your account has been blocked!";
+          break;
+        case 203:
+          snackBarMessage = "Your account has not been confirmed. Please check your email";
+          break;
+        case 204:
+          snackBarMessage = "Your account has been deleted!";
+          break;
+        case 205:
+          snackBarMessage = "Incorrect login credentials";
+          break;
       }
-      else if(result.status == 202)
-      {
-        this.snackBar.open("Your account has been blocked!", "Dismiss", {duration: 3000});
-      }
-      else if(result.status == 203)
-      {
-        this.snackBar.open("Your account has not been confirmed. Please check your email", "Dismiss", {duration: 3000});
-      }
-      else if(result.status == 204)
-      {
-        this.snackBar.open("Your account has been deleted!", "Dismiss", {duration: 3000});
-      }
+
+      this.snackBar.open(snackBarMessage, "Dismiss", {duration: 3000});
     })
   }
 
