@@ -51,9 +51,17 @@
           cursor: pointer;
         }
 
-        a{
-          font-size: medium;
+        .name-and-date{
+          display: flex;
+          flex-direction: column;
+          a{
+            font-size: medium;
+          }
+          span{
+            font-size: small;
+          };
         }
+
       }
     }
     .title-container{
