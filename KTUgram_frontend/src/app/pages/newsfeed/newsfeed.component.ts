@@ -7,6 +7,7 @@ import {AddPostComponent} from "../../components/add-post/add-post.component";
 import {MatDialog} from "@angular/material/dialog";
 import {CommentsDialogComponent} from "../../components/comments-dialog/comments-dialog.component";
 import {Comment} from "../../models/comment";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-newsfeed',
@@ -14,7 +15,7 @@ import {Comment} from "../../models/comment";
   styleUrls: ['./newsfeed.component.scss']
 })
 export class NewsfeedComponent implements OnInit {
-  constructor(private postService: PostService, private dialog: MatDialog) { }
+  constructor(private postService: PostService, private dialog: MatDialog, private snackbar: MatSnackBar) { }
 
   posts!: Post[];
   likedPostsId: number[] = [];
@@ -29,6 +30,7 @@ export class NewsfeedComponent implements OnInit {
     let dialogRef = this.dialog.open(AddPostComponent);
     dialogRef.afterClosed().subscribe((result: any) => {
       if(result == true){
+        this.snackbar.open("Successful operation", "Dismiss", {duration: 3000});
         this.getPosts();
       }
     })

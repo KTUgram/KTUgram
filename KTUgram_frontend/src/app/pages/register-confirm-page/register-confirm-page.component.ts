@@ -18,6 +18,7 @@ export class RegisterConfirmPageComponent implements OnInit {
   confirmed(code: string){
     this.userService.confirmRegistration(code).subscribe(response => {
       if(response.status == 200){
+        this.snackbar.open("Successful operation", "Dismiss", {duration: 3000});
         this.router.navigate(['/login']);
         return;
       }

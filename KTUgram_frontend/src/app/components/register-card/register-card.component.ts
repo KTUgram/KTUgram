@@ -4,6 +4,7 @@ import {UserService} from "../../services/userService";
 import {MatStepper} from "@angular/material/stepper";
 import {Person} from "../../models/person";
 import {User} from "../../models/user";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-register-card',
@@ -13,7 +14,7 @@ import {User} from "../../models/user";
 })
 export class RegisterCardComponent implements OnInit {
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService) { }
+  constructor(private formBuilder: FormBuilder, private userService: UserService, private snackbar: MatSnackBar) { }
 
   uploadedFile: any = null;
 
@@ -69,6 +70,7 @@ export class RegisterCardComponent implements OnInit {
     if(this.accountDetailsGroup.valid && this.accountDetailsGroup.controls.username.value){
       this.userService.userExists(this.accountDetailsGroup.controls.username.value).subscribe(exists => {
         if(exists){
+          this.snackbar.open("User already exists!", "Dismiss", {duration: 3000});
           return;
         }
         this.accountDetailsStepCompleted = true;

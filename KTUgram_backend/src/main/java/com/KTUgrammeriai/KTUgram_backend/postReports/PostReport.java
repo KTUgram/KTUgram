@@ -1,24 +1,21 @@
-package com.KTUgrammeriai.KTUgram_backend.commentReports;
+package com.KTUgrammeriai.KTUgram_backend.postReports;
 
-import com.KTUgrammeriai.KTUgram_backend.comments.Comment;
+import com.KTUgrammeriai.KTUgram_backend.post.Post;
 import com.KTUgrammeriai.KTUgram_backend.user.User;
 import lombok.Data;
-
-import javax.persistence.*;
-
 import org.hibernate.annotations.CreationTimestamp;
 
+import javax.persistence.*;
 import java.sql.Time;
 import java.util.Date;
 
-@Data
+@Table(name = "iraso_pranesimai")
 @Entity
-@Table(name = "komentaro_pranesimai")
-public class CommentReport {
-
+@Data
+public class PostReport {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name = "id_komentaro_pranesimas")
+    @Column(name = "id_iraso_pranesimas")
     private long id;
     @Column(name = "komentaras")
     private String reasonComment;
@@ -28,11 +25,10 @@ public class CommentReport {
     @CreationTimestamp
     @Column(name = "laikas")
     private Time time;
-    @JoinColumn(name = "fk_komentaras")
+    @JoinColumn(name = "fk_irasas")
     @ManyToOne
-    private Comment comment;
+    private Post post;
     @JoinColumn(name = "fk_klientas")
     @ManyToOne
     private User user;
-
 }

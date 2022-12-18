@@ -19,8 +19,6 @@ public class UserReport {
     @Id
     @Column(name = "id_kliento_pranesimas")
     private long id;
-    @Column(name = "priezastis")
-    private int reason;
     @Column(name = "komentaras")
     private String reasonComment;
     @CreationTimestamp

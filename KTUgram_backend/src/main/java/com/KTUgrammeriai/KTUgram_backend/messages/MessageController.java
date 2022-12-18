@@ -145,7 +145,7 @@ public class MessageController {
         EmailDetails email = new EmailDetails();
         email.setRecipient(receiverUser.getPerson().getEmail());
         email.setSubject("KTUGram messaging");
-        email.setMsgBody(String.format("You got a message from &s", loggedUser.getPerson().getUsername()));
+        email.setMsgBody(String.format("You got a message from %s", loggedUser.getPerson().getUsername()));
         emailService.sendSimpleMail(email);
 
         return new ResponseEntity<>(HttpStatus.OK);

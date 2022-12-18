@@ -9,5 +9,7 @@ public class CommentReportService {
     @Autowired
     public CommentReportRepository commentReportRepository;
 
-
+    public void save(CommentReport commentReport){
+        commentReportRepository.save(commentReport);
+    }
 }

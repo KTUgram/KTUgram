@@ -20,6 +20,7 @@ export class WarnUserDialogComponent implements OnInit {
       return;
     }
 
+    this.snackbar.open("Successful operation", "Dismiss", {duration: 3000});
     this.dialogRed.close(message);
   }
 

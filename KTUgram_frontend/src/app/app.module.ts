@@ -62,8 +62,6 @@ import { EditProfileDialogComponent } from './components/edit-profile-dialog/edi
 import { BlockUserMessageDialogComponent } from './components/block-user-message-dialog/block-user-message-dialog.component';
 import { BlockedUsersDialogComponent } from './components/blocked-users-dialog/blocked-users-dialog.component';
 import { UserReportsPageComponent } from './pages/admin/user-reports-page/user-reports-page.component';
-import { ReportUserDialogComponent } from './components/report-user-dialog/report-dialog.component';
-import { ReportPostDialogComponent } from './components/report-post-dialog/report-post-dialog.component';
 import { DeletePostDialogComponent } from './components/delete-post-dialog/delete-post-dialog.component';
 import { RemoveProfileDialogComponent } from './components/remove-profile-dialog/remove-profile-dialog.component';
 import { WarnUserDialogComponent } from './components/admin/warn-user-dialog/warn-user-dialog.component';
@@ -99,8 +97,6 @@ import { WarnUserDialogComponent } from './components/admin/warn-user-dialog/war
     EditCommentDialogComponent,
     DeleteDialogComponent,
     ReportDialogComponent,
-    ReportUserDialogComponent,
-    ReportPostDialogComponent,
     EditMessageDialogComponent,
     DeleteMessageDialogComponent,
     ProfilePictureComponent,
