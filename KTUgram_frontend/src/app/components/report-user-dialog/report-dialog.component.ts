@@ -1,6 +1,8 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import { symlinkSync } from 'fs';
+import { User } from 'src/app/models/user';
+import { UserReport } from 'src/app/models/userReport';
 import {Comment} from "../../models/comment";
 import {CommentReport} from "../../models/commentReport";
 import {PostService} from "../../services/postService";
@@ -10,24 +12,24 @@ import {PostService} from "../../services/postService";
   templateUrl: './report-dialog.component.html',
   styleUrls: ['./report-dialog.component.scss']
 })
-export class ReportDialogComponent implements OnInit {
+export class ReportUserDialogComponent implements OnInit {
 
-  constructor(@Inject(MAT_DIALOG_DATA) private data: any, private dialogRef: MatDialogRef<ReportDialogComponent>, private postService: PostService) { }
+  constructor(@Inject(MAT_DIALOG_DATA) private data: any, private dialogRef: MatDialogRef<ReportUserDialogComponent>, private postService: PostService) { }
 
-  comment!: Comment;
+  user!: User;
 
   ngOnInit(): void {
-    this.comment = this.data.comment;
+    this.user = this.data;
   }
 
   onReport(content: string){
     
-    let report: CommentReport = {reason: 1, comment: this.comment, reasonComment: content};
-
-    this.postService.reportComment(report).subscribe(() =>
+    let report: UserReport = {reasonComment: content, reportedUser: this.user, reason: 1};
+    console.log(this.user);
+    this.postService.reportUser(report).subscribe(() =>
     {
       this.dialogRef.close(content); 
-    });       
+    });      
   }
 
   onCancel(){

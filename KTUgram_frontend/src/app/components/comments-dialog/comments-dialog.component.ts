@@ -88,7 +88,6 @@ export class CommentsDialogComponent implements OnInit {
   }
   onClose(){
     this.dialog.closeAll();
-    console.log("aaaaa");
   }
   
 }

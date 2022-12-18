@@ -3,8 +3,8 @@ import {User} from "./user";
 
 export interface UserReport{
   id?: number;
-  date: Date;
-  time: Time;
+  date?: Date;
+  time?: Time;
   reasonComment: string;
   reason: number;
   reporter?: User;

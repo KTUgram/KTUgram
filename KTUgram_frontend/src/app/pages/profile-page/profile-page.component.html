@@ -8,6 +8,7 @@
         <div class="profile-name-info-container">
           <span>{{user.person.username}}</span>
           <button mat-flat-button color="primary" (click)="onFollowClicked()">{{isFollowing ? "Following" : "Follow"}}</button>
+          <button mat-flat-button color="secondary" (click)="onReportClick()">Report</button>
          
         </div>
         <div class="profile-social-info-container">
