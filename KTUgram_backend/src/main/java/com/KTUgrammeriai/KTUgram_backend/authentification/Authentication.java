@@ -247,8 +247,6 @@ public class Authentication {
 
     @GetMapping(path = "/user/check-username")
     public ResponseEntity<Boolean> checkUsername(@RequestParam("username") String username){
-        System.out.println(username);
-        System.out.println(userService.userExists(username));
         return new ResponseEntity<>(userService.userExists(username), HttpStatus.OK);
     }
 
