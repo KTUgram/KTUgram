@@ -21,7 +21,7 @@ public class PostService {
     public PostRepository postRepository;
 
     public List<Post> getAllPosts(){
-        return postRepository.findByStateIsOrderByDateDesc("1");
+        return postRepository.findByStateOrderByIdDesc("1");
     }
 
     public Optional<Post> getPostById(long id){
@@ -29,7 +29,7 @@ public class PostService {
     }
 
     public List<Post> getPostsByUser(long id){
-        return postRepository.findByUser_IdEquals(id);
+        return postRepository.findByUser_IdAndStateOrderByIdDesc(id, "1");
     }
 
     public boolean isPostByUser(long postId, long userId){
