@@ -26,10 +26,7 @@ export class ReportPostDialogComponent implements OnInit {
     
     let report: UserReport = {reasonComment: content, reportedUser: this.user, reason: 1};
     console.log(this.user);
-    this.postService.reportUser(report).subscribe(() =>
-    {
-      this.dialogRef.close(content); 
-    });      
+    this.dialogRef.close();   
   }
 
   onCancel(){
