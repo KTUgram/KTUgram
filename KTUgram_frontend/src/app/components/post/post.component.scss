@@ -108,6 +108,14 @@
         transform: translateY(-50%);
       }
     }
+    .buttonCont{
+      
+      margin-right: auto;
+      background-color: transparent;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
     .not-liked, .comment{
       color: white;
     }
@@ -122,5 +130,10 @@
       height: 20px;
       z-index: 100;
     }
+  }
+  .buttonDropDown{
+    align-self: center;
+    
+    
   }
 }
