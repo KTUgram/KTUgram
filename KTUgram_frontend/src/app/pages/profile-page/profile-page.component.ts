@@ -8,6 +8,7 @@ import {Comment} from "../../models/comment";
 import {AddPostComponent} from "../../components/add-post/add-post.component";
 import {CommentsDialogComponent} from "../../components/comments-dialog/comments-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
+import { UserReport } from 'src/app/models/userReport';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import { ReportUserDialogComponent } from 'src/app/components/report-user-dialog/report-dialog.component';
 import { ReportDialogComponent } from 'src/app/components/report-dialog/report-dialog.component';
