@@ -26,7 +26,7 @@ export class LoginPageComponent implements OnInit {
       localStorage.removeItem('loggedIn');
       localStorage.removeItem('perms');
 
-      let snackBarMessage: string = "Could not log in";
+      let snackBarMessage: string | null = null;
 
       switch (result.status) {
         case 200:
@@ -52,8 +52,9 @@ export class LoginPageComponent implements OnInit {
           snackBarMessage = "Incorrect login credentials";
           break;
       }
-
-      this.snackBar.open(snackBarMessage, "Dismiss", {duration: 3000});
+      if(snackBarMessage){
+        this.snackBar.open(snackBarMessage, "Dismiss", {duration: 3000});
+      }
     })
   }
 
