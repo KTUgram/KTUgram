@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface PostRepository extends CrudRepository<Post, Long> {
     public List<Post> findByUser_IdEquals(long id);
+    public List<Post> findByOrderByIdDesc();
 }

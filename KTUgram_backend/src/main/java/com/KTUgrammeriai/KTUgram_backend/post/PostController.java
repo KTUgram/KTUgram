@@ -56,7 +56,8 @@ public class PostController {
     @PostMapping(value = "/posts/get-posts")
     public ResponseEntity<List<PostDTO>> allPosts() {
         List<PostDTO> postsDTO = new ArrayList<>();
-        List<Post> posts = postService.getAllPosts();
+        //List<Post> posts = postService.getAllPosts();
+        List<Post> posts = postService.postRepository.findByOrderByIdDesc();
 
         for (Post post : posts){
             UserDTO userDTO = Utils.convertUser(post.getUser());
