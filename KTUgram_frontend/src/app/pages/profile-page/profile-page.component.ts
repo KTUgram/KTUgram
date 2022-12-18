@@ -10,8 +10,8 @@ import {CommentsDialogComponent} from "../../components/comments-dialog/comments
 import {MatDialog} from "@angular/material/dialog";
 import { UserReport } from 'src/app/models/userReport';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import { ReportUserDialogComponent } from 'src/app/components/report-user-dialog/report-dialog.component';
 import { ReportDialogComponent } from 'src/app/components/report-dialog/report-dialog.component';
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-profile-page',
@@ -20,7 +20,7 @@ import { ReportDialogComponent } from 'src/app/components/report-dialog/report-d
 })
 export class ProfilePageComponent implements OnInit {
 
-  constructor(private userService: UserService, private activeRoute: ActivatedRoute, private postService: PostService, private dialog: MatDialog, private router: Router) { }
+  constructor(private userService: UserService, private activeRoute: ActivatedRoute, private postService: PostService, private dialog: MatDialog, private router: Router, private snackbar: MatSnackBar) { }
 
   user!: User
   userPosts!: Post[];
@@ -121,10 +121,10 @@ export class ProfilePageComponent implements OnInit {
   }
 
   onReportClick(){
-    let dialogRef = this.dialog.open(ReportUserDialogComponent, {data: this.user});
+    let dialogRef = this.dialog.open(ReportDialogComponent, {data:{id: this.user.id}});
     dialogRef.afterClosed().subscribe(result => {
-      if(result == true){
-
+      if(result != null){
+        this.userService.reportUser(result.id, result.comment).subscribe();
       }
     });
   }

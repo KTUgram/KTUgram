@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CommentService {
@@ -25,4 +26,7 @@ public class CommentService {
         return commentRepository.findByPost_IdEqualsAndUser_IdIsNot(postId, userId);
     }
 
+    public Optional<Comment> getCommentById(long id){
+        return commentRepository.findById(id);
+    }
 }

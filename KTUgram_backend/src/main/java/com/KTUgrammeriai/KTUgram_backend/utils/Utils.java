@@ -139,7 +139,6 @@ public class Utils {
         report.setTime(reportDTO.getTime());
         report.setUser(convertUser(reportDTO.getUser()));
         report.setId(reportDTO.getId());
-        report.setReason(reportDTO.getReason());
 
         return report;
     }
@@ -151,7 +150,6 @@ public class Utils {
         reportDTO.setDate(report.getDate());
         reportDTO.setUser(convertUser(report.getUser()));
         reportDTO.setId((report.getId()));
-        reportDTO.setReason(report.getReason());
         reportDTO.setReasonComment(report.getReasonComment());
 
         return reportDTO;
@@ -164,7 +162,6 @@ public class Utils {
         report.setReportedUser(convertUser(reportDTO.getReportedUser()));
         report.setDate(reportDTO.getDate());
         report.setTime(reportDTO.getTime());
-        report.setReason(reportDTO.getReason());
         report.setId(reportDTO.getId());
         report.setReasonComment(reportDTO.getReasonComment());
 
@@ -180,7 +177,6 @@ public class Utils {
         reportDTO.setTime(report.getTime());
         reportDTO.setId(report.getId());
         reportDTO.setReasonComment(report.getReasonComment());
-        reportDTO.setReason(report.getReason());
 
         return reportDTO;
     }

@@ -77,10 +77,10 @@ export class CommentsDialogComponent implements OnInit {
 
   onReportCommentClick(comment: Comment)
   {
-    let dialogRef = this.dialog.open(ReportDialogComponent, {data: {comment}});
+    let dialogRef = this.dialog.open(ReportDialogComponent, {data: {id: comment.id}});
     dialogRef.afterClosed().subscribe(result => {
-      if(result == true){
-        this.postService.deleteComment(comment).subscribe(() => {
+      if(result != null){
+        this.postService.reportComment(result.id, result.comment).subscribe(() => {
           this.getComments();
         });
       }
@@ -89,5 +89,5 @@ export class CommentsDialogComponent implements OnInit {
   onClose(){
     this.dialog.closeAll();
   }
-  
+
 }

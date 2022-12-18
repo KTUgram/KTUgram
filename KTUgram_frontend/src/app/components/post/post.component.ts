@@ -6,8 +6,8 @@ import { PostService } from 'src/app/services/postService';
 import { MatDialog } from '@angular/material/dialog';
 import { userInfo } from 'os';
 import { User } from 'src/app/models/user';
-import { ReportPostDialogComponent } from '../report-post-dialog/report-post-dialog.component';
 import {UserService} from "../../services/userService";
+import {ReportDialogComponent} from "../report-dialog/report-dialog.component";
 
 @Component({
   selector: 'app-post',
@@ -50,10 +50,10 @@ export class PostComponent implements OnInit {
   }
 
   onReportDialog(){
-    let dialogRef = this.dialog.open(ReportPostDialogComponent, {data: this.user});
+    let dialogRef = this.dialog.open(ReportDialogComponent, {data: {id: this.post.id}});
     dialogRef.afterClosed().subscribe(result => {
-      if(result == true){
-
+      if(result != null && this.post.id){
+        this.postService.reportPost(this.post.id, result.comment).subscribe();
       }
     });
   }

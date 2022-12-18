@@ -62,16 +62,12 @@ export class PostService {
     return this.http.get('posts/delete-post/' + id).pipe();
   }
 
-  reportComment(reportComment: CommentReport){
-    return this.http.post('posts/report-comment', reportComment).pipe();
+  reportComment(id: number, comment: string): Observable<void>{
+    return this.http.post<void>('posts/report-comment/'+id, comment).pipe();
   }
 
-  reportUser(reportUser: UserReport){
-    return this.http.post('posts/report-user', reportUser).pipe();
-  }
-
-  reportPost(reportPost: PostReport){
-    return this.http.post('posts/report-post', reportPost).pipe();
+  reportPost(id: number, comment: String): Observable<void>{
+    return this.http.post<void>('posts/report-post/' + id, comment).pipe();
   }
 
   removeProfile(){

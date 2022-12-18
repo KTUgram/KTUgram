@@ -11,6 +11,8 @@ import com.KTUgrammeriai.KTUgram_backend.comments.CommentService;
 import com.KTUgrammeriai.KTUgram_backend.likedPosts.LikedPost;
 import com.KTUgrammeriai.KTUgram_backend.likedPosts.LikedPostDTO;
 import com.KTUgrammeriai.KTUgram_backend.likedPosts.LikedPostService;
+import com.KTUgrammeriai.KTUgram_backend.postReports.PostReport;
+import com.KTUgrammeriai.KTUgram_backend.postReports.PostReportService;
 import com.KTUgrammeriai.KTUgram_backend.user.User;
 import com.KTUgrammeriai.KTUgram_backend.user.UserDTO;
 import com.KTUgrammeriai.KTUgram_backend.user.UserService;
@@ -52,6 +54,9 @@ public class PostController {
 
     @Autowired
     UserReportService userReportservice;
+
+    @Autowired
+    PostReportService postReportService;
 
     @PostMapping(value = "/posts/get-posts")
     public ResponseEntity<List<PostDTO>> allPosts() {
@@ -220,43 +225,44 @@ public class PostController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping(value = "/posts/report-comment")
-    public ResponseEntity<Void> reportComment(@RequestBody CommentReportDTO commentDTO){
+    @PostMapping(value = "/posts/report-comment/{id}")
+    public ResponseEntity<Void> reportComment(@PathVariable("id") long id, @RequestBody String comment){
         User user = userService.findByPersonId(CurrentUserImpl.getId());
 
-        commentDTO.setUser(Utils.convertUser(user));
-        
-        CommentReport comment = Utils.convertCommentReport(commentDTO);
-        
-        commentReportservice.commentReportRepository.save(comment);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-    
-    @PostMapping(value = "/posts/report-user")
-    public ResponseEntity<Void> reportUser(@RequestBody UserReportDTO userDTO){
-        
-        User user = userService.findByPersonId(CurrentUserImpl.getId());
+        CommentReport commentReport = new CommentReport();
+        commentReport.setComment(commentService.getCommentById(id).get());
+        commentReport.setUser(user);
+        commentReport.setReasonComment(comment);
+        commentReportservice.save(commentReport);
 
-        userDTO.setReporter(Utils.convertUser(user));
-        
-        UserReport comment = Utils.convertUserReport(userDTO);
-        
-        userReportservice.userReportRepository.save(comment);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    /*@PostMapping(value = "/posts/report-post")
-    public ResponseEntity<Void> reportPost(@RequestBody PostReportDTO postDTO){
-        
+    @PostMapping(value = "/posts/report-user/{id}")
+    public ResponseEntity<Void> reportUser(@PathVariable("id") long id, @RequestBody String comment){
         User user = userService.findByPersonId(CurrentUserImpl.getId());
 
-        //userDTO.setReporter(Utils.convertUser(user));
-        
-        //UserReport comment = Utils.convertUserReport(userDTO);
-        
-        userReportservice.userReportRepository.save(comment);
+        UserReport userReport = new UserReport();
+        userReport.setReportedUser(userService.getById(id).get());
+        userReport.setReporter(user);
+        userReport.setReasonComment(comment);
+        userReportservice.userReportRepository.save(userReport);
+
         return new ResponseEntity<>(HttpStatus.OK);
-    }*/
+    }
+
+    @PostMapping(value = "/posts/report-post/{id}")
+    public ResponseEntity<Void> reportPost(@PathVariable("id") long id, @RequestBody String comment){
+        User user = userService.findByPersonId(CurrentUserImpl.getId());
+
+        PostReport postReport = new PostReport();
+        postReport.setPost(postService.getPostById(id).get());
+        postReport.setUser(user);
+        postReport.setReasonComment(comment);
+        postReportService.save(postReport);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
     @GetMapping(value = "/posts/get-post/{id}")
     public ResponseEntity<PostDTO> getPost(@PathVariable("id") long id){

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {UserService} from "../../services/userService";
 import {Router} from "@angular/router";
 import {NgxPermissionsService} from "ngx-permissions";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-main-page',
@@ -10,7 +11,7 @@ import {NgxPermissionsService} from "ngx-permissions";
 })
 export class MainPageComponent implements OnInit {
 
-  constructor(private userService: UserService, private router: Router, private permissionService: NgxPermissionsService) { }
+  constructor(private userService: UserService, private router: Router, private permissionService: NgxPermissionsService, private snackbar: MatSnackBar) { }
 
   username!: string | null;
 
@@ -24,6 +25,7 @@ export class MainPageComponent implements OnInit {
       localStorage.removeItem("perms");
       this.permissionService.flushPermissions();
       this.permissionService.loadPermissions(['GUEST']);
+      this.snackbar.open("Successful operation", "Dismiss", {duration: 3000});
       this.router.navigate(['/login']);
       console.log(this.permissionService.getPermissions());
     })

@@ -87,9 +87,13 @@ export class UserService {
   confirmRegistration(code: string): Observable<HttpResponse<void>>{
     return this.http.post<void>('user/confirm', code, {observe: "response"}).pipe();
   }
-  
+
   removeProfile(){
     console.log("sending yeet");
     return this.http.post('user/remove-profile', null).pipe();
+  }
+
+  reportUser(id: number, comment: string): Observable<void>{
+    return this.http.post<void>('posts/report-user/'+id, comment).pipe();
   }
 }

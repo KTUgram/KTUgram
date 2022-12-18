@@ -1,15 +1,13 @@
-<h1 matDialogTitle>Report comment</h1>
-<div matDialogContent>
-  <p>Report reason:</p>
+<div class="dialog-container">
+  <h1 matDialogTitle>Report</h1>
+  <div matDialogContent>
+    <mat-form-field appearance="outline">
+      <mat-label>Comment</mat-label>
+      <textarea #comment matInput maxlength="200"></textarea>
+    </mat-form-field>
+  </div>
+  <div matDialogActions>
+    <button mat-flat-button color="primary" (click)="onDone(comment.value)">Done</button>
+    <button mat-flat-button (click)="onClose()">Cancel</button>
+  </div>
 </div>
-<div matDialogContent class="report-comment-container">
-  <mat-form-field appearance="outline">
-    <textarea #content matInput maxlength="200"></textarea>
-  </mat-form-field>
-</div>
-<div matDialogActions>
-  <button color="primary" mat-flat-button (click)="onReport(content.value)">Report</button>
-  <button mat-flat-button (click)="onCancel()">Cancel</button>
-</div>
-
-

@@ -1,9 +1,6 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, Injector, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import { symlinkSync } from 'fs';
-import {Comment} from "../../models/comment";
-import {CommentReport} from "../../models/commentReport";
-import {PostService} from "../../services/postService";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-report-dialog',
@@ -12,26 +9,17 @@ import {PostService} from "../../services/postService";
 })
 export class ReportDialogComponent implements OnInit {
 
-  constructor(@Inject(MAT_DIALOG_DATA) private data: any, private dialogRef: MatDialogRef<ReportDialogComponent>, private postService: PostService) { }
-
-  comment!: Comment;
+  constructor(@Inject(MAT_DIALOG_DATA) private data: any, private dialogRef: MatDialogRef<ReportDialogComponent>, private snackbar: MatSnackBar) { }
 
   ngOnInit(): void {
-    this.comment = this.data.comment;
   }
 
-  onReport(content: string){
-    
-    let report: CommentReport = {reason: 1, comment: this.comment, reasonComment: content};
-
-    this.postService.reportComment(report).subscribe(() =>
-    {
-      this.dialogRef.close(content); 
-    });       
+  onClose(){
+    this.dialogRef.close(null);
   }
 
-  onCancel(){
-    this.dialogRef.close(false);
+  onDone(comment: string){
+    this.snackbar.open("Successful operation", "Dismiss", {duration: 3000});
+    this.dialogRef.close({id: this.data.id, comment: comment});
   }
-
 }
