@@ -6,7 +6,10 @@
         <img *ngIf="!post.user.profile_pic" src="assets/web/icons/empty_profile_icon.svg">
       </div>
       <div class="profile-name-container">
-        <a routerLink="/main/profile/{{post.user.id}}">{{post.user.person.username}}</a>
+        <div class="name-and-date">
+          <a routerLink="/main/profile/{{post.user.id}}">{{post.user.person.username}}</a>
+          <span *ngIf="post.date && post.time">{{post.date | date: "yyyy-MM-dd"}} {{post.time}}</span>
+        </div>
         <button [matMenuTriggerFor]="menu" class="buttonCont"><mat-icon>more_vert</mat-icon></button>
         <mat-menu #menu="matMenu">
           <button *ngIf="user && user.id == post.user.id" mat-menu-item (click)="onDeleteDialog()">Delete</button>
