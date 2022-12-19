@@ -5,7 +5,7 @@ import com.KTUgrammeriai.KTUgram_backend.user.User;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.sql.Time;
+import java.time.LocalTime;
 import java.util.Date;
 
 @Data
@@ -17,9 +17,9 @@ public class LikedPost {
     @Column(name = "id_pamegtas_irasas")
     private long id;
     @Column(name = "data", nullable = true)
-    private Date date;
+    private Date date = new Date();
     @Column(name = "laikas", nullable = true)
-    private Time time;
+    private LocalTime time = LocalTime.now();
     @JoinColumn(name = "fk_irasas")
     @ManyToOne
     private Post post;
